@@ -1,0 +1,85 @@
+﻿@using Workings.Data
+@using System.Diagnostics
+@using System.Reflection
+
+<div class="mt-8 max-w-md">
+    <h3>BlindForm</h3>
+    <div class="grid grid-cols-1 gap-6">
+        <EditForm Model="@_blindModel" OnValidSubmit="@HandleValidSubmit">
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
+
+            <FieldGroup Title="Details">
+                <FormField Title="Client">
+                    <InputText class="block" @bind-Value="_blindModel.Client"/>
+                </FormField>
+
+                <FormField Title="Customer">
+                    <InputSelect class="" @bind-Value="_blindModel.Customer">
+                        @{
+                            foreach (Customer customer in Enum.GetValues(typeof(Customer)))
+                            {
+                                <option value="@(customer)">@(customer)</option>
+                            }}
+                    </InputSelect>
+                </FormField>
+                
+                <FormField Title="Reference">
+                    <InputText class="" @bind-Value="_blindModel.Reference"/>
+                </FormField>
+                
+                <FormField Title="No. Blinds">
+                    <InputNumber class="" @bind-Value="_blindModel.BlindCount"/>
+                </FormField>
+            </FieldGroup>
+            
+            <FieldGroup Title="Details Take Two">
+                <Field Title="Width" Type="Field.FieldType.Decimal"/>
+                <Field Title="Height" Type="Field.FieldType.Decimal"/>
+                <Field Title="No. Widths" Type="Field.FieldType.Integer"/>
+            </FieldGroup>
+
+            @*<FieldGroup Title="Dimensions">
+                <Field Title="Width" Type="Field.FieldType.Decimal"/>
+                <Field Title="Height" Type="Field.FieldType.Decimal"/>
+                <Field Title="No. Widths" Type="Field.FieldType.Integer"/>
+            </FieldGroup>*@
+
+            @*<FieldGroup Title="Railing">
+                <Field Title="Type" Type="Field.FieldType.Select" ModelField="@(_blindModel.RailingType)"/>
+                <Field Title="Depth" Type="Field.FieldType.Decimal"/>
+            </FieldGroup>*@
+
+            @*<FieldGroup Title="Stack">
+                <Field Title="Type" Type="Field.FieldType.Select"/>
+                <Field Title="Folds" Type="Field.FieldType.Range"/>
+            </FieldGroup>*@
+
+            <button type="submit">Submit</button>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private BlindModel _blindModel = new();
+    private EditContext _editContext;
+
+    protected override void OnInitialized()
+    {
+        _editContext = new EditContext(_blindModel);
+    }
+
+    private void HandleValidSubmit()
+    {
+        Debug.WriteLine($"Form submitted");
+        var isValid = _editContext.Validate();
+
+        Debug.WriteLine(isValid
+            ? "Valid, sending values to db"
+            : "Invalid, form needs correcting"
+            );
+
+    // Debug.WriteLine(_editContext.Model);
+    }
+
+}
