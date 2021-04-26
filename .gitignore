@@ -451,4 +451,7 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-/.idea/
+.idea/
+*.db
+app.db
+package-lock.json

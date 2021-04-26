@@ -6,15 +6,26 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true"/>
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.1"/>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.1"/>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.1"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.1"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.1"/>
+        <UpToDateCheckBuilt Include="wwwroot/css/site.css" Set="Css" />
+        <UpToDateCheckBuilt Include="postcss.config.js" Set="Css" />
+        <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
     </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css.map" />
+    </ItemGroup>
+
+    <Target Name="Tailwind" BeforeTargets="Build">
+        <Exec Command="npm run css:build" />
+    </Target>
 
 </Project>

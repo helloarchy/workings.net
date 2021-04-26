@@ -1,0 +1,63 @@
+﻿<div>
+    <label>
+        <span class="block">@Title</span>
+        @{
+            if (Type == FieldType.Select)
+            {
+                <select class="form-select block w-full">
+                    @{
+                        foreach (var option in Options)
+                        {
+                            <option value="@(option)">@(option)</option>
+                        }
+                    }
+                </select>
+            }
+            else if (Type == FieldType.Range)
+            {
+                /* Not currently supported by Tailwind CSS Forms */
+                <input type="@_inputType" class="block"/>
+            }
+            else
+            {
+                <input type="@_inputType" class="form-input block"/>
+            }
+        }
+    </label>
+</div>
+
+@code {
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public FieldType Type { get; set; }
+
+    [Parameter]
+    public List<string> Options { get; set; } = new();
+
+    private string _inputType = "";
+
+    public enum FieldType
+    {
+        Text,
+        Decimal,
+        Integer,
+        Select,
+        Range
+    }
+
+    protected override void OnInitialized()
+    {
+        _inputType = Type switch
+        {
+            FieldType.Text => "text",
+            FieldType.Decimal => "number",
+            FieldType.Range => "range",
+            FieldType.Integer => "number",
+            _ => ""
+            };
+    }
+
+}
