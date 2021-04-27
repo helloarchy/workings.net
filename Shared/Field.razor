@@ -1,17 +1,18 @@
-﻿<div>
+﻿@using System.Collections
+<div>
     <label>
         <span class="block">@Title</span>
         @{
             if (Type == FieldType.Select)
             {
-                <select class="form-select block w-full">
+                <InputSelect @bind-Value="@(BindProperty)" class="form-select block w-full">
                     @{
                         foreach (var option in Options)
                         {
                             <option value="@(option)">@(option)</option>
                         }
                     }
-                </select>
+                </InputSelect>
             }
             else if (Type == FieldType.Range)
             {
@@ -34,16 +35,27 @@
     public FieldType Type { get; set; }
 
     [Parameter]
-    public List<string> Options { get; set; } = new();
+    public Array Options { get; set; }
+    
+    [Parameter]
+    public dynamic BindProperty { get; set; }
 
     private string _inputType = "";
 
     public enum FieldType
     {
+        Checkbox,
+        Date,
+        File,
+        Number,
+        Radio,
+        RadioGroup,
+        Select,
         Text,
+        TextArea,
+        // Ignore
         Decimal,
         Integer,
-        Select,
         Range
     }
 
