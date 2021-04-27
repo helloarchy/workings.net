@@ -14,8 +14,11 @@ namespace workings.Server.Data
     {
         public ApplicationDbContext(
             DbContextOptions options,
-            IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
+            IOptions<OperationalStoreOptions> operationalStoreOptions
+        ) : base(options, operationalStoreOptions)
         {
         }
+
+        public DbSet<Shared.Client> Clients { get; set; }
     }
 }

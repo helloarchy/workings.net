@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Workings.Shared
+namespace workings.Shared
 {
     public class BlindModel
     {
