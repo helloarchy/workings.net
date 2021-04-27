@@ -12,11 +12,11 @@
 
             <FieldGroup Title="Details">
                 <FormField Title="Client">
-                    <InputText class="block" @bind-Value="_blindModel.Client"/>
+                    <InputText class="form-input block" @bind-Value="_blindModel.Client"/>
                 </FormField>
 
                 <FormField Title="Customer">
-                    <InputSelect class="" @bind-Value="_blindModel.Customer">
+                    <InputSelect class="form-select block w-full" @bind-Value="_blindModel.Customer">
                         @{
                             foreach (Customer customer in Enum.GetValues(typeof(Customer)))
                             {
@@ -27,11 +27,11 @@
                 </FormField>
 
                 <FormField Title="Reference">
-                    <InputText class="" @bind-Value="_blindModel.Reference"/>
+                    <InputText class="form-input block" @bind-Value="_blindModel.Reference"/>
                 </FormField>
 
                 <FormField Title="No. Blinds">
-                    <InputNumber class="" @bind-Value="_blindModel.BlindCount"/>
+                    <InputNumber class="form-input block" @bind-Value="_blindModel.BlindCount"/>
                 </FormField>
             </FieldGroup>
 
