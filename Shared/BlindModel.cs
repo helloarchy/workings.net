@@ -5,11 +5,11 @@ namespace workings.Shared
     public class BlindModel
     {
         [Required]
+        public BusinessClient BusinessClient { get; set; }
+        
+        [Required]
         [StringLength(10, ErrorMessage = "Name is too long.")]
-        public string Client { get; set; }
-
-        [StringLength(10, ErrorMessage = "Name is too long.")]
-        public Customer Customer { get; set; }
+        public string Customer { get; set; }
 
         [StringLength(10, ErrorMessage = "Name is too long.")]
         public string Reference { get; set; }

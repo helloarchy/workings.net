@@ -1,6 +1,6 @@
 ﻿@page "/businessclient"
 @using System.Diagnostics
-@inject HttpClient client
+@inject HttpClient _httpClient
 @inject IJSRuntime js
 
 <h3>Business Clients</h3>
@@ -51,7 +51,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         Debug.WriteLine("DEBUG Fetching clients...");
-        BusinessClients = await client.GetFromJsonAsync<BusinessClient[]>("api/businessClient");
+        BusinessClients = await _httpClient.GetFromJsonAsync<BusinessClient[]>("api/businessClient");
     }
 
     async Task Delete(int businessClientId)
@@ -59,7 +59,7 @@ else
         var businessClient = BusinessClients.First(x => x.Id == businessClientId);
         if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete {businessClient.Name}'s ({businessClient.Id}) Record?"))
         {
-            await client.DeleteAsync($"api/businessClient/{businessClientId}");
+            await _httpClient.DeleteAsync($"api/businessClient/{businessClientId}");
             await OnInitializedAsync();
         }
     }

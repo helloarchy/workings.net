@@ -8,7 +8,7 @@
 
 @attribute [Authorize]
 
-@inject HttpClient Http
+@inject HttpClient _httpClient
 
 <div class="mt-8 max-w-md">
     <h3>BlindForm</h3>
@@ -18,19 +18,22 @@
             <ValidationSummary/>
 
             <FieldGroup Title="Details">
-                <FormField Title="BusinessClient">
-                    <InputText class="form-input block" @bind-Value="_blindModel.Client"/>
+                <FormField Title="Business Client">
+                    <InputSelect class="form-select block w-full" @bind-Value="_blindModel.BusinessClient">
+
+                        @if (_businessClients != null)
+                        {
+                            foreach (var businessClient in _businessClients)
+                            {
+                                <option value="@businessClient.Name">@businessClient.Name</option>
+                            }
+                        }
+
+                    </InputSelect>
                 </FormField>
 
                 <FormField Title="Customer">
-                    <InputSelect class="form-select block w-full" @bind-Value="_blindModel.Customer">
-                        @{
-                            foreach (Customer customer in Enum.GetValues(typeof(Customer)))
-                            {
-                                <option value="@(customer)">@(customer)</option>
-                            }
-                        }
-                    </InputSelect>
+                    <InputText class="form-input block" @bind-Value="_blindModel.Customer"/>
                 </FormField>
 
                 <FormField Title="Reference">
@@ -67,7 +70,7 @@
     private BlindModel _blindModel = new();
     private EditContext _editContext;
     private string _cssSelect = "form-select block w-full";
-    private List<BusinessClient> _clients;
+    private BusinessClient[] _businessClients;
 
     protected override async Task OnInitializedAsync()
     {
@@ -75,7 +78,7 @@
 
         try
         {
-            _clients = await Http.GetFromJsonAsync<List<BusinessClient>>("api/BusinessClient");
+            _businessClients = await _httpClient.GetFromJsonAsync<BusinessClient[]>("api/businessClient");
         }
         catch (AccessTokenNotAvailableException exception)
         {
