@@ -17,10 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Components" />
-  </ItemGroup>
-
-  <ItemGroup>
     <UpToDateCheckBuilt Include="wwwroot/css/app.css" Set="Css" />
     <UpToDateCheckBuilt Include="postcss.config.js" Set="Css" />
     <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />

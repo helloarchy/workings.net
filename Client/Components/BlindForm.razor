@@ -2,6 +2,13 @@
 @using System.Diagnostics
 @using System.Reflection
 @using System.Collections
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using workings.Shared
+
+@attribute [Authorize]
+
+@inject HttpClient Http
 
 <div class="mt-8 max-w-md">
     <h3>BlindForm</h3>
@@ -11,7 +18,7 @@
             <ValidationSummary/>
 
             <FieldGroup Title="Details">
-                <FormField Title="Client">
+                <FormField Title="BusinessClient">
                     <InputText class="form-input block" @bind-Value="_blindModel.Client"/>
                 </FormField>
 
@@ -60,10 +67,20 @@
     private BlindModel _blindModel = new();
     private EditContext _editContext;
     private string _cssSelect = "form-select block w-full";
+    private List<BusinessClient> _clients;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         _editContext = new EditContext(_blindModel);
+
+        try
+        {
+            _clients = await Http.GetFromJsonAsync<List<BusinessClient>>("api/BusinessClient");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
     }
 
     private void HandleValidSubmit()

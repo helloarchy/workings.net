@@ -19,6 +19,6 @@ namespace workings.Server.Data
         {
         }
 
-        public DbSet<Shared.Client> Clients { get; set; }
+        public DbSet<Shared.BusinessClient> Clients { get; set; }
     }
 }
