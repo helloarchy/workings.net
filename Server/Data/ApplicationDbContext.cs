@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using workings.Shared;
 
 namespace workings.Server.Data
 {
@@ -19,6 +20,6 @@ namespace workings.Server.Data
         {
         }
 
-        public DbSet<Shared.BusinessClient> Clients { get; set; }
+        public DbSet<BusinessClient> BusinessClients { get; set; }
     }
 }

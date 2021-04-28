@@ -1,0 +1,25 @@
+﻿<EditForm Model="@BusinessClient" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label>Name</label>
+        <div>
+            <InputText @bind-Value="@BusinessClient.Name" />
+            <ValidationMessage For="@(() => BusinessClient.Name)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        @ButtonText
+    </button>
+</EditForm>
+
+@code {
+    [Parameter] 
+    public BusinessClient BusinessClient { get; set; }
+    
+    [Parameter]
+    public string ButtonText { get; set; } = "Save";
+    
+    [Parameter]
+    public EventCallback OnValidSubmit { get; set; }
+}

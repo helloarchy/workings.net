@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using workings.Server.Data;
@@ -8,11 +9,11 @@ namespace workings.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ClientController : ControllerBase
+    public class BusinessClientController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public ClientController(ApplicationDbContext context)
+        public BusinessClientController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -23,8 +24,9 @@ namespace workings.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var clients = await _context.Clients.ToListAsync();
-            return Ok(clients);
+            Debug.WriteLine("DEBUG fetching business clients...");
+            var businessClients = await _context.BusinessClients.ToListAsync();
+            return Ok(businessClients);
         }
         
         /**
@@ -33,8 +35,8 @@ namespace workings.Server.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            var client = await _context.Clients.FirstOrDefaultAsync(a=>a.Id ==id);
-            return Ok(client);
+            var businessClient = await _context.BusinessClients.FirstOrDefaultAsync(a=>a.Id ==id);
+            return Ok(businessClient);
         }
         
         /**

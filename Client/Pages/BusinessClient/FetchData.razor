@@ -1,4 +1,5 @@
 ﻿@page "/businessclient"
+@using System.Diagnostics
 @inject HttpClient client
 @inject IJSRuntime js
 
@@ -28,7 +29,7 @@ else
         </tr>
         </thead>
         <tbody>
-        @foreach (BusinessClient businessClient in BusinessClients)
+        @foreach (var businessClient in BusinessClients)
         {
             <tr>
                 <td>@businessClient.Id</td>
@@ -43,10 +44,13 @@ else
         </tbody>
     </table>
 }
+
 @code {
     BusinessClient[] BusinessClients { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
+        Debug.WriteLine("DEBUG Fetching clients...");
         BusinessClients = await client.GetFromJsonAsync<BusinessClient[]>("api/businessClient");
     }
 
