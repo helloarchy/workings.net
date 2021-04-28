@@ -1,0 +1,33 @@
+﻿@page "/businessClient/edit/{BusinessClientId:int}"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+
+<h3>Edit</h3>
+
+<Form 
+    ButtonText="Update" 
+    BusinessClient="_businessClient"
+    OnValidSubmit="@EditBusinessClient"
+/>
+
+@code {
+    [Parameter]
+    public int BusinessClientId { get; set; }
+
+    BusinessClient _businessClient = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _businessClient = await http.GetFromJsonAsync<BusinessClient>(
+            $"api/businessClient/{BusinessClientId}"
+        );
+    }
+
+    async Task EditBusinessClient()
+    {
+        await http.PutAsJsonAsync("api/businessClient", _businessClient);
+        await js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        uriHelper.NavigateTo("businessClient");
+    }
+}
