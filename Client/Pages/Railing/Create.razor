@@ -1,0 +1,22 @@
+﻿@page "/railing/create"
+@inject HttpClient _http
+@inject NavigationManager _uriHelper
+
+<h3>Create</h3>
+
+<Form
+    ButtonText="Create Railing"
+    Railing="@_railing"
+    OnValidSubmit="@CreateDeveloper">
+</Form>
+
+@code {
+    Railing _railing = new();
+
+    async Task CreateDeveloper()
+    {
+        await _http.PostAsJsonAsync("api/railing", _railing);
+        _uriHelper.NavigateTo("railing");
+    }
+
+}

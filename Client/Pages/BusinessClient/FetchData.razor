@@ -6,7 +6,9 @@
 <h3>Business Clients</h3>
 <small>Add as many Business Clients as you wish.</small>
 <div class="form-group">
-    <a class="btn btn-success" href="businessClient/create"><i class="oi oi-plus"></i> Create New</a>
+    <a class="btn btn-success" href="businessClient/create">
+        <i class="oi oi-plus"></i> Create New
+    </a>
 </div>
 <br>
 
@@ -35,8 +37,12 @@ else
                 <td>@businessClient.Id</td>
                 <td>@businessClient.Name</td>
                 <td>
-                    <a class="btn btn-success" href="businessClient/edit/@businessClient.Id">Edit</a>
-                    <button class="btn btn-danger" @onclick="@(() => Delete(businessClient.Id))">Delete</button>
+                    <a class="btn btn-success" href="businessClient/edit/@businessClient.Id">
+                        Edit
+                    </a>
+                    <button class="btn btn-danger" @onclick="@(() => Delete(businessClient.Id))">
+                        Delete
+                    </button>
                 </td>
             </tr>
         }
@@ -49,7 +55,9 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        BusinessClients = await _httpClient.GetFromJsonAsync<BusinessClient[]>("api/businessClient");
+        BusinessClients = await _httpClient.GetFromJsonAsync<BusinessClient[]>(
+            "api/businessClient"
+            );
     }
 
     async Task Delete(int businessClientId)
@@ -59,7 +67,7 @@ else
             "confirm",
             $"Do you want to delete {businessClient.Name}'s ({businessClient.Id}) Record?"
             );
-        
+
         if (confirmDelete)
         {
             await _httpClient.DeleteAsync($"api/businessClient/{businessClientId}");

@@ -2,16 +2,16 @@
 
 <h1>Workings</h1>
 
-<BlindForm UpdateParent="@UpdateBlindModel"/>
+<BlindForm UpdateBlindModel="@UpdateBlindModel"/>
 
-<BlindPage BlindModel="@_newBlindModel"/>
+<BlindPage BlindModel="@_blindModel"/>
 
 @code {
-    private BlindModel _newBlindModel = new();
+    private BlindModel _blindModel = new();
 
     void UpdateBlindModel(BlindModel updatedBlindModel)
     {
-        _newBlindModel = updatedBlindModel;
+        _blindModel = updatedBlindModel;
     }
 
 }

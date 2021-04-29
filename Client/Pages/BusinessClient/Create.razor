@@ -1,21 +1,22 @@
 ﻿@page "/businessclient/create"
-@inject HttpClient http
-@inject NavigationManager uriHelper
+@inject HttpClient _http
+@inject NavigationManager _uriHelper
 
 <h3>Create</h3>
 
 <Form
     ButtonText="Create Business Client"
     BusinessClient="@_businessClient"
-    OnValidSubmit="@CreateDeveloper"
-/>
+    OnValidSubmit="@CreateDeveloper">
+</Form>
 
 @code {
     BusinessClient _businessClient = new();
 
     async Task CreateDeveloper()
     {
-        await http.PostAsJsonAsync("api/businessClient", _businessClient);
-        uriHelper.NavigateTo("businessClient");
+        await _http.PostAsJsonAsync("api/businessClient", _businessClient);
+        _uriHelper.NavigateTo("businessClient");
     }
+
 }

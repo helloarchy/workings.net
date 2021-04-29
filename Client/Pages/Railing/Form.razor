@@ -1,10 +1,10 @@
-﻿<EditForm Model="@BusinessClient" OnValidSubmit="@OnValidSubmit">
-    <DataAnnotationsValidator/>
+﻿<EditForm Model="@Railing" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
     <div class="form-group">
         <label>Name</label>
         <div>
-            <InputText @bind-Value="@BusinessClient.Name"/>
-            <ValidationMessage For="@(() => BusinessClient.Name)"/>
+            <InputText @bind-Value="@Railing.Name" />
+            <ValidationMessage For="@(() => Railing.Name)" />
         </div>
     </div>
 
@@ -14,14 +14,12 @@
 </EditForm>
 
 @code {
-
-    [Parameter]
-    public BusinessClient BusinessClient { get; set; }
-
+    [Parameter] 
+    public Railing Railing { get; set; }
+    
     [Parameter]
     public string ButtonText { get; set; } = "Save";
-
+    
     [Parameter]
     public EventCallback OnValidSubmit { get; set; }
-
 }

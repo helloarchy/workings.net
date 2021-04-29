@@ -1,0 +1,33 @@
+﻿@page "/railing/edit/{RailingId:int}"
+@inject HttpClient _http
+@inject NavigationManager _uriHelper
+@inject IJSRuntime _js
+
+<h3>Edit</h3>
+
+<Form
+    ButtonText="Update"
+    Railing="_railing"
+    OnValidSubmit="@EditRailing">
+</Form>
+
+@code {
+    [Parameter]
+    public int RailingId { get; set; }
+
+    Railing _railing = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _railing = await _http.GetFromJsonAsync<Railing>(
+            $"api/railing/{RailingId}"
+        );
+    }
+
+    async Task EditRailing()
+    {
+        await _http.PutAsJsonAsync("api/railing", _railing);
+        await _js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        _uriHelper.NavigateTo("railing");
+    }
+}

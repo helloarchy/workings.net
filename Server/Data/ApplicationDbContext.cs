@@ -21,5 +21,6 @@ namespace workings.Server.Data
         }
 
         public DbSet<BusinessClient> BusinessClients { get; set; }
+        public DbSet<Railing> Railings { get; set; }
     }
 }

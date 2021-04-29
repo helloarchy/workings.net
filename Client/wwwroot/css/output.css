@@ -1242,6 +1242,10 @@ video {
       overscroll-behavior: contain;
 }
 
+.p-2 {
+  padding: 0.5rem;
+}
+
 .p-4 {
   padding: 1rem;
 }

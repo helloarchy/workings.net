@@ -12,14 +12,14 @@
 
 <div class="mt-8 max-w-md">
     <h3>BlindForm</h3>
-    <div class="grid grid-cols-1 gap-6">
-        <EditForm
-            Model="@_blindModel"
-            OnValidSubmit="@(() => UpdateParent.InvokeAsync(_blindModel))">
-
+    <EditForm
+        Model="@_blindModel"
+        OnValidSubmit="@(() => UpdateBlindModel.InvokeAsync(_blindModel))">
+        <div class="grid grid-cols-1 gap-6">
             <DataAnnotationsValidator/>
             <ValidationSummary/>
 
+            @* Details *@
             <FieldGroup Title="Details">
                 <FormField Title="Business Client">
                     <InputSelect class="@_cssSelect" @bind-Value="_blindModel.BusinessClientId">
@@ -34,48 +34,62 @@
                 </FormField>
 
                 <FormField Title="Customer">
-                    <InputText class="form-input block" @bind-Value="_blindModel.Customer"/>
+                    <InputText class="@_cssText" @bind-Value="_blindModel.Customer"/>
                 </FormField>
 
                 <FormField Title="Reference">
-                    <InputText class="form-input block" @bind-Value="_blindModel.Reference"/>
+                    <InputText class="@_cssText" @bind-Value="_blindModel.Reference"/>
                 </FormField>
 
                 <FormField Title="No. Blinds">
-                    <InputNumber class="form-input block" @bind-Value="_blindModel.BlindCount"/>
+                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.NumBlinds"/>
                 </FormField>
             </FieldGroup>
 
-            @*<FieldGroup Title="Dimensions">
-                <Field Title="Width" Type="Field.FieldType.Decimal"/>
-                <Field Title="Height" Type="Field.FieldType.Decimal"/>
-                <Field Title="No. Widths" Type="Field.FieldType.Integer"/>
-            </FieldGroup>*@
+            @* Dimensions *@
+            <FieldGroup Title="Dimensions">
+                <FormField Title="Width">
+                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Width"/>
+                </FormField>
 
+                <FormField Title="Height">
+                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Height"/>
+                </FormField>
+
+                <FormField Title="No. Widths">
+                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.NumWidths"/>
+                </FormField>
+            </FieldGroup>
+
+            @* Railing *@
             @*<FieldGroup Title="Railing">
                 <Field Title="Type" Type="Field.FieldType.Select" ModelField="@(_blindModel.RailingType)"/>
                 <Field Title="Depth" Type="Field.FieldType.Decimal"/>
             </FieldGroup>*@
 
+            @* Stack *@
             @*<FieldGroup Title="Stack">
                 <Field Title="Type" Type="Field.FieldType.Select"/>
                 <Field Title="Folds" Type="Field.FieldType.Range"/>
             </FieldGroup>*@
 
             <button type="submit">Submit</button>
-        </EditForm>
-    </div>
+        </div>
+    </EditForm>
 </div>
 
 @code {
 
     [Parameter]
-    public EventCallback<BlindModel> UpdateParent { get; set; }
+    public EventCallback<BlindModel> UpdateBlindModel { get; set; }
 
     private BlindModel _blindModel = new();
-    private EditContext _editContext = null;
     private BusinessClient[] _businessClients;
-    private string _cssSelect = "form-select block w-full";
+    private EditContext _editContext = null;
+
+    private string _cssNumber = "form-input block mt-1 w-full";
+    private string _cssSelect = "form-select block mt-1 w-full";
+    private string _cssText = "form-input block mt-1 w-full";
 
     protected override async Task OnInitializedAsync()
     {

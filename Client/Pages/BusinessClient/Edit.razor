@@ -5,13 +5,14 @@
 
 <h3>Edit</h3>
 
-<Form 
-    ButtonText="Update" 
+<Form
+    ButtonText="Update"
     BusinessClient="_businessClient"
-    OnValidSubmit="@EditBusinessClient"
-/>
+    OnValidSubmit="@EditBusinessClient">
+</Form>
 
 @code {
+
     [Parameter]
     public int BusinessClientId { get; set; }
 
@@ -21,7 +22,7 @@
     {
         _businessClient = await _http.GetFromJsonAsync<BusinessClient>(
             $"api/businessClient/{BusinessClientId}"
-        );
+            );
     }
 
     async Task EditBusinessClient()
@@ -30,4 +31,5 @@
         await _js.InvokeVoidAsync("alert", $"Updated Successfully!");
         _uriHelper.NavigateTo("businessClient");
     }
+
 }
