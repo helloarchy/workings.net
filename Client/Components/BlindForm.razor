@@ -92,6 +92,7 @@
                 {
                     <FormField Title="Waterfall Increment">
                         <InputNumber class="@_cssNumber" @bind-Value="_blindModel.WaterfallIncrements"/>
+                        <ValidationMessage For="@(() => _blindModel.WaterfallIncrements)"/>
                     </FormField>
                 }
                 @if (_blindModel.StackType is StackType.Reveal)
@@ -102,6 +103,7 @@
                 }
                 <FormField Title="Folds">
                     <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Folds"/>
+                    <ValidationMessage For="@(() => _blindModel.Folds)"/>
                 </FormField>
 
             </FieldGroup>

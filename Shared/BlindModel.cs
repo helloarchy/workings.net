@@ -12,11 +12,9 @@ namespace workings.Shared
         [StringLength(10, ErrorMessage = "Name is too long.")]
         public string Customer { get; set; }
 
-        [StringLength(10, ErrorMessage = "Name is too long.")]
+        [StringLength(25, MinimumLength = 4, ErrorMessage = "Name is too long.")]
         public string Reference { get; set; }
-
         public int NumBlinds { get; set; }
-
         public decimal Width { get; set; }
         public decimal Height { get; set; }
         public int NumWidths { get; set; }
@@ -25,6 +23,8 @@ namespace workings.Shared
         public StackType StackType { get; set; }
         public decimal WaterfallIncrements { get; set; }
         public decimal Reveal { get; set; }
+        
+        [Range(1,12, ErrorMessage = "The {0} are out of range (min {1}, max {2})")]
         public int Folds { get; set; }
     }
 
