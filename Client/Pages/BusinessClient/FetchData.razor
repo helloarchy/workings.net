@@ -1,7 +1,7 @@
 ﻿@page "/businessclient"
-@using System.Diagnostics
+
 @inject HttpClient _httpClient
-@inject IJSRuntime js
+@inject IJSRuntime _js
 
 <h3>Business Clients</h3>
 <small>Add as many Business Clients as you wish.</small>
@@ -16,7 +16,7 @@
 }
 else if (BusinessClients.Length == 0)
 {
-    <text>No Records Found.</text>
+    <text>Add business clients to view them all here.</text>
 }
 else
 {
@@ -40,7 +40,6 @@ else
                 </td>
             </tr>
         }
-
         </tbody>
     </table>
 }
@@ -50,17 +49,22 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Debug.WriteLine("DEBUG Fetching clients...");
         BusinessClients = await _httpClient.GetFromJsonAsync<BusinessClient[]>("api/businessClient");
     }
 
     async Task Delete(int businessClientId)
     {
         var businessClient = BusinessClients.First(x => x.Id == businessClientId);
-        if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete {businessClient.Name}'s ({businessClient.Id}) Record?"))
+        var confirmDelete = await _js.InvokeAsync<bool>(
+            "confirm",
+            $"Do you want to delete {businessClient.Name}'s ({businessClient.Id}) Record?"
+            );
+        
+        if (confirmDelete)
         {
             await _httpClient.DeleteAsync($"api/businessClient/{businessClientId}");
             await OnInitializedAsync();
         }
     }
+
 }

@@ -24,7 +24,6 @@ namespace workings.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            Debug.WriteLine("DEBUG fetching business clients...");
             var businessClients = await _context.BusinessClients.ToListAsync();
             return Ok(businessClients);
         }

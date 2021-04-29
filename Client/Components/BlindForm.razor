@@ -13,22 +13,23 @@
 <div class="mt-8 max-w-md">
     <h3>BlindForm</h3>
     <div class="grid grid-cols-1 gap-6">
-        <EditForm Model="@_blindModel" OnValidSubmit="@HandleValidSubmit">
+        <EditForm
+            Model="@_blindModel"
+            OnValidSubmit="@(() => UpdateParent.InvokeAsync(_blindModel))">
+
             <DataAnnotationsValidator/>
             <ValidationSummary/>
 
             <FieldGroup Title="Details">
                 <FormField Title="Business Client">
-                    <InputSelect class="form-select block w-full" @bind-Value="_blindModel.BusinessClient">
-
+                    <InputSelect class="@_cssSelect" @bind-Value="_blindModel.BusinessClientId">
                         @if (_businessClients != null)
                         {
                             foreach (var businessClient in _businessClients)
                             {
-                                <option value="@businessClient.Name">@businessClient.Name</option>
+                                <option value="@businessClient.Id">@businessClient.Name</option>
                             }
                         }
-
                     </InputSelect>
                 </FormField>
 
@@ -67,14 +68,18 @@
 </div>
 
 @code {
+
+    [Parameter]
+    public EventCallback<BlindModel> UpdateParent { get; set; }
+
     private BlindModel _blindModel = new();
-    private EditContext _editContext;
-    private string _cssSelect = "form-select block w-full";
+    private EditContext _editContext = null;
     private BusinessClient[] _businessClients;
+    private string _cssSelect = "form-select block w-full";
 
     protected override async Task OnInitializedAsync()
     {
-        _editContext = new EditContext(_blindModel);
+        if (_blindModel != null) _editContext = new EditContext(_blindModel);
 
         try
         {
@@ -84,19 +89,6 @@
         {
             exception.Redirect();
         }
-    }
-
-    private void HandleValidSubmit()
-    {
-        Debug.WriteLine($"Form submitted");
-        var isValid = _editContext.Validate();
-
-        Debug.WriteLine(isValid
-            ? "Valid, sending values to db"
-            : "Invalid, form needs correcting"
-            );
-
-    // Debug.WriteLine(_editContext.Model);
     }
 
 }

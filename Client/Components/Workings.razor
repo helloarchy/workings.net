@@ -1,0 +1,17 @@
+﻿@using workings.Client.Components
+
+<h1>Workings</h1>
+
+<BlindForm UpdateParent="@UpdateBlindModel"/>
+
+<BlindPage BlindModel="@_newBlindModel"/>
+
+@code {
+    private BlindModel _newBlindModel = new();
+
+    void UpdateBlindModel(BlindModel updatedBlindModel)
+    {
+        _newBlindModel = updatedBlindModel;
+    }
+
+}

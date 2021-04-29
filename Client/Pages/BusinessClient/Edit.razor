@@ -1,7 +1,7 @@
 ﻿@page "/businessClient/edit/{BusinessClientId:int}"
-@inject HttpClient http
-@inject NavigationManager uriHelper
-@inject IJSRuntime js
+@inject HttpClient _http
+@inject NavigationManager _uriHelper
+@inject IJSRuntime _js
 
 <h3>Edit</h3>
 
@@ -19,15 +19,15 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        _businessClient = await http.GetFromJsonAsync<BusinessClient>(
+        _businessClient = await _http.GetFromJsonAsync<BusinessClient>(
             $"api/businessClient/{BusinessClientId}"
         );
     }
 
     async Task EditBusinessClient()
     {
-        await http.PutAsJsonAsync("api/businessClient", _businessClient);
-        await js.InvokeVoidAsync("alert", $"Updated Successfully!");
-        uriHelper.NavigateTo("businessClient");
+        await _http.PutAsJsonAsync("api/businessClient", _businessClient);
+        await _js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        _uriHelper.NavigateTo("businessClient");
     }
 }

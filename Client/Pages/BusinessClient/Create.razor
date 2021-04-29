@@ -15,8 +15,7 @@
 
     async Task CreateDeveloper()
     {
-        await http.PostAsJsonAsync("api/businessclient", _businessClient);
-        uriHelper.NavigateTo("businessclient");
+        await http.PostAsJsonAsync("api/businessClient", _businessClient);
+        uriHelper.NavigateTo("businessClient");
     }
-
 }
