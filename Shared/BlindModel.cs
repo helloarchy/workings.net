@@ -22,7 +22,16 @@ namespace workings.Shared
         public int NumWidths { get; set; }
         public int RailingId { get; set; }
         public decimal RailingDepth { get; set; }
+        public StackType StackType { get; set; }
+        public decimal WaterfallIncrements { get; set; }
+        public decimal Reveal { get; set; }
+        public int Folds { get; set; }
+    }
 
-
+    public enum StackType
+    {
+        Normal,
+        Waterfall,
+        Reveal
     }
 }

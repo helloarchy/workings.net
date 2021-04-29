@@ -62,16 +62,49 @@
             </FieldGroup>
 
             @* Railing *@
-            @*<FieldGroup Title="Railing">
-                <Field Title="Type" Type="Field.FieldType.Select" ModelField="@(_blindModel.RailingType)"/>
-                <Field Title="Depth" Type="Field.FieldType.Decimal"/>
-            </FieldGroup>*@
+            <FieldGroup Title="Railing">
+                <FormField Title="Railing Type">
+                    <InputSelect class="@_cssSelect" @bind-Value="_blindModel.RailingId">
+                        @if (_railings != null)
+                        {
+                            foreach (var railing in _railings)
+                            {
+                                <option value="@railing.Id">@railing.Name</option>
+                            }
+                        }
+                    </InputSelect>
+                </FormField>
+                <FormField Title="Depth">
+                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.RailingDepth"/>
+                </FormField>
+            </FieldGroup>
 
             @* Stack *@
-            @*<FieldGroup Title="Stack">
-                <Field Title="Type" Type="Field.FieldType.Select"/>
-                <Field Title="Folds" Type="Field.FieldType.Range"/>
-            </FieldGroup>*@
+            <FieldGroup Title="Stack">
+                <FormField Title="Stack Type">
+                    <InputSelect class="@_cssSelect" @bind-Value="_blindModel.StackType">
+                        <option value="@StackType.Normal">Normal</option>
+                        <option value="@StackType.Waterfall">Waterfall</option>
+                        <option value="@StackType.Reveal">Reveal</option>
+                    </InputSelect>
+                </FormField>
+                @if (_blindModel.StackType is StackType.Waterfall)
+                {
+                    <FormField Title="Waterfall Increment">
+                        <InputNumber class="@_cssNumber" @bind-Value="_blindModel.WaterfallIncrements"/>
+                    </FormField>
+                }
+                @if (_blindModel.StackType is StackType.Reveal)
+                {
+                    <FormField Title="Reveal">
+                        <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Reveal"/>
+                    </FormField>
+                }
+                <FormField Title="Folds">
+                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Folds"/>
+                </FormField>
+
+            </FieldGroup>
 
             <button type="submit">Submit</button>
         </div>
@@ -85,6 +118,7 @@
 
     private BlindModel _blindModel = new();
     private BusinessClient[] _businessClients;
+    private Railing[] _railings;
     private EditContext _editContext = null;
 
     private string _cssNumber = "form-input block mt-1 w-full";
@@ -97,7 +131,8 @@
 
         try
         {
-            _businessClients = await _httpClient.GetFromJsonAsync<BusinessClient[]>("api/businessClient");
+            _businessClients = await _httpClient.GetFromJsonAsync<BusinessClient[]>("api/businessclient");
+            _railings = await _httpClient.GetFromJsonAsync<Railing[]>("api/railing");
         }
         catch (AccessTokenNotAvailableException exception)
         {
