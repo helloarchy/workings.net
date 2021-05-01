@@ -432,8 +432,7 @@ textarea::placeholder {
   color: #9ca3af;
 }
 
-button,
-[role="button"] {
+button {
   cursor: pointer;
 }
 
@@ -1209,10 +1208,6 @@ video {
   margin-top: 0.5rem;
 }
 
-.mr-2 {
-  margin-right: 0.5rem;
-}
-
 .ml-2 {
   margin-left: 0.5rem;
 }
@@ -1844,17 +1839,13 @@ video {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-.grid-cols-5 {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+.grid-cols-7 {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
 }
 
 .auto-cols-min {
   grid-auto-columns: -webkit-min-content;
   grid-auto-columns: min-content;
-}
-
-.col-span-1 {
-  grid-column: span 1 / span 1;
 }
 
 .col-span-2 {
@@ -1873,8 +1864,8 @@ video {
   grid-column-start: 2;
 }
 
-.col-start-3 {
-  grid-column-start: 3;
+.col-start-4 {
+  grid-column-start: 4;
 }
 
 .col-end-4 {

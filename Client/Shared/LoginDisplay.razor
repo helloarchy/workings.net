@@ -1,24 +1,33 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
-@inject NavigationManager Navigation
-@inject SignOutSessionStateManager SignOutManager
+@inject NavigationManager _navigation
+@inject SignOutSessionStateManager _signOutManager
 
 <AuthorizeView>
     <Authorized>
-        <a href="authentication/profile">Hello, @context.User.Identity.Name!</a>
-        <button class="nav-link btn btn-link" @onclick="BeginSignOut">Log out</button>
+        <a href="authentication/profile">
+            @if (context.User.Identity != null)
+            {
+                @($"Hello, {context.User.Identity.Name}!")
+            }
+            else
+            {
+                @("Hello, User!")
+            }
+        </a>
+        <button class="nav-link btn btn-link" @onclick="BeginSignOut">Sign out</button>
     </Authorized>
     <NotAuthorized>
         <a href="authentication/register">Register</a>
-        <a href="authentication/login">Log in</a>
+        <a href="authentication/login">Sign in</a>
     </NotAuthorized>
 </AuthorizeView>
 
 @code{
     private async Task BeginSignOut(MouseEventArgs args)
     {
-        await SignOutManager.SetSignOutState();
-        Navigation.NavigateTo("authentication/logout");
+        await _signOutManager.SetSignOutState();
+        _navigation.NavigateTo("authentication/logout");
     }
 }
