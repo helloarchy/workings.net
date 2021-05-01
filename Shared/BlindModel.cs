@@ -14,10 +14,10 @@ namespace workings.Shared
 
         [StringLength(25, MinimumLength = 4, ErrorMessage = "Name is too long.")]
         public string Reference { get; set; }
-        public int NumBlinds { get; set; }
+        public int CountBlinds { get; set; }
         public decimal Width { get; set; }
         public decimal Height { get; set; }
-        public int NumWidths { get; set; }
+        public int CountWidths { get; set; }
         public int RailingId { get; set; }
         public decimal RailingDepth { get; set; }
         public StackType StackType { get; set; }

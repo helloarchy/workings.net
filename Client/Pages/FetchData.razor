@@ -3,7 +3,7 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using workings.Shared
 @attribute [Authorize]
-@inject HttpClient Http
+@inject HttpClient _httpClient
 
 <h1>Weather forecast</h1>
 
@@ -45,7 +45,7 @@ else
     {
         try
         {
-            forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
+            forecasts = await _httpClient.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
         }
         catch (AccessTokenNotAvailableException exception)
         {

@@ -1,5 +1,5 @@
 ﻿@page "/railing/edit/{RailingId:int}"
-@inject HttpClient _http
+@inject HttpClient _httpClient
 @inject NavigationManager _uriHelper
 @inject IJSRuntime _js
 
@@ -19,14 +19,14 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        _railing = await _http.GetFromJsonAsync<Railing>(
+        _railing = await _httpClient.GetFromJsonAsync<Railing>(
             $"api/railing/{RailingId}"
         );
     }
 
     async Task EditRailing()
     {
-        await _http.PutAsJsonAsync("api/railing", _railing);
+        await _httpClient.PutAsJsonAsync("api/railing", _railing);
         await _js.InvokeVoidAsync("alert", $"Updated Successfully!");
         _uriHelper.NavigateTo("railing");
     }

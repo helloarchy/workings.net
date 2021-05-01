@@ -1,5 +1,5 @@
 ﻿@page "/railing/create"
-@inject HttpClient _http
+@inject HttpClient _httpClient
 @inject NavigationManager _uriHelper
 
 <h3>Create</h3>
@@ -15,7 +15,7 @@
 
     async Task CreateDeveloper()
     {
-        await _http.PostAsJsonAsync("api/railing", _railing);
+        await _httpClient.PostAsJsonAsync("api/railing", _railing);
         _uriHelper.NavigateTo("railing");
     }
 

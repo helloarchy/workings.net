@@ -1,12 +1,67 @@
-﻿<h3>BlindPage</h3>
+﻿@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using workings.Shared;
+
+@attribute [Authorize]
+
+@inject HttpClient _httpClient
+
+<h3>BlindPage</h3>
 <div class="aspect-w-3 aspect-h-4 border">
+    <h2>Details</h2>
     <h3>Client ID: @BlindModel.BusinessClientId</h3>
+    <h3>Client Name: @_businessClient.Name</h3>
     <h3>Customer: @BlindModel.Customer</h3>
     <h3>Reference: @BlindModel.Reference</h3>
-    <h3>Blind Count: @BlindModel.NumBlinds</h3>
+    <h3>No. Blinds: @BlindModel.CountBlinds</h3>
+
+    <h2>Dimensions</h2>
+    <h3>Width: @BlindModel.Width</h3>
+    <h3>Heigth: @BlindModel.Height</h3>
+    <h3>No. Widths: @BlindModel.CountWidths</h3>
+
+    <h2>Railing</h2>
+    <h3>Id: @BlindModel.RailingId</h3>
+    <h3>Type: @_railing.Name</h3>
+    <h3>Depth: @BlindModel.RailingDepth</h3>
+
+    <h2>Stack</h2>
+    <h3>Type: @BlindModel.StackType</h3>
+    @if (BlindModel.StackType is StackType.Waterfall)
+    {
+        <h3>Reveal: @BlindModel.WaterfallIncrements</h3>
+    }
+    @if (BlindModel.StackType is StackType.Reveal)
+    {
+        <h3>Reveal: @BlindModel.Reveal</h3>
+    }
+    <h3>Folds: @BlindModel.Folds</h3>
 </div>
 
 @code {
+
     [Parameter]
     public BlindModel BlindModel { get; set; }
+
+    private BusinessClient _businessClient = new();
+    private Railing _railing = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            _businessClient = await _httpClient.GetFromJsonAsync<BusinessClient>(
+                $"api/businessclient/{BlindModel.BusinessClientId}"
+                );
+            
+            _railing = await _httpClient.GetFromJsonAsync<Railing>(
+                $"api/railing/{BlindModel.RailingId}"
+                );
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
 }

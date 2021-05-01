@@ -1,5 +1,5 @@
 ﻿@page "/businessclient/create"
-@inject HttpClient _http
+@inject HttpClient _httpClient
 @inject NavigationManager _uriHelper
 
 <h3>Create</h3>
@@ -15,7 +15,7 @@
 
     async Task CreateDeveloper()
     {
-        await _http.PostAsJsonAsync("api/businessClient", _businessClient);
+        await _httpClient.PostAsJsonAsync("api/businessClient", _businessClient);
         _uriHelper.NavigateTo("businessClient");
     }
 
