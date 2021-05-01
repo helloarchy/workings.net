@@ -10,108 +10,106 @@
 
 @inject HttpClient _httpClient
 
-<div class="mt-8 max-w-md">
-    <h3>BlindForm</h3>
-    <EditForm
-        Model="@_blindModel"
-        OnValidSubmit="@(() => UpdateBlindModel.InvokeAsync(_blindModel))">
-        <div class="grid grid-cols-1 gap-6">
-            <DataAnnotationsValidator/>
-            <ValidationSummary/>
+<h3>BlindForm</h3>
+<EditForm
+    Model="@_blindModel"
+    OnValidSubmit="@(() => UpdateBlindModel.InvokeAsync(_blindModel))">
+    <div class="grid grid-cols-1 gap-6">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
 
-            @* Details *@
-            <FieldGroup Title="Details">
-                <FormField Title="Business Client">
-                    <InputSelect class="@_cssSelect" @bind-Value="_blindModel.BusinessClientId">
-                        @if (_businessClients != null)
+        @* Details *@
+        <FieldGroup Title="Details">
+            <FormField Title="Business Client">
+                <InputSelect class="@_cssSelect" @bind-Value="_blindModel.BusinessClientId">
+                    @if (_businessClients != null)
+                    {
+                        foreach (var businessClient in _businessClients)
                         {
-                            foreach (var businessClient in _businessClients)
-                            {
-                                <option value="@businessClient.Id">@businessClient.Name</option>
-                            }
+                            <option value="@businessClient.Id">@businessClient.Name</option>
                         }
-                    </InputSelect>
-                </FormField>
+                    }
+                </InputSelect>
+            </FormField>
 
-                <FormField Title="Customer">
-                    <InputText class="@_cssText" @bind-Value="_blindModel.Customer"/>
-                </FormField>
+            <FormField Title="Customer">
+                <InputText class="@_cssText" @bind-Value="_blindModel.Customer"/>
+            </FormField>
 
-                <FormField Title="Reference">
-                    <InputText class="@_cssText" @bind-Value="_blindModel.Reference"/>
-                </FormField>
+            <FormField Title="Reference">
+                <InputText class="@_cssText" @bind-Value="_blindModel.Reference"/>
+            </FormField>
 
-                <FormField Title="No. Blinds">
-                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.CountBlinds"/>
-                </FormField>
-            </FieldGroup>
+            <FormField Title="No. Blinds">
+                <InputNumber class="@_cssNumber" @bind-Value="_blindModel.CountBlinds"/>
+            </FormField>
+        </FieldGroup>
 
-            @* Dimensions *@
-            <FieldGroup Title="Dimensions">
-                <FormField Title="Width">
-                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Width"/>
-                </FormField>
+        @* Dimensions *@
+        <FieldGroup Title="Dimensions">
+            <FormField Title="Width">
+                <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Width"/>
+            </FormField>
 
-                <FormField Title="Height">
-                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Height"/>
-                </FormField>
+            <FormField Title="Height">
+                <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Height"/>
+            </FormField>
 
-                <FormField Title="No. Widths">
-                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.CountWidths"/>
-                </FormField>
-            </FieldGroup>
+            <FormField Title="No. Widths">
+                <InputNumber class="@_cssNumber" @bind-Value="_blindModel.CountWidths"/>
+            </FormField>
+        </FieldGroup>
 
-            @* Railing *@
-            <FieldGroup Title="Railing">
-                <FormField Title="Railing Type">
-                    <InputSelect class="@_cssSelect" @bind-Value="_blindModel.RailingId">
-                        @if (_railings != null)
+        @* Railing *@
+        <FieldGroup Title="Railing">
+            <FormField Title="Railing Type">
+                <InputSelect class="@_cssSelect" @bind-Value="_blindModel.RailingId">
+                    @if (_railings != null)
+                    {
+                        foreach (var railing in _railings)
                         {
-                            foreach (var railing in _railings)
-                            {
-                                <option value="@railing.Id">@railing.Name</option>
-                            }
+                            <option value="@railing.Id">@railing.Name</option>
                         }
-                    </InputSelect>
-                </FormField>
-                <FormField Title="Depth">
-                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.RailingDepth"/>
-                </FormField>
-            </FieldGroup>
+                    }
+                </InputSelect>
+            </FormField>
+            <FormField Title="Depth">
+                <InputNumber class="@_cssNumber" @bind-Value="_blindModel.RailingDepth"/>
+            </FormField>
+        </FieldGroup>
 
-            @* Stack *@
-            <FieldGroup Title="Stack">
-                <FormField Title="Stack Type">
-                    <InputSelect class="@_cssSelect" @bind-Value="_blindModel.StackType">
-                        <option value="@StackType.Normal">Normal</option>
-                        <option value="@StackType.Waterfall">Waterfall</option>
-                        <option value="@StackType.Reveal">Reveal</option>
-                    </InputSelect>
+        @* Stack *@
+        <FieldGroup Title="Stack">
+            <FormField Title="Stack Type">
+                <InputSelect class="@_cssSelect" @bind-Value="_blindModel.StackType">
+                    <option value="@StackType.Normal">Normal</option>
+                    <option value="@StackType.Waterfall">Waterfall</option>
+                    <option value="@StackType.Reveal">Reveal</option>
+                </InputSelect>
+            </FormField>
+            @if (_blindModel.StackType is StackType.Waterfall)
+            {
+                <FormField Title="Waterfall Increment">
+                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.WaterfallIncrements"/>
+                    <ValidationMessage For="@(() => _blindModel.WaterfallIncrements)"/>
                 </FormField>
-                @if (_blindModel.StackType is StackType.Waterfall)
-                {
-                    <FormField Title="Waterfall Increment">
-                        <InputNumber class="@_cssNumber" @bind-Value="_blindModel.WaterfallIncrements"/>
-                        <ValidationMessage For="@(() => _blindModel.WaterfallIncrements)"/>
-                    </FormField>
-                }
-                @if (_blindModel.StackType is StackType.Reveal)
-                {
-                    <FormField Title="Reveal">
-                        <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Reveal"/>
-                    </FormField>
-                }
-                <FormField Title="Folds">
-                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Folds"/>
-                    <ValidationMessage For="@(() => _blindModel.Folds)"/>
+            }
+            @if (_blindModel.StackType is StackType.Reveal)
+            {
+                <FormField Title="Reveal">
+                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Reveal"/>
                 </FormField>
+            }
+            <FormField Title="Folds">
+                <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Folds"/>
+                <ValidationMessage For="@(() => _blindModel.Folds)"/>
+            </FormField>
 
-            </FieldGroup>
+        </FieldGroup>
 
-            <button type="submit">Submit</button>
-        </div>
-    </EditForm>
-</div>
+        <button type="submit">Submit</button>
+    </div>
+</EditForm>
 
 @code {
 
