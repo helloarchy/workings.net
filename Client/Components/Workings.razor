@@ -2,9 +2,15 @@
 
 <h1>Workings</h1>
 
-<BlindForm UpdateBlindModel="@UpdateBlindModel"/>
+<div class="grid grid-cols-5">
+    <div class="col-start-2 col-span-1">
+        <BlindForm UpdateBlindModel="@UpdateBlindModel"/>
+    </div>
+    <div class="col-start-3 col-span-2">
+        <BlindPage BlindModel="@_blindModel"/>
+    </div>
+</div>
 
-<BlindPage BlindModel="@_blindModel"/>
 
 @code {
     private BlindModel _blindModel = new();

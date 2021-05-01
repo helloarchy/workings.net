@@ -1,39 +1,44 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">workings</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
+﻿<div class="-mr-2 -my-2 md:hidden">
+    <button
+        type="button"
+        class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+        aria-expanded="false"
+        @onclick="ToggleNavMenu">
+        <span class="sr-only">Open menu</span>
+        <!-- Heroicon name: outline/menu -->
+        <svg
+            class="h-6 w-6"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true">
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
     </button>
 </div>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="businessclient">
-                <span class="oi oi-people" aria-hidden="true"></span> Business Clients
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="railing">
-                <span class="oi oi-people" aria-hidden="true"></span> Railings
-            </NavLink>
-        </li>
-    </ul>
-</div>
+@* Nav here ... *@
+<nav class="hidden md:flex space-x-10">
+    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+        <span class="oi oi-home" aria-hidden="true"></span> Home
+    </NavLink>
+    <NavLink class="nav-link" href="counter">
+        <span class="oi oi-plus" aria-hidden="true"></span> Counter
+    </NavLink>
+    <NavLink class="nav-link" href="fetchdata">
+        <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+    </NavLink>
+    <NavLink class="nav-link" href="businessclient">
+        <span class="oi oi-people" aria-hidden="true"></span> Business Clients
+    </NavLink>
+    <NavLink class="nav-link" href="railing">
+        <span class="oi oi-people" aria-hidden="true"></span> Railings
+    </NavLink>
+</nav>
 
 @code {
     private bool _collapseNavMenu = true;

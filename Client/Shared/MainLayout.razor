@@ -1,16 +1,41 @@
 @inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
+<div class="relative bg-white">
+    @* Header bar *@
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        @* Desktop *@
+        <div class="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
+
+            @* Home *@
+            <div class="flex justify-start lg:w-0 lg:flex-1">
+                <NavLink Match="NavLinkMatch.All">
+                    <span class="text-2xl">Workings</span>
+                </NavLink>
+            </div>
+
+            @* Nav Desktop *@
+            <NavMenu/>
+
+            @* Account *@
+            <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
+                <LoginDisplay/>
+            </div>
+        </div>
     </div>
 
-    <div class="main">
-        <div class="top-row px-4 auth">
-            <LoginDisplay />
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+    @* Mobile *@
+    <div class="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden">
+        <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
+            <div class="py-6 px-5 space-y-6">
+                <div class="grid grid-cols-2 gap-y-4 gap-x-8">
+                    <NavMenu/>
+                </div>
+            </div>
         </div>
+    </div>
 
+    @* Main body *@
+    <div class="main">
         <div class="content px-4">
             @Body
         </div>
