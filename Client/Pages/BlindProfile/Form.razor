@@ -1,0 +1,115 @@
+﻿@using workings.Client.Components
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+@inject HttpClient _httpClient
+
+<EditForm Model="@BlindProfile" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator/>
+    <div class="form-group">
+        <label>Name</label>
+        <div>
+            <InputText @bind-Value="@BlindProfile.Name"/>
+            <ValidationMessage For="@(() => BlindProfile.Name)"/>
+        </div>
+        
+        <label>Default Values</label>
+        @* Details *@
+        <FieldGroup Title="Details">
+            <FormField Title="Business Client">
+                <InputSelect class="@_cssSelect" @bind-Value="BlindProfile.DefaultValues.BusinessClientId">
+                    @if (_businessClients != null)
+                    {
+                        foreach (var businessClient in _businessClients)
+                        {
+                            <option value="@businessClient.Id">@businessClient.Name</option>
+                        }
+                    }
+                </InputSelect>
+            </FormField>
+        </FieldGroup>
+
+        @* Railing *@
+        <FieldGroup Title="Railing">
+            <FormField Title="Railing Type">
+                <InputSelect class="@_cssSelect" @bind-Value="BlindProfile.DefaultValues.RailingId">
+                    @if (_railings != null)
+                    {
+                        foreach (var railing in _railings)
+                        {
+                            <option value="@railing.Id">@railing.Name</option>
+                        }
+                    }
+                </InputSelect>
+            </FormField>
+            <FormField Title="Depth">
+                <InputNumber class="@_cssNumber" @bind-Value="BlindProfile.DefaultValues.RailingDepth"/>
+            </FormField>
+        </FieldGroup>
+
+        @* Stack *@
+        <FieldGroup Title="Stack">
+            <FormField Title="Stack Type">
+                <InputSelect class="@_cssSelect" @bind-Value="BlindProfile.DefaultValues.StackType">
+                    <option value="@StackType.Normal">Normal</option>
+                    <option value="@StackType.Waterfall">Waterfall</option>
+                    <option value="@StackType.Reveal">Reveal</option>
+                </InputSelect>
+            </FormField>
+            @if (BlindProfile.DefaultValues.StackType is StackType.Waterfall)
+            {
+                <FormField Title="Waterfall Increment">
+                    <InputNumber class="@_cssNumber" @bind-Value="BlindProfile.DefaultValues.WaterfallIncrements"/>
+                    <ValidationMessage For="@(() => BlindProfile.DefaultValues.WaterfallIncrements)"/>
+                </FormField>
+            }
+            @if (BlindProfile.DefaultValues.StackType is StackType.Reveal)
+            {
+                <FormField Title="Reveal">
+                    <InputNumber class="@_cssNumber" @bind-Value="BlindProfile.DefaultValues.Reveal"/>
+                </FormField>
+            }
+        </FieldGroup>
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        @ButtonText
+    </button>
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public BlindProfile BlindProfile { get; set; }
+
+    [Parameter]
+    public string ButtonText { get; set; } = "Save";
+
+    [Parameter]
+    public EventCallback OnValidSubmit { get; set; }
+
+    private BusinessClient[] _businessClients;
+    private Railing[] _railings;
+
+    private string _cssNumber = "form-input block mt-1 w-full";
+    private string _cssSelect = "form-select block mt-1 w-full";
+    private string _cssText = "form-input block mt-1 w-full";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _businessClients = await _httpClient.GetFromJsonAsync<BusinessClient[]>("api/businessclient");
+            _railings = await _httpClient.GetFromJsonAsync<Railing[]>("api/railing");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
+    void UpdateBlindModel(BlindModel updatedBlindModel)
+    {
+        BlindProfile.DefaultValues = updatedBlindModel;
+    }
+
+}

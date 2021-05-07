@@ -20,7 +20,7 @@ namespace workings.Server.Controllers
         }
 
         /**
-         * Read all clients
+         * Read all railings
          */
         [HttpGet]
         public async Task<IActionResult> Get()

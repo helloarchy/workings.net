@@ -20,6 +20,7 @@ namespace workings.Server.Data
         {
         }
 
+        public DbSet<BlindProfile> BlindProfiles { get; set; }
         public DbSet<BusinessClient> BusinessClients { get; set; }
         public DbSet<Railing> Railings { get; set; }
     }

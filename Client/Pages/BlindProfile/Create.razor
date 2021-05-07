@@ -1,0 +1,22 @@
+﻿@page "/blindprofile/create"
+@inject HttpClient _httpClient
+@inject NavigationManager _uriHelper
+
+<h3>Create</h3>
+
+<Form
+    ButtonText="Create Blind Profile"
+    BlindProfile="@_blindProfile"
+    OnValidSubmit="@CreateDeveloper">
+</Form>
+
+@code {
+    BlindProfile _blindProfile = new();
+
+    async Task CreateDeveloper()
+    {
+        await _httpClient.PostAsJsonAsync("api/blindProfile", _blindProfile);
+        _uriHelper.NavigateTo("blindProfile");
+    }
+
+}

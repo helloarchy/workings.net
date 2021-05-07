@@ -1,0 +1,116 @@
+﻿@page "/blindProfile"
+
+@inject HttpClient _httpClient
+@inject IJSRuntime _js
+
+<h3>Blind Profiles</h3>
+<small>Add as many Blind Profiles as you wish.</small>
+<div class="form-group">
+    <a class="btn btn-success" href="blindProfile/create"><i class="oi oi-plus"></i> Create New</a>
+</div>
+<br>
+
+@if (BlindProfiles == null)
+{
+    <text>Loading...</text>
+}
+else if (BlindProfiles.Length == 0)
+{
+    <text>Add Blind Profiles to view them all here.</text>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Client</th>
+            <th>Railing Type</th>
+            <th>Railing Depth</th>
+            <th>Stack Type</th>
+            <th>Waterfall Increment</th>
+            <th>Hem Reveal</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var blindProfile in BlindProfiles)
+        {
+            <tr>
+                <td>@blindProfile.Id</td>
+                <td>@blindProfile.Name</td>
+                <td>@(GetBusinessClientName(blindProfile.DefaultValues.BusinessClientId))</td>
+                <td>@(GetRailingName(blindProfile.DefaultValues.RailingId))</td>
+                <td>@blindProfile.DefaultValues.RailingDepth</td>
+                <td>@blindProfile.DefaultValues.StackType</td>
+                @{
+                    if (blindProfile.DefaultValues.StackType is StackType.Waterfall)
+                    {
+                        <td>@(blindProfile.DefaultValues.WaterfallIncrements)</td>
+                    }
+                    else
+                    {
+                        <td>N/A</td>
+                    }
+                }
+                @{
+                    if (blindProfile.DefaultValues.StackType is StackType.Reveal)
+                    {
+                        <td>@(blindProfile.DefaultValues.Reveal)</td>
+                    }
+                    else
+                    {
+                        <td>N/A</td>
+                    }
+                }
+
+                <td>
+                    <a class="btn btn-success" href="blindProfile/edit/@blindProfile.Id">Edit</a>
+                    <button class="btn btn-danger" @onclick="@(() => Delete(blindProfile.Id))">Delete</button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    BlindProfile[] BlindProfiles { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        BlindProfiles = await _httpClient.GetFromJsonAsync<BlindProfile[]>("api/blindProfile");
+    }
+
+    async Task<string> GetBusinessClientName(int businessClientId)
+    {
+        var businessClient = await _httpClient.GetFromJsonAsync<BusinessClient>(
+            $"api/businessclient/{businessClientId}"
+            );
+        return businessClient != null ? businessClient.Name : "N/A";
+    }
+
+    async Task<string> GetRailingName(int railingId)
+    {
+        var railing = await _httpClient.GetFromJsonAsync<Railing>(
+            $"api/railing/{railingId}"
+            );
+        return railing != null ? railing.Name : "N/A";
+    }
+
+    async Task Delete(int blindProfileId)
+    {
+        var blindProfile = BlindProfiles.First(x => x.Id == blindProfileId);
+        var confirmDelete = await _js.InvokeAsync<bool>(
+            "confirm",
+            $"Do you want to delete {blindProfile.Name}'s ({blindProfile.Id}) Record?"
+            );
+
+        if (confirmDelete)
+        {
+            await _httpClient.DeleteAsync($"api/blindProfile/{blindProfileId}");
+            await OnInitializedAsync();
+        }
+    }
+
+}

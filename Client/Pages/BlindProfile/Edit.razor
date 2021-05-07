@@ -1,0 +1,33 @@
+﻿@page "/blindprofile/edit/{BlindProfileId:int}"
+@inject HttpClient _httpClient
+@inject NavigationManager _uriHelper
+@inject IJSRuntime _js
+
+<h3>Edit</h3>
+
+<Form
+    ButtonText="Update"
+    BlindProfile="_blindProfile"
+    OnValidSubmit="@EditBlindProfile">
+</Form>
+
+@code {
+    [Parameter]
+    public int BlindProfileId { get; set; }
+
+    BlindProfile _blindProfile = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _blindProfile = await _httpClient.GetFromJsonAsync<BlindProfile>(
+            $"api/blindprofile/{BlindProfileId}"
+        );
+    }
+
+    async Task EditBlindProfile()
+    {
+        await _httpClient.PutAsJsonAsync("api/blindProfile", _blindProfile);
+        await _js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        _uriHelper.NavigateTo("blindprofile");
+    }
+}

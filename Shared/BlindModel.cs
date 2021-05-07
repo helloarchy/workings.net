@@ -5,6 +5,8 @@ namespace workings.Shared
 {
     public class BlindModel
     {
+        public int Id { get; set; }
+        
         [Required]
         public int BusinessClientId { get; set; } /* TODO: Look at foreign key set up */
         
