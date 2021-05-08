@@ -1,9 +1,13 @@
-﻿namespace workings.Shared
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace workings.Shared
 {
     public class BlindProfile
     {
-        public int Id { get; set; }
+        public int BlindProfileId { get; init; }
         public string Name { get; set; }
-        public BlindModel DefaultValues { get; set; } = new();
+        public BusinessClient BusinessClient { get; set; }
+        public BlindRailing BlindRailing { get; set; }
+        public BlindStack BlindStack { get; set; }
     }
 }

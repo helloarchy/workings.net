@@ -1,5 +1,11 @@
 ﻿@page "/blindProfile"
 
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using workings.Shared;
+
+@attribute [Authorize]
+
 @inject HttpClient _httpClient
 @inject IJSRuntime _js
 
@@ -25,9 +31,9 @@ else
         <tr>
             <th>Id</th>
             <th>Name</th>
-            <th>Client</th>
-            <th>Railing Type</th>
-            <th>Railing Depth</th>
+            <th>Business Client</th>
+            <th>BlindRailing Type</th>
+            <th>BlindRailing Depth</th>
             <th>Stack Type</th>
             <th>Waterfall Increment</th>
             <th>Hem Reveal</th>
@@ -37,16 +43,16 @@ else
         @foreach (var blindProfile in BlindProfiles)
         {
             <tr>
-                <td>@blindProfile.Id</td>
+                <td>@blindProfile.BlindProfileId</td>
                 <td>@blindProfile.Name</td>
-                <td>@(GetBusinessClientName(blindProfile.DefaultValues.BusinessClientId))</td>
-                <td>@(GetRailingName(blindProfile.DefaultValues.RailingId))</td>
-                <td>@blindProfile.DefaultValues.RailingDepth</td>
-                <td>@blindProfile.DefaultValues.StackType</td>
+                <td>@blindProfile.BusinessClient.Name</td>
+                <td> @blindProfile.BlindRailing.Name </td>
+                <td>@blindProfile.BlindRailing.Depth</td>
+                <td> @blindProfile.BlindStack.Name </td>
                 @{
-                    if (blindProfile.DefaultValues.StackType is StackType.Waterfall)
+                    if (blindProfile.BlindStack.Type is BlindStackType.Waterfall)
                     {
-                        <td>@(blindProfile.DefaultValues.WaterfallIncrements)</td>
+                        <td>@(blindProfile.BlindStack.Offset)</td>
                     }
                     else
                     {
@@ -54,9 +60,9 @@ else
                     }
                 }
                 @{
-                    if (blindProfile.DefaultValues.StackType is StackType.Reveal)
+                    if (blindProfile.BlindStack.Type is BlindStackType.Reveal)
                     {
-                        <td>@(blindProfile.DefaultValues.Reveal)</td>
+                        <td>@(blindProfile.BlindStack.Offset)</td>
                     }
                     else
                     {
@@ -65,8 +71,8 @@ else
                 }
 
                 <td>
-                    <a class="btn btn-success" href="blindProfile/edit/@blindProfile.Id">Edit</a>
-                    <button class="btn btn-danger" @onclick="@(() => Delete(blindProfile.Id))">Delete</button>
+                    <a class="btn btn-success" href="blindProfile/edit/@blindProfile.BlindProfileId">Edit</a>
+                    <button class="btn btn-danger" @onclick="@(() => Delete(blindProfile.BlindProfileId))">Delete</button>
                 </td>
             </tr>
         }
@@ -79,36 +85,22 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        BlindProfiles = await _httpClient.GetFromJsonAsync<BlindProfile[]>("api/blindProfile");
-    }
-
-    async Task<string> GetBusinessClientName(int businessClientId)
-    {
-        var businessClient = await _httpClient.GetFromJsonAsync<BusinessClient>(
-            $"api/businessclient/{businessClientId}"
+        BlindProfiles = await _httpClient.GetFromJsonAsync<BlindProfile[]>(
+            "api/blindProfile"
             );
-        return businessClient != null ? businessClient.Name : "N/A";
-    }
-
-    async Task<string> GetRailingName(int railingId)
-    {
-        var railing = await _httpClient.GetFromJsonAsync<Railing>(
-            $"api/railing/{railingId}"
-            );
-        return railing != null ? railing.Name : "N/A";
     }
 
     async Task Delete(int blindProfileId)
     {
-        var blindProfile = BlindProfiles.First(x => x.Id == blindProfileId);
+        var blindProfile = BlindProfiles.First(x => x.BlindProfileId == blindProfileId);
         var confirmDelete = await _js.InvokeAsync<bool>(
             "confirm",
-            $"Do you want to delete {blindProfile.Name}'s ({blindProfile.Id}) Record?"
+            $"Do you want to delete {blindProfile.Name}'s ({blindProfile.BlindProfileId}) Record?"
             );
 
         if (confirmDelete)
         {
-            await _httpClient.DeleteAsync($"api/blindProfile/{blindProfileId}");
+            await _httpClient.DeleteAsync($"api/blindprofile/{blindProfileId}");
             await OnInitializedAsync();
         }
     }

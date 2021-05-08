@@ -3,31 +3,49 @@
 @inject NavigationManager _uriHelper
 @inject IJSRuntime _js
 
-<h3>Edit</h3>
+@using workings.Shared
 
-<Form
-    ButtonText="Update"
-    BlindProfile="_blindProfile"
-    OnValidSubmit="@EditBlindProfile">
-</Form>
+<h3>Edit</h3>
+@if (_blindProfile == null)
+{
+    <text>Loading...</text>
+}
+else
+{
+    <Form
+        ButtonText="Update"
+        BlindProfile="_blindProfile"
+        OnValidSubmit="@EditBlindProfile">
+    </Form>
+}
 
 @code {
+
     [Parameter]
     public int BlindProfileId { get; set; }
 
-    BlindProfile _blindProfile = new();
+    BlindProfile _blindProfile;
 
     protected override async Task OnParametersSetAsync()
     {
         _blindProfile = await _httpClient.GetFromJsonAsync<BlindProfile>(
-            $"api/blindprofile/{BlindProfileId}"
-        );
+            $"api/blindProfile/{BlindProfileId}"
+            );
     }
 
     async Task EditBlindProfile()
     {
-        await _httpClient.PutAsJsonAsync("api/blindProfile", _blindProfile);
-        await _js.InvokeVoidAsync("alert", $"Updated Successfully!");
-        _uriHelper.NavigateTo("blindprofile");
+        try
+        {
+            await _httpClient.PutAsJsonAsync("api/blindProfile", _blindProfile);
+            await _js.InvokeVoidAsync("alert", $"Updated Successfully!");
+            _uriHelper.NavigateTo("blindprofile");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
+
 }

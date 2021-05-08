@@ -1,0 +1,36 @@
+﻿@page "/railing/edit/{BlindRailingId:int}"
+
+@inject HttpClient _httpClient
+@inject NavigationManager _uriHelper
+@inject IJSRuntime _js
+
+@using workings.Shared
+
+<h3>Edit</h3>
+
+<Form
+    ButtonText="Update"
+    BlindRailing="_blindRailing"
+    OnValidSubmit="@EditBlindRailing">
+</Form>
+
+@code {
+    [Parameter]
+    public int BlindRailingId { get; set; }
+
+    BlindRailing _blindRailing = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _blindRailing = await _httpClient.GetFromJsonAsync<BlindRailing>(
+            $"api/blindRailing/{BlindRailingId}"
+        );
+    }
+
+    async Task EditBlindRailing()
+    {
+        await _httpClient.PutAsJsonAsync("api/blindRailing", _blindRailing);
+        await _js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        _uriHelper.NavigateTo("railing");
+    }
+}

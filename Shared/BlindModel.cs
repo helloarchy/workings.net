@@ -5,7 +5,7 @@ namespace workings.Shared
 {
     public class BlindModel
     {
-        public int Id { get; set; }
+        public int BlindModelId { get; set; }
         
         [Required]
         public int BusinessClientId { get; set; } /* TODO: Look at foreign key set up */
@@ -22,18 +22,11 @@ namespace workings.Shared
         public int CountWidths { get; set; }
         public int RailingId { get; set; }
         public decimal RailingDepth { get; set; }
-        public StackType StackType { get; set; }
+        public BlindStackType BlindStackType { get; set; }
         public decimal WaterfallIncrements { get; set; }
         public decimal Reveal { get; set; }
         
         [Range(1,12, ErrorMessage = "The {0} are out of range (min {1}, max {2})")]
         public int Folds { get; set; }
-    }
-
-    public enum StackType
-    {
-        Normal,
-        Waterfall,
-        Reveal
     }
 }

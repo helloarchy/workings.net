@@ -1,80 +1,98 @@
-﻿@using workings.Client.Components
+﻿@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using System.Diagnostics
+@using System.Reflection
+@using System.Collections
+@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
+@using workings.Client.Components
+@using workings.Shared
+
+@attribute [Authorize]
 @inject HttpClient _httpClient
 
-<EditForm Model="@BlindProfile" OnValidSubmit="@OnValidSubmit">
-    <DataAnnotationsValidator/>
-    <div class="form-group">
-        <label>Name</label>
-        <div>
-            <InputText @bind-Value="@BlindProfile.Name"/>
-            <ValidationMessage For="@(() => BlindProfile.Name)"/>
-        </div>
-        
-        <label>Default Values</label>
-        @* Details *@
+@if (BlindProfile == null)
+{
+    <text>Loading...</text>
+}
+else
+{
+    <EditForm OnValidSubmit="@OnValidSubmit" Model="@BlindProfile">
+        <DataAnnotationsValidator/>
         <FieldGroup Title="Details">
+            <FormField Title="Name">
+                <InputText class="@_cssText" @bind-Value="@BlindProfile.Name"/>
+                <ValidationMessage For="@(() => BlindProfile.Name)"/>
+            </FormField>
+        </FieldGroup>
+
+        <FieldGroup Title="Default Values">
+            @* Business Client *@
             <FormField Title="Business Client">
-                <InputSelect class="@_cssSelect" @bind-Value="BlindProfile.DefaultValues.BusinessClientId">
+                <InputSelect class="@_cssSelect" @bind-Value="BlindProfile.BusinessClient">
                     @if (_businessClients != null)
                     {
-                        foreach (var businessClient in _businessClients)
+                        @foreach (var businessClient in _businessClients)
                         {
-                            <option value="@businessClient.Id">@businessClient.Name</option>
+                            @if (businessClient.BusinessClientId == BlindProfile.BusinessClient.BusinessClientId)
+                            {
+                                <option selected value="@businessClient">@businessClient.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@businessClient">@businessClient.Name</option>
+                            }
                         }
                     }
                 </InputSelect>
             </FormField>
-        </FieldGroup>
 
-        @* Railing *@
-        <FieldGroup Title="Railing">
+            @* BlindRailing *@
             <FormField Title="Railing Type">
-                <InputSelect class="@_cssSelect" @bind-Value="BlindProfile.DefaultValues.RailingId">
-                    @if (_railings != null)
+                <InputSelect class="@_cssSelect" @bind-Value="BlindProfile.BlindRailing">
+                    @if (_blindRailings != null)
                     {
-                        foreach (var railing in _railings)
+                        foreach (var blindRailing in _blindRailings)
                         {
-                            <option value="@railing.Id">@railing.Name</option>
+                            @if (blindRailing.BlindRailingId == BlindProfile.BlindRailing.BlindRailingId)
+                            {
+                                <option selected value="@blindRailing">@blindRailing.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@blindRailing">@blindRailing.Name</option>
+                            }
                         }
                     }
                 </InputSelect>
             </FormField>
-            <FormField Title="Depth">
-                <InputNumber class="@_cssNumber" @bind-Value="BlindProfile.DefaultValues.RailingDepth"/>
-            </FormField>
-        </FieldGroup>
 
-        @* Stack *@
-        <FieldGroup Title="Stack">
+            @* Blind Stack *@
             <FormField Title="Stack Type">
-                <InputSelect class="@_cssSelect" @bind-Value="BlindProfile.DefaultValues.StackType">
-                    <option value="@StackType.Normal">Normal</option>
-                    <option value="@StackType.Waterfall">Waterfall</option>
-                    <option value="@StackType.Reveal">Reveal</option>
+                <InputSelect class="@_cssSelect" @bind-Value="BlindProfile.BlindStack">
+                    @if (_blindStacks != null)
+                    {
+                        foreach (var blindStack in _blindStacks)
+                        {
+                            @if (blindStack.BlindStackId == BlindProfile.BlindStack.BlindStackId)
+                            {
+                                <option selected value="@blindStack">@blindStack.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@blindStack">@blindStack.Name</option>
+                            }
+                        }
+                    }
                 </InputSelect>
             </FormField>
-            @if (BlindProfile.DefaultValues.StackType is StackType.Waterfall)
-            {
-                <FormField Title="Waterfall Increment">
-                    <InputNumber class="@_cssNumber" @bind-Value="BlindProfile.DefaultValues.WaterfallIncrements"/>
-                    <ValidationMessage For="@(() => BlindProfile.DefaultValues.WaterfallIncrements)"/>
-                </FormField>
-            }
-            @if (BlindProfile.DefaultValues.StackType is StackType.Reveal)
-            {
-                <FormField Title="Reveal">
-                    <InputNumber class="@_cssNumber" @bind-Value="BlindProfile.DefaultValues.Reveal"/>
-                </FormField>
-            }
         </FieldGroup>
-    </div>
 
-    <button type="submit" class="btn btn-success">
-        @ButtonText
-    </button>
-</EditForm>
+        <button type="submit" class="btn btn-success">
+            @ButtonText
+        </button>
+    </EditForm>
+}
 
 @code {
 
@@ -88,7 +106,8 @@
     public EventCallback OnValidSubmit { get; set; }
 
     private BusinessClient[] _businessClients;
-    private Railing[] _railings;
+    private BlindRailing[] _blindRailings;
+    private BlindStack[] _blindStacks;
 
     private string _cssNumber = "form-input block mt-1 w-full";
     private string _cssSelect = "form-select block mt-1 w-full";
@@ -98,18 +117,14 @@
     {
         try
         {
-            _businessClients = await _httpClient.GetFromJsonAsync<BusinessClient[]>("api/businessclient");
-            _railings = await _httpClient.GetFromJsonAsync<Railing[]>("api/railing");
+            _businessClients = await _httpClient.GetFromJsonAsync<BusinessClient[]>("api/businessClient");
+            _blindRailings = await _httpClient.GetFromJsonAsync<BlindRailing[]>("api/blindRailing");
+            _blindStacks = await _httpClient.GetFromJsonAsync<BlindStack[]>("api/blindStack");
         }
         catch (AccessTokenNotAvailableException exception)
         {
             exception.Redirect();
         }
-    }
-
-    void UpdateBlindModel(BlindModel updatedBlindModel)
-    {
-        BlindProfile.DefaultValues = updatedBlindModel;
     }
 
 }

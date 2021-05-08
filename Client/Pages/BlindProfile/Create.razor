@@ -7,16 +7,23 @@
 <Form
     ButtonText="Create Blind Profile"
     BlindProfile="@_blindProfile"
-    OnValidSubmit="@CreateDeveloper">
+    OnValidSubmit="@CreateBlindProfile">
 </Form>
 
 @code {
     BlindProfile _blindProfile = new();
 
-    async Task CreateDeveloper()
+    async Task CreateBlindProfile()
     {
-        await _httpClient.PostAsJsonAsync("api/blindProfile", _blindProfile);
-        _uriHelper.NavigateTo("blindProfile");
+        try
+        {
+            await _httpClient.PostAsJsonAsync("api/blindProfile", _blindProfile);
+            _uriHelper.NavigateTo("blindProfile");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
     }
 
 }

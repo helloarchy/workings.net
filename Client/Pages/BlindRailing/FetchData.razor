@@ -1,0 +1,72 @@
+﻿@page "/railing"
+
+@inject HttpClient _httpClient
+@inject IJSRuntime _js
+
+<h3>Railings</h3>
+<small>Add as many railings as you wish.</small>
+<div class="form-group">
+    <a class="btn btn-success" href="railing/create"><i class="oi oi-plus"></i> Create New</a>
+</div>
+<br>
+
+@if (BlindRailings == null)
+{
+    <text>Loading...</text>
+}
+else if (BlindRailings.Length == 0)
+{
+    <text>Add railings to view them all here.</text>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Depth (cm)</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var railing in BlindRailings)
+        {
+            <tr>
+                <td>@railing.BlindRailingId</td>
+                <td>@railing.Name</td>
+                <td>@railing.Depth</td>
+                <td>
+                    <a class="btn btn-success" href="railing/edit/@railing.BlindRailingId">Edit</a>
+                    <button class="btn btn-danger" @onclick="@(() => Delete(railing.BlindRailingId))">Delete</button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    BlindRailing[] BlindRailings { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        BlindRailings = await _httpClient.GetFromJsonAsync<BlindRailing[]>("api/blindRailing");
+    }
+
+    async Task Delete(int blindRailingId)
+    {
+        var blindRailing = BlindRailings.First(x => x.BlindRailingId == blindRailingId);
+        var confirmDelete = await _js.InvokeAsync<bool>(
+            "confirm",
+            $"Do you want to delete {blindRailing.Name}'s ({blindRailing.BlindRailingId}) Record?"
+            );
+        
+        if (confirmDelete)
+        {
+            await _httpClient.DeleteAsync($"api/blindRailing/{blindRailingId}");
+            await OnInitializedAsync();
+        }
+    }
+
+}

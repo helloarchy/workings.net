@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace workings.Server.Data.Migrations
+namespace workings.Server.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,6 +44,48 @@ namespace workings.Server.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BlindRailing",
+                columns: table => new
+                {
+                    BlindRailingId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Depth = table.Column<decimal>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlindRailing", x => x.BlindRailingId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BlindStack",
+                columns: table => new
+                {
+                    BlindStackId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Type = table.Column<int>(type: "INTEGER", nullable: false),
+                    Offset = table.Column<decimal>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlindStack", x => x.BlindStackId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BusinessClient",
+                columns: table => new
+                {
+                    BusinessClientId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BusinessClient", x => x.BusinessClientId);
                 });
 
             migrationBuilder.CreateTable(
@@ -191,6 +233,40 @@ namespace workings.Server.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "BlindProfile",
+                columns: table => new
+                {
+                    BlindProfileId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    BusinessClientId = table.Column<int>(type: "INTEGER", nullable: true),
+                    BlindRailingId = table.Column<int>(type: "INTEGER", nullable: true),
+                    BlindStackId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlindProfile", x => x.BlindProfileId);
+                    table.ForeignKey(
+                        name: "FK_BlindProfile_BlindRailing_BlindRailingId",
+                        column: x => x.BlindRailingId,
+                        principalTable: "BlindRailing",
+                        principalColumn: "BlindRailingId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_BlindProfile_BlindStack_BlindStackId",
+                        column: x => x.BlindStackId,
+                        principalTable: "BlindStack",
+                        principalColumn: "BlindStackId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_BlindProfile_BusinessClient_BusinessClientId",
+                        column: x => x.BusinessClientId,
+                        principalTable: "BusinessClient",
+                        principalColumn: "BusinessClientId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -227,6 +303,21 @@ namespace workings.Server.Data.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlindProfile_BlindRailingId",
+                table: "BlindProfile",
+                column: "BlindRailingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlindProfile_BlindStackId",
+                table: "BlindProfile",
+                column: "BlindStackId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlindProfile_BusinessClientId",
+                table: "BlindProfile",
+                column: "BusinessClientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DeviceCodes_DeviceCode",
@@ -273,6 +364,9 @@ namespace workings.Server.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "BlindProfile");
+
+            migrationBuilder.DropTable(
                 name: "DeviceCodes");
 
             migrationBuilder.DropTable(
@@ -283,6 +377,15 @@ namespace workings.Server.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "BlindRailing");
+
+            migrationBuilder.DropTable(
+                name: "BlindStack");
+
+            migrationBuilder.DropTable(
+                name: "BusinessClient");
         }
     }
 }

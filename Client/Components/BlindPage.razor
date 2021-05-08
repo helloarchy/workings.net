@@ -20,18 +20,18 @@
     <h3>Heigth: @BlindModel.Height</h3>
     <h3>No. Widths: @BlindModel.CountWidths</h3>
 
-    <h2>Railing</h2>
+    <h2>BlindRailing</h2>
     <h3>Id: @BlindModel.RailingId</h3>
-    <h3>Type: @_railing.Name</h3>
+    <h3>Type: @_blindRailing.Name</h3>
     <h3>Depth: @BlindModel.RailingDepth</h3>
 
     <h2>Stack</h2>
-    <h3>Type: @BlindModel.StackType</h3>
-    @if (BlindModel.StackType is StackType.Waterfall)
+    <h3>Type: @BlindModel.BlindStackType</h3>
+    @if (BlindModel.BlindStackType is BlindStackType.Waterfall)
     {
         <h3>Reveal: @BlindModel.WaterfallIncrements</h3>
     }
-    @if (BlindModel.StackType is StackType.Reveal)
+    @if (BlindModel.BlindStackType is BlindStackType.Reveal)
     {
         <h3>Reveal: @BlindModel.Reveal</h3>
     }
@@ -44,7 +44,7 @@
     public BlindModel BlindModel { get; set; }
 
     private BusinessClient _businessClient = new();
-    private Railing _railing = new();
+    private BlindRailing _blindRailing = new();
 
     protected override async Task OnParametersSetAsync()
     {
@@ -54,8 +54,8 @@
                 $"api/businessclient/{BlindModel.BusinessClientId}"
                 );
             
-            _railing = await _httpClient.GetFromJsonAsync<Railing>(
-                $"api/railing/{BlindModel.RailingId}"
+            _blindRailing = await _httpClient.GetFromJsonAsync<BlindRailing>(
+                $"api/blindRailing/{BlindModel.RailingId}"
                 );
         }
         catch (AccessTokenNotAvailableException exception)

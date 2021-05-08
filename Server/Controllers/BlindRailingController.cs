@@ -10,11 +10,11 @@ namespace workings.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class RailingController : ControllerBase
+    public class BlindRailingController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public RailingController(ApplicationDbContext context)
+        public BlindRailingController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -25,50 +25,50 @@ namespace workings.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var railings = await _context.Railings.ToListAsync();
+            var railings = await _context.BlindRailings.ToListAsync();
             return Ok(railings);
         }
         
         /**
-         * Read a single railing by id
+         * Read a single blindRailing by id
          */
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            var railing = await _context.Railings.FirstOrDefaultAsync(a=>a.Id ==id);
-            return Ok(railing);
+            var blindRailing = await _context.BlindRailings.FirstOrDefaultAsync(a=>a.BlindRailingId ==id);
+            return Ok(blindRailing);
         }
         
         /**
-         * Create a new railing
+         * Create a new blindRailing
          */
         [HttpPost]
-        public async Task<IActionResult> Post(Railing railing)
+        public async Task<IActionResult> Post(BlindRailing blindRailing)
         {
-            _context.Add(railing);
+            _context.Add(blindRailing);
             await _context.SaveChangesAsync();
-            return Ok(railing.Id); 
+            return Ok(blindRailing.BlindRailingId); 
         }
         
         /**
-         * Update an existing Railing by record
+         * Update an existing BlindRailing by record
          */
         [HttpPut]
-        public async Task<IActionResult> Put(Railing railing)
+        public async Task<IActionResult> Put(BlindRailing blindRailing)
         {
-            _context.Entry(railing).State = EntityState.Modified;
+            _context.Entry(blindRailing).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return NoContent();
         }
         
         /**
-         * Delete a Railing by id
+         * Delete a BlindRailing by id
          */
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var railing = new Railing { Id = id };
-            _context.Remove(railing);
+            var blindRailing = new BlindRailing { BlindRailingId = id };
+            _context.Remove(blindRailing);
             await _context.SaveChangesAsync();
             return NoContent();
         }

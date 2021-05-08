@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using workings.Server.Data;
 
-namespace workings.Server.Data.Migrations
+namespace workings.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210429095937_AddRailing")]
-    partial class AddRailing
+    [Migration("20210508164830_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -317,23 +317,38 @@ namespace workings.Server.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("workings.Shared.BusinessClient", b =>
+            modelBuilder.Entity("workings.Shared.BlindProfile", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("BlindProfileId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("BlindRailingId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("BlindStackId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("BusinessClientId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("BlindProfileId");
 
-                    b.ToTable("BusinessClients");
+                    b.HasIndex("BlindRailingId");
+
+                    b.HasIndex("BlindStackId");
+
+                    b.HasIndex("BusinessClientId");
+
+                    b.ToTable("BlindProfile");
                 });
 
-            modelBuilder.Entity("workings.Shared.Railing", b =>
+            modelBuilder.Entity("workings.Shared.BlindRailing", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("BlindRailingId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -343,9 +358,43 @@ namespace workings.Server.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("BlindRailingId");
 
-                    b.ToTable("Railings");
+                    b.ToTable("BlindRailing");
+                });
+
+            modelBuilder.Entity("workings.Shared.BlindStack", b =>
+                {
+                    b.Property<int>("BlindStackId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Offset")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("BlindStackId");
+
+                    b.ToTable("BlindStack");
+                });
+
+            modelBuilder.Entity("workings.Shared.BusinessClient", b =>
+                {
+                    b.Property<int>("BusinessClientId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("BusinessClientId");
+
+                    b.ToTable("BusinessClient");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -397,6 +446,27 @@ namespace workings.Server.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("workings.Shared.BlindProfile", b =>
+                {
+                    b.HasOne("workings.Shared.BlindRailing", "BlindRailing")
+                        .WithMany()
+                        .HasForeignKey("BlindRailingId");
+
+                    b.HasOne("workings.Shared.BlindStack", "BlindStack")
+                        .WithMany()
+                        .HasForeignKey("BlindStackId");
+
+                    b.HasOne("workings.Shared.BusinessClient", "BusinessClient")
+                        .WithMany()
+                        .HasForeignKey("BusinessClientId");
+
+                    b.Navigation("BlindRailing");
+
+                    b.Navigation("BlindStack");
+
+                    b.Navigation("BusinessClient");
                 });
 #pragma warning restore 612, 618
         }

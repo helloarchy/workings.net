@@ -22,6 +22,17 @@ namespace workings.Server.Data
 
         public DbSet<BlindProfile> BlindProfiles { get; set; }
         public DbSet<BusinessClient> BusinessClients { get; set; }
-        public DbSet<Railing> Railings { get; set; }
+        public DbSet<BlindRailing> BlindRailings { get; set; }
+        public DbSet<BlindStack> BlindStacks { get; set; }
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            
+            modelBuilder.Entity<BlindProfile>().ToTable("BlindProfile");
+            modelBuilder.Entity<BusinessClient>().ToTable("BusinessClient");
+            modelBuilder.Entity<BlindRailing>().ToTable("BlindRailing");
+            modelBuilder.Entity<BlindStack>().ToTable("BlindStack");
+        }
     }
 }

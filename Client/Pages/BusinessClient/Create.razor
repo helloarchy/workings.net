@@ -7,13 +7,13 @@
 <Form
     ButtonText="Create Business Client"
     BusinessClient="@_businessClient"
-    OnValidSubmit="@CreateDeveloper">
+    OnValidSubmit="@CreateBusinessClient">
 </Form>
 
 @code {
     BusinessClient _businessClient = new();
 
-    async Task CreateDeveloper()
+    async Task CreateBusinessClient()
     {
         await _httpClient.PostAsJsonAsync("api/businessClient", _businessClient);
         _uriHelper.NavigateTo("businessClient");

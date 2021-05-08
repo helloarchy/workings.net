@@ -34,13 +34,13 @@ else
         @foreach (var businessClient in BusinessClients)
         {
             <tr>
-                <td>@businessClient.Id</td>
+                <td>@businessClient.BusinessClientId</td>
                 <td>@businessClient.Name</td>
                 <td>
-                    <a class="btn btn-success" href="businessClient/edit/@businessClient.Id">
+                    <a class="btn btn-success" href="businessClient/edit/@businessClient.BusinessClientId">
                         Edit
                     </a>
-                    <button class="btn btn-danger" @onclick="@(() => Delete(businessClient.Id))">
+                    <button class="btn btn-danger" @onclick="@(() => Delete(businessClient.BusinessClientId))">
                         Delete
                     </button>
                 </td>
@@ -62,10 +62,10 @@ else
 
     async Task Delete(int businessClientId)
     {
-        var businessClient = BusinessClients.First(x => x.Id == businessClientId);
+        var businessClient = BusinessClients.First(x => x.BusinessClientId == businessClientId);
         var confirmDelete = await _js.InvokeAsync<bool>(
             "confirm",
-            $"Do you want to delete {businessClient.Name}'s ({businessClient.Id}) Record?"
+            $"Do you want to delete {businessClient.Name}'s ({businessClient.BusinessClientId}) Record?"
             );
 
         if (confirmDelete)

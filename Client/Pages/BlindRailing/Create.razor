@@ -1,0 +1,24 @@
+﻿@page "/railing/create"
+@inject HttpClient _httpClient
+@inject NavigationManager _uriHelper
+
+@using workings.Shared
+
+<h3>Create</h3>
+
+<Form
+    ButtonText="Create BlindRailing"
+    BlindRailing="@_blindBlindRailing"
+    OnValidSubmit="@CreateBlindRailing">
+</Form>
+
+@code {
+    BlindRailing _blindBlindRailing = new();
+
+    async Task CreateBlindRailing()
+    {
+        await _httpClient.PostAsJsonAsync("api/blindRailing", _blindBlindRailing);
+        _uriHelper.NavigateTo("railing");
+    }
+
+}

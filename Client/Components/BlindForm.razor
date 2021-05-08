@@ -26,7 +26,7 @@
                     {
                         foreach (var businessClient in _businessClients)
                         {
-                            <option value="@businessClient.Id">@businessClient.Name</option>
+                            <option value="@businessClient.BusinessClientId">@businessClient.Name</option>
                         }
                     }
                 </InputSelect>
@@ -60,15 +60,15 @@
             </FormField>
         </FieldGroup>
 
-        @* Railing *@
-        <FieldGroup Title="Railing">
-            <FormField Title="Railing Type">
+        @* BlindRailing *@
+        <FieldGroup Title="BlindRailing">
+            <FormField Title="BlindRailing Type">
                 <InputSelect class="@_cssSelect" @bind-Value="_blindModel.RailingId">
                     @if (_railings != null)
                     {
                         foreach (var railing in _railings)
                         {
-                            <option value="@railing.Id">@railing.Name</option>
+                            <option value="@railing.BlindRailingId">@railing.Name</option>
                         }
                     }
                 </InputSelect>
@@ -81,20 +81,20 @@
         @* Stack *@
         <FieldGroup Title="Stack">
             <FormField Title="Stack Type">
-                <InputSelect class="@_cssSelect" @bind-Value="_blindModel.StackType">
-                    <option value="@StackType.Normal">Normal</option>
-                    <option value="@StackType.Waterfall">Waterfall</option>
-                    <option value="@StackType.Reveal">Reveal</option>
+                <InputSelect class="@_cssSelect" @bind-Value="_blindModel.BlindStackType">
+                    <option value="@BlindStackType.Normal">Normal</option>
+                    <option value="@BlindStackType.Waterfall">Waterfall</option>
+                    <option value="@BlindStackType.Reveal">Reveal</option>
                 </InputSelect>
             </FormField>
-            @if (_blindModel.StackType is StackType.Waterfall)
+            @if (_blindModel.BlindStackType is BlindStackType.Waterfall)
             {
                 <FormField Title="Waterfall Increment">
                     <InputNumber class="@_cssNumber" @bind-Value="_blindModel.WaterfallIncrements"/>
                     <ValidationMessage For="@(() => _blindModel.WaterfallIncrements)"/>
                 </FormField>
             }
-            @if (_blindModel.StackType is StackType.Reveal)
+            @if (_blindModel.BlindStackType is BlindStackType.Reveal)
             {
                 <FormField Title="Reveal">
                     <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Reveal"/>
@@ -118,7 +118,7 @@
 
     private BlindModel _blindModel = new();
     private BusinessClient[] _businessClients;
-    private Railing[] _railings;
+    private BlindRailing[] _railings;
     private EditContext _editContext = null;
 
     private string _cssNumber = "form-input block mt-1 w-full";
@@ -132,7 +132,7 @@
         try
         {
             _businessClients = await _httpClient.GetFromJsonAsync<BusinessClient[]>("api/businessclient");
-            _railings = await _httpClient.GetFromJsonAsync<Railing[]>("api/railing");
+            _railings = await _httpClient.GetFromJsonAsync<BlindRailing[]>("api/blindRailing");
         }
         catch (AccessTokenNotAvailableException exception)
         {

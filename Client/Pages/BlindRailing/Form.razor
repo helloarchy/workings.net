@@ -1,0 +1,33 @@
+﻿<EditForm Model="@BlindRailing" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator/>
+    <div class="form-group">
+        <label>Name</label>
+        <div>
+            <InputText @bind-Value="@BlindRailing.Name"/>
+            <ValidationMessage For="@(() => BlindRailing.Name)"/>
+        </div>
+
+        <label>Depth (cm)</label>
+        <div>
+            <InputNumber @bind-Value="@BlindRailing.Depth"/>
+            <ValidationMessage For="@(() => BlindRailing.Depth)"/>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        @ButtonText
+    </button>
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public BlindRailing BlindRailing { get; set; }
+
+    [Parameter]
+    public string ButtonText { get; set; } = "Save";
+
+    [Parameter]
+    public EventCallback OnValidSubmit { get; set; }
+
+}

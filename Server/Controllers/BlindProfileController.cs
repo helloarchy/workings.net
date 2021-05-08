@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,20 +24,28 @@ namespace workings.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var blindProfiles = await _context.BlindProfiles.ToListAsync();
+            var blindProfiles = await _context.BlindProfiles
+                .Include(bp => bp.BlindRailing)
+                .Include(bp => bp.BlindStack)
+                .Include(bp => bp.BusinessClient)
+                .ToListAsync();
             return Ok(blindProfiles);
         }
-        
+
         /**
          * Read a single blind profile by id
          */
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            var blindProfile = await _context.BlindProfiles.FirstOrDefaultAsync(a=>a.Id ==id);
+            var blindProfile = await _context.BlindProfiles
+                .Include(bp => bp.BlindRailing)
+                .Include(bp => bp.BlindStack)
+                .Include(bp => bp.BusinessClient)
+                .FirstOrDefaultAsync(bp => bp.BlindProfileId == id);
             return Ok(blindProfile);
         }
-        
+
         /**
          * Create a new blind profile
          */
@@ -47,9 +54,9 @@ namespace workings.Server.Controllers
         {
             _context.Add(blindProfile);
             await _context.SaveChangesAsync();
-            return Ok(blindProfile.Id); 
+            return Ok(blindProfile.BlindProfileId);
         }
-        
+
         /**
          * Update an existing Blind Profile by record
          */
@@ -60,14 +67,14 @@ namespace workings.Server.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
-        
+
         /**
          * Delete a Blind Profile by id
          */
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var blindProfile = new BlindProfile { Id = id };
+            var blindProfile = new BlindProfile {BlindProfileId = id};
             _context.Remove(blindProfile);
             await _context.SaveChangesAsync();
             return NoContent();

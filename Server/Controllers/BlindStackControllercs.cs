@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,65 +10,65 @@ namespace workings.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class BusinessClientController : ControllerBase
+    public class BlindStackController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public BusinessClientController(ApplicationDbContext context)
+        public BlindStackController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         /**
-         * Read all business clients
+         * Read all stacks
          */
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var businessClients = await _context.BusinessClients.ToListAsync();
-            return Ok(businessClients);
+            var stacks = await _context.BlindStacks.ToListAsync();
+            return Ok(stacks);
         }
         
         /**
-         * Read a single business client by id
+         * Read a single blindStack by id
          */
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            var businessClient = await _context.BusinessClients.FirstOrDefaultAsync(a=>a.BusinessClientId ==id);
-            return Ok(businessClient);
+            var blindStack = await _context.BlindStacks.FirstOrDefaultAsync(a=>a.BlindStackId ==id);
+            return Ok(blindStack);
         }
         
         /**
-         * Create a new business client
+         * Create a new blindStack
          */
         [HttpPost]
-        public async Task<IActionResult> Post(BusinessClient businessClient)
+        public async Task<IActionResult> Post(BlindStack blindStack)
         {
-            _context.Add(businessClient);
+            _context.Add(blindStack);
             await _context.SaveChangesAsync();
-            return Ok(businessClient.BusinessClientId); 
+            return Ok(blindStack.BlindStackId); 
         }
         
         /**
-         * Update an existing Business Client by record
+         * Update an existing BlindStack by record
          */
         [HttpPut]
-        public async Task<IActionResult> Put(BusinessClient businessClient)
+        public async Task<IActionResult> Put(BlindStack blindStack)
         {
-            _context.Entry(businessClient).State = EntityState.Modified;
+            _context.Entry(blindStack).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return NoContent();
         }
         
         /**
-         * Delete a Business Client by id
+         * Delete a BlindStack by id
          */
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var businessClient = new BusinessClient { BusinessClientId = id };
-            _context.Remove(businessClient);
+            var blindStack = new BlindStack { BlindStackId = id };
+            _context.Remove(blindStack);
             await _context.SaveChangesAsync();
             return NoContent();
         }

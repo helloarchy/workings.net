@@ -1,8 +1,8 @@
 ﻿namespace workings.Shared
 {
-    public class Railing
+    public class BlindRailing
     {
-        public int Id { get; set; }
+        public int BlindRailingId { get; init; }
         public string Name { get; set; }
         public decimal Depth { get; set; }
     }
