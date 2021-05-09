@@ -9,7 +9,7 @@
 <h3>BlindPage</h3>
 <div class="aspect-w-3 aspect-h-4 border w-full">
     <h2>Details</h2>
-    <h3>Client ID: @BlindModel.BusinessClientId</h3>
+    <h3>Client ID: @BlindModel.Id</h3>
     <h3>Client Name: @_businessClient.Name</h3>
     <h3>Customer: @BlindModel.Customer</h3>
     <h3>Reference: @BlindModel.Reference</h3>
@@ -51,7 +51,7 @@
         try
         {
             _businessClient = await _httpClient.GetFromJsonAsync<BusinessClient>(
-                $"api/businessclient/{BlindModel.BusinessClientId}"
+                $"api/businessclient/{BlindModel.Id}"
                 );
             
             _blindRailing = await _httpClient.GetFromJsonAsync<BlindRailing>(

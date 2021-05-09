@@ -42,7 +42,7 @@ namespace workings.Server.Controllers
                 .Include(bp => bp.BlindRailing)
                 .Include(bp => bp.BlindStack)
                 .Include(bp => bp.BusinessClient)
-                .FirstOrDefaultAsync(bp => bp.BlindProfileId == id);
+                .FirstOrDefaultAsync(bp => bp.Id == id);
             return Ok(blindProfile);
         }
 
@@ -54,7 +54,7 @@ namespace workings.Server.Controllers
         {
             _context.Add(blindProfile);
             await _context.SaveChangesAsync();
-            return Ok(blindProfile.BlindProfileId);
+            return Ok(blindProfile.Id);
         }
 
         /**
@@ -74,7 +74,7 @@ namespace workings.Server.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var blindProfile = new BlindProfile {BlindProfileId = id};
+            var blindProfile = new BlindProfile {Id = id};
             _context.Remove(blindProfile);
             await _context.SaveChangesAsync();
             return NoContent();

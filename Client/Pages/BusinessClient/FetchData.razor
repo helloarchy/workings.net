@@ -34,13 +34,13 @@ else
         @foreach (var businessClient in BusinessClients)
         {
             <tr>
-                <td>@businessClient.BusinessClientId</td>
+                <td>@businessClient.Id</td>
                 <td>@businessClient.Name</td>
                 <td>
-                    <a class="btn btn-success" href="businessClient/edit/@businessClient.BusinessClientId">
+                    <a class="btn btn-success" href="businessClient/edit/@businessClient.Id">
                         Edit
                     </a>
-                    <button class="btn btn-danger" @onclick="@(() => Delete(businessClient.BusinessClientId))">
+                    <button class="btn btn-danger" @onclick="@(() => Delete(businessClient.Id))">
                         Delete
                     </button>
                 </td>
@@ -60,17 +60,17 @@ else
             );
     }
 
-    async Task Delete(int businessClientId)
+    async Task Delete(int Id)
     {
-        var businessClient = BusinessClients.First(x => x.BusinessClientId == businessClientId);
+        var businessClient = BusinessClients.First(x => x.Id == Id);
         var confirmDelete = await _js.InvokeAsync<bool>(
             "confirm",
-            $"Do you want to delete {businessClient.Name}'s ({businessClient.BusinessClientId}) Record?"
+            $"Do you want to delete {businessClient.Name}'s ({businessClient.Id}) Record?"
             );
 
         if (confirmDelete)
         {
-            await _httpClient.DeleteAsync($"api/businessClient/{businessClientId}");
+            await _httpClient.DeleteAsync($"api/businessClient/{Id}");
             await OnInitializedAsync();
         }
     }

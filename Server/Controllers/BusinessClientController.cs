@@ -34,7 +34,7 @@ namespace workings.Server.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            var businessClient = await _context.BusinessClients.FirstOrDefaultAsync(a=>a.BusinessClientId ==id);
+            var businessClient = await _context.BusinessClients.FirstOrDefaultAsync(a=>a.Id ==id);
             return Ok(businessClient);
         }
         
@@ -46,7 +46,7 @@ namespace workings.Server.Controllers
         {
             _context.Add(businessClient);
             await _context.SaveChangesAsync();
-            return Ok(businessClient.BusinessClientId); 
+            return Ok(businessClient.Id); 
         }
         
         /**
@@ -66,7 +66,7 @@ namespace workings.Server.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var businessClient = new BusinessClient { BusinessClientId = id };
+            var businessClient = new BusinessClient { Id = id };
             _context.Remove(businessClient);
             await _context.SaveChangesAsync();
             return NoContent();

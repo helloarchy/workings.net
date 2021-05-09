@@ -21,12 +21,12 @@
         @* Details *@
         <FieldGroup Title="Details">
             <FormField Title="Business Client">
-                <InputSelect class="@_cssSelect" @bind-Value="_blindModel.BusinessClientId">
+                <InputSelect class="@_cssSelect" @bind-Value="_blindModel.Id">
                     @if (_businessClients != null)
                     {
                         foreach (var businessClient in _businessClients)
                         {
-                            <option value="@businessClient.BusinessClientId">@businessClient.Name</option>
+                            <option value="@businessClient.Id">@businessClient.Name</option>
                         }
                     }
                 </InputSelect>
@@ -68,7 +68,7 @@
                     {
                         foreach (var railing in _railings)
                         {
-                            <option value="@railing.BlindRailingId">@railing.Name</option>
+                            <option value="@railing.Id">@railing.Name</option>
                         }
                     }
                 </InputSelect>

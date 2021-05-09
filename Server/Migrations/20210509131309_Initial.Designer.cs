@@ -9,7 +9,7 @@ using workings.Server.Data;
 namespace workings.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210508164830_Initial")]
+    [Migration("20210509131309_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -319,23 +319,23 @@ namespace workings.Server.Migrations
 
             modelBuilder.Entity("workings.Shared.BlindProfile", b =>
                 {
-                    b.Property<int>("BlindProfileId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("BlindRailingId")
+                    b.Property<int>("BlindRailingId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("BlindStackId")
+                    b.Property<int>("BlindStackId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("BusinessClientId")
+                    b.Property<int>("BusinessClientId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("BlindProfileId");
+                    b.HasKey("Id");
 
                     b.HasIndex("BlindRailingId");
 
@@ -348,7 +348,7 @@ namespace workings.Server.Migrations
 
             modelBuilder.Entity("workings.Shared.BlindRailing", b =>
                 {
-                    b.Property<int>("BlindRailingId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -358,14 +358,14 @@ namespace workings.Server.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("BlindRailingId");
+                    b.HasKey("Id");
 
                     b.ToTable("BlindRailing");
                 });
 
             modelBuilder.Entity("workings.Shared.BlindStack", b =>
                 {
-                    b.Property<int>("BlindStackId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -378,21 +378,21 @@ namespace workings.Server.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("BlindStackId");
+                    b.HasKey("Id");
 
                     b.ToTable("BlindStack");
                 });
 
             modelBuilder.Entity("workings.Shared.BusinessClient", b =>
                 {
-                    b.Property<int>("BusinessClientId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("BusinessClientId");
+                    b.HasKey("Id");
 
                     b.ToTable("BusinessClient");
                 });
@@ -452,15 +452,21 @@ namespace workings.Server.Migrations
                 {
                     b.HasOne("workings.Shared.BlindRailing", "BlindRailing")
                         .WithMany()
-                        .HasForeignKey("BlindRailingId");
+                        .HasForeignKey("BlindRailingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("workings.Shared.BlindStack", "BlindStack")
                         .WithMany()
-                        .HasForeignKey("BlindStackId");
+                        .HasForeignKey("BlindStackId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("workings.Shared.BusinessClient", "BusinessClient")
                         .WithMany()
-                        .HasForeignKey("BusinessClientId");
+                        .HasForeignKey("BusinessClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("BlindRailing");
 

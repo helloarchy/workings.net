@@ -35,7 +35,7 @@ namespace workings.Server.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            var blindRailing = await _context.BlindRailings.FirstOrDefaultAsync(a=>a.BlindRailingId ==id);
+            var blindRailing = await _context.BlindRailings.FirstOrDefaultAsync(a=>a.Id ==id);
             return Ok(blindRailing);
         }
         
@@ -47,7 +47,7 @@ namespace workings.Server.Controllers
         {
             _context.Add(blindRailing);
             await _context.SaveChangesAsync();
-            return Ok(blindRailing.BlindRailingId); 
+            return Ok(blindRailing.Id); 
         }
         
         /**
@@ -67,7 +67,7 @@ namespace workings.Server.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var blindRailing = new BlindRailing { BlindRailingId = id };
+            var blindRailing = new BlindRailing { Id = id };
             _context.Remove(blindRailing);
             await _context.SaveChangesAsync();
             return NoContent();

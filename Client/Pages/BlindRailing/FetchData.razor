@@ -33,12 +33,12 @@ else
         @foreach (var railing in BlindRailings)
         {
             <tr>
-                <td>@railing.BlindRailingId</td>
+                <td>@railing.Id</td>
                 <td>@railing.Name</td>
                 <td>@railing.Depth</td>
                 <td>
-                    <a class="btn btn-success" href="railing/edit/@railing.BlindRailingId">Edit</a>
-                    <button class="btn btn-danger" @onclick="@(() => Delete(railing.BlindRailingId))">Delete</button>
+                    <a class="btn btn-success" href="railing/edit/@railing.Id">Edit</a>
+                    <button class="btn btn-danger" @onclick="@(() => Delete(railing.Id))">Delete</button>
                 </td>
             </tr>
         }
@@ -54,17 +54,17 @@ else
         BlindRailings = await _httpClient.GetFromJsonAsync<BlindRailing[]>("api/blindRailing");
     }
 
-    async Task Delete(int blindRailingId)
+    async Task Delete(int Id)
     {
-        var blindRailing = BlindRailings.First(x => x.BlindRailingId == blindRailingId);
+        var blindRailing = BlindRailings.First(x => x.Id == Id);
         var confirmDelete = await _js.InvokeAsync<bool>(
             "confirm",
-            $"Do you want to delete {blindRailing.Name}'s ({blindRailing.BlindRailingId}) Record?"
+            $"Do you want to delete {blindRailing.Name}'s ({blindRailing.Id}) Record?"
             );
         
         if (confirmDelete)
         {
-            await _httpClient.DeleteAsync($"api/blindRailing/{blindRailingId}");
+            await _httpClient.DeleteAsync($"api/blindRailing/{Id}");
             await OnInitializedAsync();
         }
     }

@@ -2,7 +2,7 @@
 {
     public class BlindStack
     {
-        public int BlindStackId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public BlindStackType Type { get; set; }
         public decimal Offset { get; set; }

@@ -1,4 +1,4 @@
-﻿@page "/railing/edit/{BlindRailingId:int}"
+﻿@page "/railing/edit/{Id:int}"
 
 @inject HttpClient _httpClient
 @inject NavigationManager _uriHelper
@@ -16,14 +16,14 @@
 
 @code {
     [Parameter]
-    public int BlindRailingId { get; set; }
+    public int Id { get; set; }
 
     BlindRailing _blindRailing = new();
 
     protected override async Task OnParametersSetAsync()
     {
         _blindRailing = await _httpClient.GetFromJsonAsync<BlindRailing>(
-            $"api/blindRailing/{BlindRailingId}"
+            $"api/blindRailing/{Id}"
         );
     }
 

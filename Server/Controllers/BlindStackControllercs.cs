@@ -35,7 +35,7 @@ namespace workings.Server.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            var blindStack = await _context.BlindStacks.FirstOrDefaultAsync(a=>a.BlindStackId ==id);
+            var blindStack = await _context.BlindStacks.FirstOrDefaultAsync(a=>a.Id ==id);
             return Ok(blindStack);
         }
         
@@ -47,7 +47,7 @@ namespace workings.Server.Controllers
         {
             _context.Add(blindStack);
             await _context.SaveChangesAsync();
-            return Ok(blindStack.BlindStackId); 
+            return Ok(blindStack.Id); 
         }
         
         /**
@@ -67,7 +67,7 @@ namespace workings.Server.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var blindStack = new BlindStack { BlindStackId = id };
+            var blindStack = new BlindStack { Id = id };
             _context.Remove(blindStack);
             await _context.SaveChangesAsync();
             return NoContent();

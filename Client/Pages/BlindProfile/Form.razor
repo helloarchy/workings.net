@@ -29,18 +29,18 @@ else
         <FieldGroup Title="Default Values">
             @* Business Client *@
             <FormField Title="Business Client">
-                <InputSelect class="@_cssSelect" @bind-Value="BlindProfile.BusinessClient">
+                <InputSelect class="@_cssSelect" @bind-Value="BlindProfile.BusinessClientId">
                     @if (_businessClients != null)
                     {
                         @foreach (var businessClient in _businessClients)
                         {
-                            @if (businessClient.BusinessClientId == BlindProfile.BusinessClient.BusinessClientId)
+                            @if (businessClient.Id == BlindProfile.BusinessClientId)
                             {
-                                <option selected value="@businessClient">@businessClient.Name</option>
+                                <option selected value="@businessClient.Id">@businessClient.Name</option>
                             }
                             else
                             {
-                                <option value="@businessClient">@businessClient.Name</option>
+                                <option value="@businessClient.Id">@businessClient.Name</option>
                             }
                         }
                     }
@@ -49,18 +49,18 @@ else
 
             @* BlindRailing *@
             <FormField Title="Railing Type">
-                <InputSelect class="@_cssSelect" @bind-Value="BlindProfile.BlindRailing">
+                <InputSelect class="@_cssSelect" @bind-Value="BlindProfile.BlindRailingId">
                     @if (_blindRailings != null)
                     {
                         foreach (var blindRailing in _blindRailings)
                         {
-                            @if (blindRailing.BlindRailingId == BlindProfile.BlindRailing.BlindRailingId)
+                            @if (blindRailing.Id == BlindProfile.BlindRailingId)
                             {
-                                <option selected value="@blindRailing">@blindRailing.Name</option>
+                                <option selected value="@blindRailing.Id">@blindRailing.Name</option>
                             }
                             else
                             {
-                                <option value="@blindRailing">@blindRailing.Name</option>
+                                <option value="@blindRailing.Id">@blindRailing.Name</option>
                             }
                         }
                     }
@@ -69,18 +69,18 @@ else
 
             @* Blind Stack *@
             <FormField Title="Stack Type">
-                <InputSelect class="@_cssSelect" @bind-Value="BlindProfile.BlindStack">
+                <InputSelect class="@_cssSelect" @bind-Value="BlindProfile.BlindStackId">
                     @if (_blindStacks != null)
                     {
                         foreach (var blindStack in _blindStacks)
                         {
-                            @if (blindStack.BlindStackId == BlindProfile.BlindStack.BlindStackId)
+                            @if (blindStack.Id == BlindProfile.BlindStackId)
                             {
-                                <option selected value="@blindStack">@blindStack.Name</option>
+                                <option selected value="@blindStack.Id">@blindStack.Name</option>
                             }
                             else
                             {
-                                <option value="@blindStack">@blindStack.Name</option>
+                                <option value="@blindStack.Id">@blindStack.Name</option>
                             }
                         }
                     }

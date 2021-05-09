@@ -50,21 +50,21 @@ namespace workings.Server.Migrations
                 name: "BlindRailing",
                 columns: table => new
                 {
-                    BlindRailingId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Depth = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BlindRailing", x => x.BlindRailingId);
+                    table.PrimaryKey("PK_BlindRailing", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "BlindStack",
                 columns: table => new
                 {
-                    BlindStackId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Type = table.Column<int>(type: "INTEGER", nullable: false),
@@ -72,20 +72,20 @@ namespace workings.Server.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BlindStack", x => x.BlindStackId);
+                    table.PrimaryKey("PK_BlindStack", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "BusinessClient",
                 columns: table => new
                 {
-                    BusinessClientId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BusinessClient", x => x.BusinessClientId);
+                    table.PrimaryKey("PK_BusinessClient", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -237,34 +237,34 @@ namespace workings.Server.Migrations
                 name: "BlindProfile",
                 columns: table => new
                 {
-                    BlindProfileId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
-                    BusinessClientId = table.Column<int>(type: "INTEGER", nullable: true),
-                    BlindRailingId = table.Column<int>(type: "INTEGER", nullable: true),
-                    BlindStackId = table.Column<int>(type: "INTEGER", nullable: true)
+                    BusinessClientId = table.Column<int>(type: "INTEGER", nullable: false),
+                    BlindRailingId = table.Column<int>(type: "INTEGER", nullable: false),
+                    BlindStackId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BlindProfile", x => x.BlindProfileId);
+                    table.PrimaryKey("PK_BlindProfile", x => x.Id);
                     table.ForeignKey(
                         name: "FK_BlindProfile_BlindRailing_BlindRailingId",
                         column: x => x.BlindRailingId,
                         principalTable: "BlindRailing",
-                        principalColumn: "BlindRailingId",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_BlindProfile_BlindStack_BlindStackId",
                         column: x => x.BlindStackId,
                         principalTable: "BlindStack",
-                        principalColumn: "BlindStackId",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_BlindProfile_BusinessClient_BusinessClientId",
                         column: x => x.BusinessClientId,
                         principalTable: "BusinessClient",
-                        principalColumn: "BusinessClientId",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

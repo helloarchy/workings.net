@@ -1,4 +1,4 @@
-﻿@page "/businessClient/edit/{BusinessClientId:int}"
+﻿@page "/businessClient/edit/{Id:int}"
 @inject HttpClient _httpClient
 @inject NavigationManager _uriHelper
 @inject IJSRuntime _js
@@ -14,14 +14,14 @@
 @code {
 
     [Parameter]
-    public int BusinessClientId { get; set; }
+    public int Id { get; set; }
 
     BusinessClient _businessClient = new();
 
     protected override async Task OnParametersSetAsync()
     {
         _businessClient = await _httpClient.GetFromJsonAsync<BusinessClient>(
-            $"api/businessClient/{BusinessClientId}"
+            $"api/businessClient/{Id}"
             );
     }
 

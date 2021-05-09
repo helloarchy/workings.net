@@ -1,4 +1,4 @@
-﻿@page "/blindprofile/edit/{BlindProfileId:int}"
+﻿@page "/blindprofile/edit/{Id:int}"
 @inject HttpClient _httpClient
 @inject NavigationManager _uriHelper
 @inject IJSRuntime _js
@@ -22,14 +22,14 @@ else
 @code {
 
     [Parameter]
-    public int BlindProfileId { get; set; }
+    public int Id { get; set; }
 
     BlindProfile _blindProfile;
 
     protected override async Task OnParametersSetAsync()
     {
         _blindProfile = await _httpClient.GetFromJsonAsync<BlindProfile>(
-            $"api/blindProfile/{BlindProfileId}"
+            $"api/blindProfile/{Id}"
             );
     }
 
