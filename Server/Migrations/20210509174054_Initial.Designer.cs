@@ -9,7 +9,7 @@ using workings.Server.Data;
 namespace workings.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210509131309_Initial")]
+    [Migration("20210509174054_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -317,6 +317,56 @@ namespace workings.Server.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("workings.Shared.BlindModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("BlindRailingId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("BlindStackId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("BusinessClientId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CountBlinds")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CountWidths")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Customer")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Folds")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Height")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Reference")
+                        .HasMaxLength(25)
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Width")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlindRailingId");
+
+                    b.HasIndex("BlindStackId");
+
+                    b.HasIndex("BusinessClientId");
+
+                    b.ToTable("BlindModel");
+                });
+
             modelBuilder.Entity("workings.Shared.BlindProfile", b =>
                 {
                     b.Property<int>("Id")
@@ -352,8 +402,8 @@ namespace workings.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("Depth")
-                        .HasColumnType("TEXT");
+                    b.Property<float>("Depth")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
@@ -446,6 +496,33 @@ namespace workings.Server.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("workings.Shared.BlindModel", b =>
+                {
+                    b.HasOne("workings.Shared.BlindRailing", "BlindRailing")
+                        .WithMany()
+                        .HasForeignKey("BlindRailingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("workings.Shared.BlindStack", "BlindStack")
+                        .WithMany()
+                        .HasForeignKey("BlindStackId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("workings.Shared.BusinessClient", "BusinessClient")
+                        .WithMany()
+                        .HasForeignKey("BusinessClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BlindRailing");
+
+                    b.Navigation("BlindStack");
+
+                    b.Navigation("BusinessClient");
                 });
 
             modelBuilder.Entity("workings.Shared.BlindProfile", b =>

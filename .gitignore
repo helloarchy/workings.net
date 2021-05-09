@@ -454,4 +454,6 @@ FodyWeavers.xsd
 .idea/
 *.db
 app.db
+app.db*
 package-lock.json
+

@@ -1,6 +1,8 @@
 ﻿using workings.Shared;
 using System;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
+using workings.Server.Models;
 
 namespace workings.Server.Data
 {
@@ -13,13 +15,31 @@ namespace workings.Server.Data
             {
                 return; // DB has been seeded
             }
-
+            
+            
+            SeedUsers(context);
             SeedBusinessClients(context);
             SeedBlindRailings(context);
             SeedBlindStacks(context);
             SeedBlindProfiles(context);
         }
 
+        private static void SeedUsers(ApplicationDbContext context)
+        {
+            var user = new ApplicationUser
+            {
+                    UserName = "test@test.com",
+                    Email = "test@test.com",
+                    EmailConfirmed = true
+            };
+            
+            var passwordHasher = new PasswordHasher<ApplicationUser>();
+            user.PasswordHash = passwordHasher.HashPassword(user, "Password123!");
+
+            context.Users.Add(user);
+            context.SaveChanges();
+        }
+        
         private static void SeedBusinessClients(ApplicationDbContext context)
         {
             var businessClients = new[]

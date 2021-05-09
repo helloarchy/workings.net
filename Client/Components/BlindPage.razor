@@ -21,19 +21,19 @@
     <h3>No. Widths: @BlindModel.CountWidths</h3>
 
     <h2>BlindRailing</h2>
-    <h3>Id: @BlindModel.RailingId</h3>
+    <h3>Id: @BlindModel.BlindRailingId</h3>
     <h3>Type: @_blindRailing.Name</h3>
-    <h3>Depth: @BlindModel.RailingDepth</h3>
+    <h3>Depth: @BlindModel.BlindRailing.Depth</h3>
 
     <h2>Stack</h2>
-    <h3>Type: @BlindModel.BlindStackType</h3>
-    @if (BlindModel.BlindStackType is BlindStackType.Waterfall)
+    <h3>Type: @BlindModel.BlindStack.Type</h3>
+    @if (BlindModel.BlindStack.Type is BlindStackType.Waterfall)
     {
-        <h3>Reveal: @BlindModel.WaterfallIncrements</h3>
+        <h3>Increments: @BlindModel.BlindStack.Offset</h3>
     }
-    @if (BlindModel.BlindStackType is BlindStackType.Reveal)
+    @if (BlindModel.BlindStack.Type is BlindStackType.Reveal)
     {
-        <h3>Reveal: @BlindModel.Reveal</h3>
+        <h3>Reveal: @BlindModel.BlindStack.Offset</h3>
     }
     <h3>Folds: @BlindModel.Folds</h3>
 </div>
@@ -55,7 +55,7 @@
                 );
             
             _blindRailing = await _httpClient.GetFromJsonAsync<BlindRailing>(
-                $"api/blindRailing/{BlindModel.RailingId}"
+                $"api/blindRailing/{BlindModel.BlindRailingId}"
                 );
         }
         catch (AccessTokenNotAvailableException exception)

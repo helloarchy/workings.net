@@ -25,6 +25,8 @@ namespace workings.Server.Data
         public DbSet<BlindRailing> BlindRailings { get; set; }
         public DbSet<BlindStack> BlindStacks { get; set; }
         
+        public DbSet<BlindModel> BlindModels { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -33,6 +35,7 @@ namespace workings.Server.Data
             modelBuilder.Entity<BusinessClient>().ToTable("BusinessClient");
             modelBuilder.Entity<BlindRailing>().ToTable("BlindRailing");
             modelBuilder.Entity<BlindStack>().ToTable("BlindStack");
+            modelBuilder.Entity<BlindModel>().ToTable("BlindModel");
         }
     }
 }

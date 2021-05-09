@@ -19,6 +19,8 @@ else
 {
     <EditForm OnValidSubmit="@OnValidSubmit" Model="@BlindProfile">
         <DataAnnotationsValidator/>
+        
+        @* Details *@
         <FieldGroup Title="Details">
             <FormField Title="Name">
                 <InputText class="@_cssText" @bind-Value="@BlindProfile.Name"/>
@@ -26,6 +28,7 @@ else
             </FormField>
         </FieldGroup>
 
+        @* Default Values *@
         <FieldGroup Title="Default Values">
             @* Business Client *@
             <FormField Title="Business Client">

@@ -1,6 +1,7 @@
 ﻿@using System.Diagnostics
 @using System.Reflection
 @using System.Collections
+@using System.Text.Json
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
@@ -11,105 +12,129 @@
 @inject HttpClient _httpClient
 
 <h3>BlindForm</h3>
-<EditForm
-    Model="@_blindModel"
-    OnValidSubmit="@(() => UpdateBlindModel.InvokeAsync(_blindModel))">
-    <div class="grid grid-cols-1 gap-6">
-        <DataAnnotationsValidator/>
-        <ValidationSummary/>
+@if (_blindProfiles == null)
+{
+    <text>Loading...</text>
+}
+else
+{
+    <EditForm
+        EditContext="@_editContext"
+        OnValidSubmit="@(() => UpdateBlindModel.InvokeAsync(_blindModel))">
+        <div class="grid grid-cols-1 gap-6">
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
 
-        @* Details *@
-        <FieldGroup Title="Details">
-            <FormField Title="Business Client">
-                <InputSelect class="@_cssSelect" @bind-Value="_blindModel.Id">
-                    @if (_businessClients != null)
-                    {
-                        foreach (var businessClient in _businessClients)
+            @* Blind Profile *@
+            <FieldGroup Title="Default Profile">
+                <FormField Title="Profile">
+                    <select class="@_cssSelect" @onchange="@UpdateBlindProfile">
+                        @if (_blindProfiles != null)
                         {
-                            <option value="@businessClient.Id">@businessClient.Name</option>
+                            foreach (var blindProfile in _blindProfiles)
+                            {
+                                <option value="@blindProfile.Id">@blindProfile.Name</option>
+                            }
                         }
-                    }
-                </InputSelect>
-            </FormField>
+                    </select>
+                </FormField>
+            </FieldGroup>
 
-            <FormField Title="Customer">
-                <InputText class="@_cssText" @bind-Value="_blindModel.Customer"/>
-            </FormField>
-
-            <FormField Title="Reference">
-                <InputText class="@_cssText" @bind-Value="_blindModel.Reference"/>
-            </FormField>
-
-            <FormField Title="No. Blinds">
-                <InputNumber class="@_cssNumber" @bind-Value="_blindModel.CountBlinds"/>
-            </FormField>
-        </FieldGroup>
-
-        @* Dimensions *@
-        <FieldGroup Title="Dimensions">
-            <FormField Title="Width">
-                <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Width"/>
-            </FormField>
-
-            <FormField Title="Height">
-                <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Height"/>
-            </FormField>
-
-            <FormField Title="No. Widths">
-                <InputNumber class="@_cssNumber" @bind-Value="_blindModel.CountWidths"/>
-            </FormField>
-        </FieldGroup>
-
-        @* BlindRailing *@
-        <FieldGroup Title="BlindRailing">
-            <FormField Title="BlindRailing Type">
-                <InputSelect class="@_cssSelect" @bind-Value="_blindModel.RailingId">
-                    @if (_railings != null)
-                    {
-                        foreach (var railing in _railings)
+            @* Details *@
+            <FieldGroup Title="Details">
+                <FormField Title="Business Client">
+                    <InputSelect class="@_cssSelect" @bind-Value="_blindModel.BusinessClientId">
+                        @if (_businessClients != null)
                         {
-                            <option value="@railing.Id">@railing.Name</option>
+                            foreach (var businessClient in _businessClients)
+                            {
+                                <option value="@businessClient.Id">@businessClient.Name</option>
+                            }
                         }
-                    }
-                </InputSelect>
-            </FormField>
-            <FormField Title="Depth">
-                <InputNumber class="@_cssNumber" @bind-Value="_blindModel.RailingDepth"/>
-            </FormField>
-        </FieldGroup>
-
-        @* Stack *@
-        <FieldGroup Title="Stack">
-            <FormField Title="Stack Type">
-                <InputSelect class="@_cssSelect" @bind-Value="_blindModel.BlindStackType">
-                    <option value="@BlindStackType.Normal">Normal</option>
-                    <option value="@BlindStackType.Waterfall">Waterfall</option>
-                    <option value="@BlindStackType.Reveal">Reveal</option>
-                </InputSelect>
-            </FormField>
-            @if (_blindModel.BlindStackType is BlindStackType.Waterfall)
-            {
-                <FormField Title="Waterfall Increment">
-                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.WaterfallIncrements"/>
-                    <ValidationMessage For="@(() => _blindModel.WaterfallIncrements)"/>
+                    </InputSelect>
                 </FormField>
-            }
-            @if (_blindModel.BlindStackType is BlindStackType.Reveal)
-            {
-                <FormField Title="Reveal">
-                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Reveal"/>
+
+                <FormField Title="Customer">
+                    <InputText class="@_cssText" @bind-Value="_blindModel.Customer"/>
                 </FormField>
-            }
-            <FormField Title="Folds">
-                <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Folds"/>
-                <ValidationMessage For="@(() => _blindModel.Folds)"/>
-            </FormField>
 
-        </FieldGroup>
+                <FormField Title="Reference">
+                    <InputText class="@_cssText" @bind-Value="_blindModel.Reference"/>
+                </FormField>
 
-        <button type="submit">Submit</button>
-    </div>
-</EditForm>
+                <FormField Title="No. Blinds">
+                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.CountBlinds"/>
+                </FormField>
+            </FieldGroup>
+
+            @* Dimensions *@
+            <FieldGroup Title="Dimensions">
+                <FormField Title="Width">
+                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Width"/>
+                </FormField>
+
+                <FormField Title="Height">
+                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Height"/>
+                </FormField>
+
+                <FormField Title="No. Widths">
+                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.CountWidths"/>
+                </FormField>
+            </FieldGroup>
+
+            @* BlindRailing *@
+            <FieldGroup Title="BlindRailing">
+                <FormField Title="BlindRailing Type">
+                    <InputSelect class="@_cssSelect" @bind-Value="_blindModel.BlindRailingId">
+                        @if (_blindRailings != null)
+                        {
+                            foreach (var blindRailing in _blindRailings)
+                            {
+                                <option value="@blindRailing.Id">@blindRailing.Name</option>
+                            }
+                        }
+                    </InputSelect>
+                </FormField>
+                <FormField Title="Depth">
+                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.BlindRailing.Depth"/>
+                </FormField>
+            </FieldGroup>
+
+            @* Stack *@
+            <FieldGroup Title="Stack">
+                <FormField Title="Stack Type">
+                    <InputSelect class="@_cssSelect" @bind-Value="_blindModel.BlindStack.Type">
+                        @foreach (var blindStackType in Enum.GetValues<BlindStackType>())
+                        {
+                            <option value="@blindStackType">@blindStackType</option>
+                        }
+                    </InputSelect>
+                </FormField>
+                @if (_blindModel.BlindStack.Type is BlindStackType.Waterfall)
+                {
+                    <FormField Title="Waterfall Increment">
+                        <InputNumber class="@_cssNumber" @bind-Value="_blindModel.BlindStack.Offset"/>
+                        <ValidationMessage For="@(() => _blindModel.BlindStack.Offset)"/>
+                    </FormField>
+                }
+                @if (_blindModel.BlindStack.Type is BlindStackType.Reveal)
+                {
+                    <FormField Title="Reveal">
+                        <InputNumber class="@_cssNumber" @bind-Value="_blindModel.BlindStack.Offset"/>
+                    </FormField>
+                }
+                <FormField Title="Folds">
+                    <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Folds"/>
+                    <ValidationMessage For="@(() => _blindModel.Folds)"/>
+                </FormField>
+
+            </FieldGroup>
+
+            <button type="submit">Submit</button>
+        </div>
+    </EditForm>
+}
+
 
 @code {
 
@@ -117,9 +142,12 @@
     public EventCallback<BlindModel> UpdateBlindModel { get; set; }
 
     private BlindModel _blindModel = new();
-    private BusinessClient[] _businessClients;
-    private BlindRailing[] _railings;
     private EditContext _editContext = null;
+
+    private BlindProfile[] _blindProfiles;
+    private BusinessClient[] _businessClients;
+    private BlindRailing[] _blindRailings;
+    private BlindStack[] _blindStacks;
 
     private string _cssNumber = "form-input block mt-1 w-full";
     private string _cssSelect = "form-select block mt-1 w-full";
@@ -127,17 +155,85 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (_blindModel != null) _editContext = new EditContext(_blindModel);
+        _editContext = new EditContext(_blindModel);
+        _editContext.OnFieldChanged += EditContext_OnFieldChanged;
 
         try
         {
+            _blindProfiles = await _httpClient.GetFromJsonAsync<BlindProfile[]>("api/blindProfile");
             _businessClients = await _httpClient.GetFromJsonAsync<BusinessClient[]>("api/businessclient");
-            _railings = await _httpClient.GetFromJsonAsync<BlindRailing[]>("api/blindRailing");
+            _blindRailings = await _httpClient.GetFromJsonAsync<BlindRailing[]>("api/blindRailing");
+            _blindStacks = await _httpClient.GetFromJsonAsync<BlindStack[]>("api/blindStack");
+            
+            if (_blindProfiles != null) ApplyBlindProfile(_blindProfiles.First());
         }
         catch (AccessTokenNotAvailableException exception)
         {
             exception.Redirect();
         }
+        
+        await base.OnInitializedAsync();
+    }
+
+    private void EditContext_OnFieldChanged(object sender, FieldChangedEventArgs e)
+    {
+        if (e.FieldIdentifier.FieldName == "BlindRailingId")
+        {
+            var blindRailing = _blindRailings?.FirstOrDefault(r => r.Id == _blindModel.BlindRailingId);
+            if (blindRailing != null)
+            {
+                _blindModel.BlindRailing = blindRailing;
+            }
+        }
+    }
+
+
+    private void ApplyBlindProfile(BlindProfile blindProfile)
+    {
+        if (_blindModel == null)
+        {
+            _blindModel = new BlindModel
+            {
+                BusinessClientId = blindProfile.BusinessClientId,
+                BlindRailingId = blindProfile.BlindRailingId,
+                BlindRailing = _blindRailings.FirstOrDefault(
+                br => br.Id == blindProfile.BlindRailingId
+                ),
+                BlindStackId = blindProfile.BlindStackId,
+                BlindStack = _blindStacks.FirstOrDefault(
+                bs => bs.Id == blindProfile.BlindStackId
+                )
+            };
+        }
+        else
+        {
+            _blindModel.BusinessClientId = blindProfile.BusinessClientId;
+            _blindModel.BlindRailingId = blindProfile.BlindRailingId;
+            _blindModel.BlindRailing = _blindRailings.FirstOrDefault(
+                br => br.Id == blindProfile.BlindRailingId
+                );
+            _blindModel.BlindStackId = blindProfile.BlindStackId;
+            _blindModel.BlindStack = _blindStacks.FirstOrDefault(
+                bs => bs.Id == blindProfile.BlindStackId
+                );
+        }
+    }
+
+
+    private Task UpdateBlindProfile(ChangeEventArgs arg)
+    {
+        if (arg.Value != null)
+        {
+            Console.WriteLine($"Arg is {arg.Value}");
+            var blindProfileId = int.Parse(arg.Value.ToString() ?? throw new InvalidOperationException());
+            Console.WriteLine($"Blind profile id is {blindProfileId}");
+
+            Console.WriteLine($"Blind profile length is {_blindProfiles.Length}");
+            var blindProfile = _blindProfiles.FirstOrDefault(bp => bp.Id == blindProfileId);
+            ApplyBlindProfile(blindProfile);
+        }
+
+        return Task.CompletedTask;
     }
 
 }

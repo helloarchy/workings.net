@@ -53,7 +53,7 @@ namespace workings.Server.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
-                    Depth = table.Column<decimal>(type: "TEXT", nullable: false)
+                    Depth = table.Column<float>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -234,6 +234,46 @@ namespace workings.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BlindModel",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Customer = table.Column<string>(type: "TEXT", maxLength: 10, nullable: false),
+                    Reference = table.Column<string>(type: "TEXT", maxLength: 25, nullable: true),
+                    CountBlinds = table.Column<int>(type: "INTEGER", nullable: false),
+                    Width = table.Column<decimal>(type: "TEXT", nullable: false),
+                    Height = table.Column<decimal>(type: "TEXT", nullable: false),
+                    CountWidths = table.Column<int>(type: "INTEGER", nullable: false),
+                    Folds = table.Column<int>(type: "INTEGER", nullable: false),
+                    BlindRailingId = table.Column<int>(type: "INTEGER", nullable: false),
+                    BusinessClientId = table.Column<int>(type: "INTEGER", nullable: false),
+                    BlindStackId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlindModel", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BlindModel_BlindRailing_BlindRailingId",
+                        column: x => x.BlindRailingId,
+                        principalTable: "BlindRailing",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BlindModel_BlindStack_BlindStackId",
+                        column: x => x.BlindStackId,
+                        principalTable: "BlindStack",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BlindModel_BusinessClient_BusinessClientId",
+                        column: x => x.BusinessClientId,
+                        principalTable: "BusinessClient",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "BlindProfile",
                 columns: table => new
                 {
@@ -305,6 +345,21 @@ namespace workings.Server.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_BlindModel_BlindRailingId",
+                table: "BlindModel",
+                column: "BlindRailingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlindModel_BlindStackId",
+                table: "BlindModel",
+                column: "BlindStackId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlindModel_BusinessClientId",
+                table: "BlindModel",
+                column: "BusinessClientId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BlindProfile_BlindRailingId",
                 table: "BlindProfile",
                 column: "BlindRailingId");
@@ -362,6 +417,9 @@ namespace workings.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "BlindModel");
 
             migrationBuilder.DropTable(
                 name: "BlindProfile");

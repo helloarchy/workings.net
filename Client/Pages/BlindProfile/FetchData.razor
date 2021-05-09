@@ -26,14 +26,14 @@ else if (BlindProfiles.Length == 0)
 }
 else
 {
-    <table class="table table-striped">
+    <table class="table-auto">
         <thead>
         <tr>
             <th>Id</th>
             <th>Name</th>
             <th>Business Client</th>
-            <th>BlindRailing Type</th>
-            <th>BlindRailing Depth</th>
+            <th>Railing Type</th>
+            <th>Railing Depth</th>
             <th>Stack Type</th>
             <th>Waterfall Increment</th>
             <th>Hem Reveal</th>
@@ -100,7 +100,7 @@ else
 
         if (confirmDelete)
         {
-            await _httpClient.DeleteAsync($"api/blindprofile/{id}");
+            await _httpClient.DeleteAsync($"api/blindProfile/{id}");
             await OnInitializedAsync();
         }
     }
