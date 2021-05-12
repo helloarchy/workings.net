@@ -34,9 +34,9 @@ else
             <th>Business Client</th>
             <th>Railing Type</th>
             <th>Railing Depth</th>
+            <th>Stack Name</th>
             <th>Stack Type</th>
-            <th>Waterfall Increment</th>
-            <th>Hem Reveal</th>
+            <th>Stack Offset</th>
         </tr>
         </thead>
         <tbody>
@@ -46,30 +46,11 @@ else
                 <td>@blindProfile.Id</td>
                 <td>@blindProfile.Name</td>
                 <td>@blindProfile.BusinessClient.Name</td>
-                <td> @blindProfile.BlindRailing.Name </td>
+                <td>@blindProfile.BlindRailing.Name</td>
                 <td>@blindProfile.BlindRailing.Depth</td>
-                <td> @blindProfile.BlindStack.Name </td>
-                @{
-                    if (blindProfile.BlindStack.Type is BlindStackType.Waterfall)
-                    {
-                        <td>@(blindProfile.BlindStack.Offset)</td>
-                    }
-                    else
-                    {
-                        <td>N/A</td>
-                    }
-                }
-                @{
-                    if (blindProfile.BlindStack.Type is BlindStackType.Reveal)
-                    {
-                        <td>@(blindProfile.BlindStack.Offset)</td>
-                    }
-                    else
-                    {
-                        <td>N/A</td>
-                    }
-                }
-
+                <td>@blindProfile.BlindStack.Name</td>
+                <td>@blindProfile.BlindStack.Type</td>
+                <td>@blindProfile.BlindStack.Offset</td>
                 <td>
                     <a class="btn btn-success" href="blindProfile/edit/@blindProfile.Id">Edit</a>
                     <button class="btn btn-danger" @onclick="@(() => Delete(blindProfile.Id))">Delete</button>

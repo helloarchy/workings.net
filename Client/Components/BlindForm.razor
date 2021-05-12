@@ -127,7 +127,6 @@ else
                     <InputNumber class="@_cssNumber" @bind-Value="_blindModel.Folds"/>
                     <ValidationMessage For="@(() => _blindModel.Folds)"/>
                 </FormField>
-
             </FieldGroup>
 
             <button type="submit">Submit</button>
@@ -177,12 +176,22 @@ else
 
     private void EditContext_OnFieldChanged(object sender, FieldChangedEventArgs e)
     {
+        /* Blind railing select change blind railing depth */
         if (e.FieldIdentifier.FieldName == "BlindRailingId")
         {
             var blindRailing = _blindRailings?.FirstOrDefault(r => r.Id == _blindModel.BlindRailingId);
             if (blindRailing != null)
             {
                 _blindModel.BlindRailing = blindRailing;
+            }
+        }
+        /* Blind stack select change blind stack offset */
+        if (e.FieldIdentifier.FieldName == "BlindStackId")
+        {
+            var blindStack = _blindStacks?.FirstOrDefault(s => s.Id == _blindModel.BlindStackId);
+            if (blindStack != null)
+            {
+                _blindModel.BlindStack = blindStack;
             }
         }
     }

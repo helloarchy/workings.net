@@ -1,0 +1,24 @@
+﻿@page "/stack/create"
+@inject HttpClient _httpClient
+@inject NavigationManager _uriHelper
+
+@using workings.Shared
+
+<h3>Create</h3>
+
+<Form
+    ButtonText="Create BlindStack"
+    BlindStack="@_blindBlindStack"
+    OnValidSubmit="@CreateBlindStack">
+</Form>
+
+@code {
+    BlindStack _blindBlindStack = new();
+
+    async Task CreateBlindStack()
+    {
+        await _httpClient.PostAsJsonAsync("api/blindStack", _blindBlindStack);
+        _uriHelper.NavigateTo("stack");
+    }
+
+}

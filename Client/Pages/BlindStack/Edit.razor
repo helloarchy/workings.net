@@ -1,0 +1,36 @@
+﻿@page "/stack/edit/{Id:int}"
+
+@inject HttpClient _httpClient
+@inject NavigationManager _uriHelper
+@inject IJSRuntime _js
+
+@using workings.Shared
+
+<h3>Edit</h3>
+
+<Form
+    ButtonText="Update"
+    BlindStack="_blindStack"
+    OnValidSubmit="@EditBlindStack">
+</Form>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    BlindStack _blindStack = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _blindStack = await _httpClient.GetFromJsonAsync<BlindStack>(
+            $"api/blindStack/{Id}"
+        );
+    }
+
+    async Task EditBlindStack()
+    {
+        await _httpClient.PutAsJsonAsync("api/blindStack", _blindStack);
+        await _js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        _uriHelper.NavigateTo("stack");
+    }
+}

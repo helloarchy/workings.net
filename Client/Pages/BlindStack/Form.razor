@@ -1,0 +1,41 @@
+﻿<EditForm Model="@BlindStack" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator/>
+    <div class="form-group">
+        <label>Name</label>
+        <div>
+            <InputText @bind-Value="@BlindStack.Name"/>
+            <ValidationMessage For="@(() => BlindStack.Name)"/>
+        </div>
+
+        <label>Type</label>
+        <InputSelect class="" @bind-Value="BlindStack.Type">
+            @foreach (var blindStackType in Enum.GetValues<BlindStackType>())
+            {
+                <option value="@blindStackType">@blindStackType</option>
+            }
+        </InputSelect>
+
+        <label>Depth (cm)</label>
+        <div>
+            <InputNumber @bind-Value="@BlindStack.Offset"/>
+            <ValidationMessage For="@(() => BlindStack.Offset)"/>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        @ButtonText
+    </button>
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public BlindStack BlindStack { get; set; }
+
+    [Parameter]
+    public string ButtonText { get; set; } = "Save";
+
+    [Parameter]
+    public EventCallback OnValidSubmit { get; set; }
+
+}

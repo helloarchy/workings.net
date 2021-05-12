@@ -1,0 +1,74 @@
+﻿@page "/stack"
+
+@inject HttpClient _httpClient
+@inject IJSRuntime _js
+
+<h3>Stacks</h3>
+<small>Add as many stacks as you wish.</small>
+<div class="form-group">
+    <a class="btn btn-success" href="stack/create"><i class="oi oi-plus"></i> Create New</a>
+</div>
+<br>
+
+@if (BlindStacks == null)
+{
+    <text>Loading...</text>
+}
+else if (BlindStacks.Length == 0)
+{
+    <text>Add stacks to view them all here.</text>
+}
+else
+{
+    <table class="table-auto">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Offset (cm)</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var stack in BlindStacks)
+        {
+            <tr>
+                <td>@stack.Id</td>
+                <td>@stack.Name</td>
+                <td>@stack.Type</td>
+                <td>@stack.Offset</td>
+                <td>
+                    <a class="btn btn-success" href="stack/edit/@stack.Id">Edit</a>
+                    <button class="btn btn-danger" @onclick="@(() => Delete(stack.Id))">Delete</button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    BlindStack[] BlindStacks { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        BlindStacks = await _httpClient.GetFromJsonAsync<BlindStack[]>("api/blindStack");
+    }
+
+    async Task Delete(int Id)
+    {
+        var blindStack = BlindStacks.First(x => x.Id == Id);
+        var confirmDelete = await _js.InvokeAsync<bool>(
+            "confirm",
+            $"Do you want to delete {blindStack.Name}'s ({blindStack.Id}) Record?"
+            );
+        
+        if (confirmDelete)
+        {
+            await _httpClient.DeleteAsync($"api/blindStack/{Id}");
+            await OnInitializedAsync();
+        }
+    }
+
+}
