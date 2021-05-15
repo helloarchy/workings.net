@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using System.Diagnostics
+﻿@using System.Diagnostics
 @using System.Reflection
 @using System.Collections
 @using Microsoft.AspNetCore.Authorization
@@ -19,7 +18,7 @@ else
 {
     <EditForm OnValidSubmit="@OnValidSubmit" Model="@BlindProfile">
         <DataAnnotationsValidator/>
-        
+
         @* Details *@
         <FieldGroup Title="Details">
             <FormField Title="Name">
@@ -112,7 +111,6 @@ else
     private BlindRailing[] _blindRailings;
     private BlindStack[] _blindStacks;
 
-    private string _cssNumber = "form-input block mt-1 w-full";
     private string _cssSelect = "form-select block mt-1 w-full";
     private string _cssText = "form-input block mt-1 w-full";
 

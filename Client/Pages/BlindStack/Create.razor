@@ -8,16 +8,16 @@
 
 <Form
     ButtonText="Create BlindStack"
-    BlindStack="@_blindBlindStack"
+    BlindStack="@_blindStack"
     OnValidSubmit="@CreateBlindStack">
 </Form>
 
 @code {
-    BlindStack _blindBlindStack = new();
+    BlindStack _blindStack = new();
 
     async Task CreateBlindStack()
     {
-        await _httpClient.PostAsJsonAsync("api/blindStack", _blindBlindStack);
+        await _httpClient.PostAsJsonAsync("api/blindStack", _blindStack);
         _uriHelper.NavigateTo("stack");
     }
 

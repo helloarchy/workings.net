@@ -1,12 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using workings.Shared;
+
+@using workings.Client.Components.Drawing;
 
 @attribute [Authorize]
 
 @inject HttpClient _httpClient
 
-<h3>BlindPage</h3>
+<h3>Blind Paperwork</h3>
+@* Aspect ratio of an A4 page *@
 <div class="aspect-w-3 aspect-h-4 border w-full">
     <h2>Details</h2>
     <h3>Client ID: @BlindModel.Id</h3>
@@ -37,6 +39,10 @@
     }
     <h3>Folds: @BlindModel.Folds</h3>
 </div>
+<div>
+    <h1>Drawing...</h1>
+    <Drawing BlindModel="@BlindModel" />
+</div>
 
 @code {
 
@@ -45,13 +51,13 @@
 
     private BusinessClient _businessClient = new();
     private BlindRailing _blindRailing = new();
-
+    
     protected override async Task OnParametersSetAsync()
     {
         try
         {
             _businessClient = await _httpClient.GetFromJsonAsync<BusinessClient>(
-                $"api/businessclient/{BlindModel.Id}"
+                $"api/businessclient/{BlindModel.BusinessClientId}"
                 );
             
             _blindRailing = await _httpClient.GetFromJsonAsync<BlindRailing>(

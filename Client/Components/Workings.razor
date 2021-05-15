@@ -1,21 +1,24 @@
 ﻿@using workings.Client.Components
+@using System.Xml
 
 <div class="grid grid-cols-8 gap-4">
     <div class="col-start-2 col-span-2">
-        <BlindForm UpdateBlindModel="@UpdateBlindModel"/>
+        <BlindForm BlindModel="@_blindModel" OnSubmit="@UpdateBlindModel"/>
     </div>
     <div class="col-start-4 col-span-4">
-        <BlindPage BlindModel="@_blindModel"/>
+        <BlindPaperwork BlindModel="@_validBlindModel"/>
     </div>
 </div>
 
 
 @code {
     private BlindModel _blindModel = new();
+    private BlindModel _validBlindModel = new();
 
     void UpdateBlindModel(BlindModel updatedBlindModel)
     {
-        _blindModel = updatedBlindModel;
+        Console.WriteLine("Updated blind model");
+        _validBlindModel = updatedBlindModel;
     }
 
 }
