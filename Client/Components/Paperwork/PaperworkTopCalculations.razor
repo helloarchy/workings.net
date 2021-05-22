@@ -1,23 +1,31 @@
 ﻿<table class="table-auto">
     <tr>
-        <td class="text-sm">Total drop</td>
-        <td class="col-span-2 text-right">@TotalDrop</td>
+        <td class="text-sm">Drop</td>
+        <td class="col-span-2 text-right">@BlindHeight</td>
     </tr>
     <tr>
         <td class="text-sm">@BlindRailing.Name</td>
-        <td class="col-span-2 text-right">- @BlindRailing.Depth</td>
+        <td class="col-span-2 text-right">- @BlindRailing.Height</td>
     </tr>
     <tr class="border-t text-right">
         <td/>
-        <td>@(TotalDrop - BlindRailing.Depth)</td>
+        <td>@_foldDrop</td>
         <td>cm</td>
     </tr>
 </table>
 
 @code {
     [Parameter]
-    public double TotalDrop { get; set; }
+    public double BlindHeight { get; set; }
     
     [Parameter]
     public BlindRailing BlindRailing { get; set; }
+
+    private double _foldDrop;
+
+    protected override void OnParametersSet()
+    {
+        _foldDrop = BlindHeight - BlindRailing.Height;
+        base.OnParametersSet();
+    }
 }

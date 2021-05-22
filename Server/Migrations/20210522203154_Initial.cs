@@ -47,13 +47,27 @@ namespace workings.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BlindBottomBar",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Height = table.Column<float>(type: "REAL", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlindBottomBar", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "BlindRailing",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
-                    Depth = table.Column<float>(type: "REAL", nullable: false)
+                    Height = table.Column<float>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -239,13 +253,14 @@ namespace workings.Server.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Customer = table.Column<string>(type: "TEXT", maxLength: 10, nullable: false),
+                    Customer = table.Column<string>(type: "TEXT", maxLength: 10, nullable: true),
                     Reference = table.Column<string>(type: "TEXT", maxLength: 25, nullable: true),
                     CountBlinds = table.Column<int>(type: "INTEGER", nullable: false),
-                    Width = table.Column<decimal>(type: "TEXT", nullable: false),
-                    Height = table.Column<decimal>(type: "TEXT", nullable: false),
+                    Width = table.Column<double>(type: "REAL", nullable: false),
+                    Height = table.Column<double>(type: "REAL", nullable: false),
                     CountWidths = table.Column<int>(type: "INTEGER", nullable: false),
                     Folds = table.Column<int>(type: "INTEGER", nullable: false),
+                    BlindBottomBarId = table.Column<int>(type: "INTEGER", nullable: false),
                     BlindRailingId = table.Column<int>(type: "INTEGER", nullable: false),
                     BusinessClientId = table.Column<int>(type: "INTEGER", nullable: false),
                     BlindStackId = table.Column<int>(type: "INTEGER", nullable: false)
@@ -253,6 +268,12 @@ namespace workings.Server.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BlindModel", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BlindModel_BlindBottomBar_BlindBottomBarId",
+                        column: x => x.BlindBottomBarId,
+                        principalTable: "BlindBottomBar",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_BlindModel_BlindRailing_BlindRailingId",
                         column: x => x.BlindRailingId,
@@ -280,13 +301,20 @@ namespace workings.Server.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
-                    BusinessClientId = table.Column<int>(type: "INTEGER", nullable: false),
+                    BlindBottomBarId = table.Column<int>(type: "INTEGER", nullable: false),
                     BlindRailingId = table.Column<int>(type: "INTEGER", nullable: false),
-                    BlindStackId = table.Column<int>(type: "INTEGER", nullable: false)
+                    BlindStackId = table.Column<int>(type: "INTEGER", nullable: false),
+                    BusinessClientId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BlindProfile", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BlindProfile_BlindBottomBar_BlindBottomBarId",
+                        column: x => x.BlindBottomBarId,
+                        principalTable: "BlindBottomBar",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_BlindProfile_BlindRailing_BlindRailingId",
                         column: x => x.BlindRailingId,
@@ -345,6 +373,11 @@ namespace workings.Server.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_BlindModel_BlindBottomBarId",
+                table: "BlindModel",
+                column: "BlindBottomBarId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BlindModel_BlindRailingId",
                 table: "BlindModel",
                 column: "BlindRailingId");
@@ -358,6 +391,11 @@ namespace workings.Server.Migrations
                 name: "IX_BlindModel_BusinessClientId",
                 table: "BlindModel",
                 column: "BusinessClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlindProfile_BlindBottomBarId",
+                table: "BlindProfile",
+                column: "BlindBottomBarId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BlindProfile_BlindRailingId",
@@ -435,6 +473,9 @@ namespace workings.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "BlindBottomBar");
 
             migrationBuilder.DropTable(
                 name: "BlindRailing");

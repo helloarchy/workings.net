@@ -25,6 +25,7 @@ namespace workings.Server.Controllers
         public async Task<IActionResult> Get()
         {
             var blindProfiles = await _context.BlindProfiles
+                .Include(bp => bp.BlindBottomBar)
                 .Include(bp => bp.BlindRailing)
                 .Include(bp => bp.BlindStack)
                 .Include(bp => bp.BusinessClient)
@@ -39,6 +40,7 @@ namespace workings.Server.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var blindProfile = await _context.BlindProfiles
+                .Include(bp => bp.BlindBottomBar)
                 .Include(bp => bp.BlindRailing)
                 .Include(bp => bp.BlindStack)
                 .Include(bp => bp.BusinessClient)

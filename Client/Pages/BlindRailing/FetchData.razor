@@ -25,7 +25,7 @@ else
         <tr>
             <th>Id</th>
             <th>Name</th>
-            <th>Depth (cm)</th>
+            <th>Height (cm)</th>
             <th></th>
         </tr>
         </thead>
@@ -35,7 +35,7 @@ else
             <tr>
                 <td>@railing.Id</td>
                 <td>@railing.Name</td>
-                <td>@railing.Depth</td>
+                <td>@railing.Height</td>
                 <td>
                     <a class="btn btn-success" href="railing/edit/@railing.Id">Edit</a>
                     <button class="btn btn-danger" @onclick="@(() => Delete(railing.Id))">Delete</button>

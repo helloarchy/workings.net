@@ -88,6 +88,26 @@ else
                     }
                 </InputSelect>
             </FormField>
+
+            @* Blind Bottom Bar *@
+            <FormField Title="Bottom Bar Type">
+                <InputSelect class="@_cssSelect" @bind-Value="BlindProfile.BlindBottomBarId">
+                    @if (_blindBottomBars != null)
+                    {
+                        foreach (var blindBottomBar in _blindBottomBars)
+                        {
+                            @if (blindBottomBar.Id == BlindProfile.BlindStackId)
+                            {
+                                <option selected value="@blindBottomBar.Id">@blindBottomBar.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@blindBottomBar.Id">@blindBottomBar.Name</option>
+                            }
+                        }
+                    }
+                </InputSelect>
+            </FormField>
         </FieldGroup>
 
         <button type="submit" class="btn btn-success">
@@ -110,6 +130,7 @@ else
     private BusinessClient[] _businessClients;
     private BlindRailing[] _blindRailings;
     private BlindStack[] _blindStacks;
+    private BlindBottomBar[] _blindBottomBars;
 
     private string _cssSelect = "form-select block mt-1 w-full";
     private string _cssText = "form-input block mt-1 w-full";
@@ -121,6 +142,7 @@ else
             _businessClients = await _httpClient.GetFromJsonAsync<BusinessClient[]>("api/businessClient");
             _blindRailings = await _httpClient.GetFromJsonAsync<BlindRailing[]>("api/blindRailing");
             _blindStacks = await _httpClient.GetFromJsonAsync<BlindStack[]>("api/blindStack");
+            _blindBottomBars = await _httpClient.GetFromJsonAsync<BlindBottomBar[]>("api/blindbottombar");
         }
         catch (AccessTokenNotAvailableException exception)
         {

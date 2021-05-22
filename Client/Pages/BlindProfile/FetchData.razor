@@ -33,10 +33,12 @@ else
             <th>Name</th>
             <th>Business Client</th>
             <th>Railing Type</th>
-            <th>Railing Depth</th>
+            <th>Railing Height</th>
             <th>Stack Name</th>
             <th>Stack Type</th>
             <th>Stack Offset</th>
+            <th>Bottom Bar Type</th>
+            <th>Bottom Bar Height</th>
         </tr>
         </thead>
         <tbody>
@@ -47,10 +49,12 @@ else
                 <td>@blindProfile.Name</td>
                 <td>@blindProfile.BusinessClient.Name</td>
                 <td>@blindProfile.BlindRailing.Name</td>
-                <td>@blindProfile.BlindRailing.Depth</td>
+                <td>@blindProfile.BlindRailing.Height</td>
                 <td>@blindProfile.BlindStack.Name</td>
                 <td>@blindProfile.BlindStack.Type</td>
                 <td>@blindProfile.BlindStack.Offset</td>
+                <td>@blindProfile.BlindBottomBar.Name</td>
+                <td>@blindProfile.BlindBottomBar.Height</td>
                 <td>
                     <a class="btn btn-success" href="blindProfile/edit/@blindProfile.Id">Edit</a>
                     <button class="btn btn-danger" @onclick="@(() => Delete(blindProfile.Id))">Delete</button>

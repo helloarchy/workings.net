@@ -15,12 +15,13 @@ namespace workings.Server.Data
             {
                 return; // DB has been seeded
             }
-            
-            
+
+
             SeedUsers(context);
             SeedBusinessClients(context);
             SeedBlindRailings(context);
             SeedBlindStacks(context);
+            SeedBlindBottomBars(context);
             SeedBlindProfiles(context);
         }
 
@@ -28,18 +29,18 @@ namespace workings.Server.Data
         {
             var user = new ApplicationUser
             {
-                    UserName = "test@test.com",
-                    Email = "test@test.com",
-                    EmailConfirmed = true
+                UserName = "test@test.com",
+                Email = "test@test.com",
+                EmailConfirmed = true
             };
-            
+
             var passwordHasher = new PasswordHasher<ApplicationUser>();
             user.PasswordHash = passwordHasher.HashPassword(user, "Password123!");
 
             context.Users.Add(user);
             context.SaveChanges();
         }
-        
+
         private static void SeedBusinessClients(ApplicationDbContext context)
         {
             var businessClients = new[]
@@ -61,7 +62,7 @@ namespace workings.Server.Data
             context.BusinessClients.AddRange(businessClients);
             context.SaveChanges();
         }
-        
+
         private static void SeedBlindRailings(ApplicationDbContext context)
         {
             var blindRailings = new[]
@@ -69,24 +70,24 @@ namespace workings.Server.Data
                 new BlindRailing
                 {
                     Name = "Blind Railing 1",
-                    Depth = 1
+                    Height = 1
                 },
                 new BlindRailing
                 {
                     Name = "Blind Railing 2",
-                    Depth = 2
+                    Height = 2
                 },
                 new BlindRailing
                 {
                     Name = "Blind Railing 3",
-                    Depth = 3
+                    Height = 3
                 }
             };
 
             context.BlindRailings.AddRange(blindRailings);
             context.SaveChanges();
         }
-        
+
         private static void SeedBlindStacks(ApplicationDbContext context)
         {
             var blindStacks = new[]
@@ -114,7 +115,32 @@ namespace workings.Server.Data
             context.BlindStacks.AddRange(blindStacks);
             context.SaveChanges();
         }
-        
+
+        private static void SeedBlindBottomBars(ApplicationDbContext context)
+        {
+            var blindBottomBars = new[]
+            {
+                new BlindBottomBar
+                {
+                    Name = "Blind Bottom Bar 1",
+                    Height = 1
+                },
+                new BlindBottomBar
+                {
+                    Name = "Blind Bottom Bar 2",
+                    Height = 2
+                },
+                new BlindBottomBar
+                {
+                    Name = "Blind Bottom Bar 3",
+                    Height = 3
+                }
+            };
+
+            context.BlindBottomBars.AddRange(blindBottomBars);
+            context.SaveChanges();
+        }
+
         private static void SeedBlindProfiles(ApplicationDbContext context)
         {
             var blindProfiles = new[]
@@ -122,28 +148,50 @@ namespace workings.Server.Data
                 new BlindProfile
                 {
                     Name = "Blind Profile 1",
-                    BusinessClient = context.BusinessClients.FirstOrDefault(client => client.Name == "Business Client 1"),
-                    BlindRailing = context.BlindRailings.FirstOrDefault(railing => railing.Name == "Blind Railing 1"),
-                    BlindStack = context.BlindStacks.FirstOrDefault(stack => stack.Name == "Blind Stack 1")
+                    BusinessClient =
+                        context.BusinessClients.FirstOrDefault(client => client.Name == "Business Client 1"),
+                    BlindRailing =
+                        context.BlindRailings.FirstOrDefault(railing => railing.Name == "Blind Railing 1"),
+                    BlindStack =
+                        context.BlindStacks.FirstOrDefault(stack => stack.Name == "Blind Stack 1"),
+                    BlindBottomBar =
+                        context.BlindBottomBars.FirstOrDefault(bottomBar => bottomBar.Name == "Blind Bottom Bar 1")
                 },
                 new BlindProfile
                 {
                     Name = "Blind Profile 2",
-                    BusinessClient = context.BusinessClients.FirstOrDefault(client => client.Name == "Business Client 2"),
-                    BlindRailing = context.BlindRailings.FirstOrDefault(railing => railing.Name == "Blind Railing 2"),
-                    BlindStack = context.BlindStacks.FirstOrDefault(stack => stack.Name == "Blind Stack 2")
+                    BusinessClient =
+                        context.BusinessClients.FirstOrDefault(client => client.Name == "Business Client 2"),
+                    BlindRailing =
+                        context.BlindRailings.FirstOrDefault(railing => railing.Name == "Blind Railing 2"),
+                    BlindStack =
+                        context.BlindStacks.FirstOrDefault(stack => stack.Name == "Blind Stack 2"),
+                    BlindBottomBar =
+                        context.BlindBottomBars.FirstOrDefault(bottomBar => bottomBar.Name == "Blind Bottom Bar 2")
                 },
                 new BlindProfile
                 {
                     Name = "Blind Profile 3",
-                    BusinessClient = context.BusinessClients.FirstOrDefault(client => client.Name == "Business Client 3"),
-                    BlindRailing = context.BlindRailings.FirstOrDefault(railing => railing.Name == "Blind Railing 3"),
-                    BlindStack = context.BlindStacks.FirstOrDefault(stack => stack.Name == "Blind Stack 3")
+                    BusinessClient =
+                        context.BusinessClients.FirstOrDefault(client => client.Name == "Business Client 3"),
+                    BlindRailing =
+                        context.BlindRailings.FirstOrDefault(railing => railing.Name == "Blind Railing 3"),
+                    BlindStack =
+                        context.BlindStacks.FirstOrDefault(stack => stack.Name == "Blind Stack 3"),
+                    BlindBottomBar =
+                        context.BlindBottomBars.FirstOrDefault(bottomBar => bottomBar.Name == "Blind Bottom Bar 3")
                 }
             };
 
-            context.BlindProfiles.AddRange(blindProfiles);
-            context.SaveChanges();
+            try
+            {
+                context.BlindProfiles.AddRange(blindProfiles);
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

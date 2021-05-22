@@ -315,10 +315,30 @@ namespace workings.Server.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("workings.Shared.BlindBottomBar", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<float>("Height")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BlindBottomBar");
+                });
+
             modelBuilder.Entity("workings.Shared.BlindModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("BlindBottomBarId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("BlindRailingId")
@@ -337,24 +357,25 @@ namespace workings.Server.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Customer")
-                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Folds")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("Height")
-                        .HasColumnType("TEXT");
+                    b.Property<double>("Height")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Reference")
                         .HasMaxLength(25)
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Width")
-                        .HasColumnType("TEXT");
+                    b.Property<double>("Width")
+                        .HasColumnType("REAL");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BlindBottomBarId");
 
                     b.HasIndex("BlindRailingId");
 
@@ -371,6 +392,9 @@ namespace workings.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("BlindBottomBarId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("BlindRailingId")
                         .HasColumnType("INTEGER");
 
@@ -384,6 +408,8 @@ namespace workings.Server.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BlindBottomBarId");
 
                     b.HasIndex("BlindRailingId");
 
@@ -400,7 +426,7 @@ namespace workings.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<float>("Depth")
+                    b.Property<float>("Height")
                         .HasColumnType("REAL");
 
                     b.Property<string>("Name")
@@ -498,6 +524,12 @@ namespace workings.Server.Migrations
 
             modelBuilder.Entity("workings.Shared.BlindModel", b =>
                 {
+                    b.HasOne("workings.Shared.BlindBottomBar", "BlindBottomBar")
+                        .WithMany()
+                        .HasForeignKey("BlindBottomBarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("workings.Shared.BlindRailing", "BlindRailing")
                         .WithMany()
                         .HasForeignKey("BlindRailingId")
@@ -515,6 +547,8 @@ namespace workings.Server.Migrations
                         .HasForeignKey("BusinessClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("BlindBottomBar");
 
                     b.Navigation("BlindRailing");
 
@@ -525,6 +559,12 @@ namespace workings.Server.Migrations
 
             modelBuilder.Entity("workings.Shared.BlindProfile", b =>
                 {
+                    b.HasOne("workings.Shared.BlindBottomBar", "BlindBottomBar")
+                        .WithMany()
+                        .HasForeignKey("BlindBottomBarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("workings.Shared.BlindRailing", "BlindRailing")
                         .WithMany()
                         .HasForeignKey("BlindRailingId")
@@ -542,6 +582,8 @@ namespace workings.Server.Migrations
                         .HasForeignKey("BusinessClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("BlindBottomBar");
 
                     b.Navigation("BlindRailing");
 

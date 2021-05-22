@@ -1,0 +1,48 @@
+﻿<div class="grid grid-cols-auto">
+    <div>
+        @* Fabric *@
+        <table>
+            <tr>
+                <td>Total drop</td>
+                <td>@BlindModel.Height</td>
+            </tr>
+            <tr>
+                <td>Velcro turnings</td>
+                <td>+ @BlindModel.BlindRailing.Height</td>
+            </tr>
+            <tr>
+                <td>Bottom Bar</td>
+                <td>+ @(BlindModel.BlindBottomBar.Height * 2)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@_cutLengthFabric</td>
+                <td> cm</td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        @* Inner linings *@
+    </div>
+    <div>
+        @* Outer linings *@
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public BlindModel BlindModel { get; set; }
+
+    private double _cutLengthFabric;
+
+    protected override void OnParametersSet()
+    {
+
+        _cutLengthFabric = BlindModel.Height 
+                           + BlindModel.BlindRailing.Height 
+                           + BlindModel.BlindBottomBar.Height * 2;
+        base.OnParametersSet();
+    }
+
+}
