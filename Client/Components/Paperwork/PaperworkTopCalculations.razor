@@ -1,0 +1,23 @@
+﻿<table class="table-auto">
+    <tr>
+        <td class="text-sm">Total drop</td>
+        <td class="col-span-2 text-right">@TotalDrop</td>
+    </tr>
+    <tr>
+        <td class="text-sm">@BlindRailing.Name</td>
+        <td class="col-span-2 text-right">- @BlindRailing.Depth</td>
+    </tr>
+    <tr class="border-t text-right">
+        <td/>
+        <td>@(TotalDrop - BlindRailing.Depth)</td>
+        <td>cm</td>
+    </tr>
+</table>
+
+@code {
+    [Parameter]
+    public double TotalDrop { get; set; }
+    
+    [Parameter]
+    public BlindRailing BlindRailing { get; set; }
+}

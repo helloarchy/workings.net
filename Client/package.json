@@ -23,6 +23,7 @@
     "tailwindcss": "^2.1.2"
   },
   "dependencies": {
-    "@tailwindcss/aspect-ratio": "^0.2.0"
+    "@tailwindcss/aspect-ratio": "^0.2.0",
+    "tailwindcss-aspect-ratio": "^3.0.0"
   }
 }

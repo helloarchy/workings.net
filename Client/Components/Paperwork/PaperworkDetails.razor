@@ -1,0 +1,43 @@
+﻿<div class="grid grid-cols-3 grid-rows-2">
+    <div class="row-start-1 col-span-2">
+        <div class="col-start-1">
+            <p class="text-4xl">@BlindModel.BusinessClient.Name</p>
+        </div>
+    </div>
+    <div class="row-start-2 col-span-2">
+        <div class="col-start-1">
+            <p class="text-2xl italic">@(_customerReference)</p>
+        </div>
+    </div>
+    <div class="row-start-1 row-span-2 col-start-3">
+        <PaperworkTopCalculations
+            BlindRailing="@BlindModel.BlindRailing"
+            TotalDrop="@BlindModel.Height"/>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public BlindModel BlindModel { get; set; }
+
+    private string _customerReference;
+
+    protected override void OnInitialized()
+    {
+        _customerReference = GetCustomerReference();
+
+        base.OnInitialized();
+    }
+
+    private string GetCustomerReference()
+    {
+        if (BlindModel.Customer != null && BlindModel.Reference != null)
+        {
+            return $"{BlindModel.Customer}: {BlindModel.Reference}";
+        }
+        if (BlindModel.Customer != null) return BlindModel.Customer;
+        return BlindModel.Reference ?? "";
+    }
+
+}

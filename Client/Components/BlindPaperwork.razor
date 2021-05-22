@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
 @using workings.Client.Components.Drawing;
+@using workings.Client.Components.Paperwork;
 
 @attribute [Authorize]
 
@@ -9,39 +10,25 @@
 
 <h3>Blind Paperwork</h3>
 @* Aspect ratio of an A4 page *@
-<div class="aspect-w-3 aspect-h-4 border w-full">
-    <h2>Details</h2>
-    <h3>Client ID: @BlindModel.Id</h3>
-    <h3>Client Name: @_businessClient.Name</h3>
-    <h3>Customer: @BlindModel.Customer</h3>
-    <h3>Reference: @BlindModel.Reference</h3>
-    <h3>No. Blinds: @BlindModel.CountBlinds</h3>
-
-    <h2>Dimensions</h2>
-    <h3>Width: @BlindModel.Width</h3>
-    <h3>Heigth: @BlindModel.Height</h3>
-    <h3>No. Widths: @BlindModel.CountWidths</h3>
-
-    <h2>BlindRailing</h2>
-    <h3>Id: @BlindModel.BlindRailingId</h3>
-    <h3>Type: @_blindRailing.Name</h3>
-    <h3>Depth: @BlindModel.BlindRailing.Depth</h3>
-
-    <h2>Stack</h2>
-    <h3>Type: @BlindModel.BlindStack.Type</h3>
-    @if (BlindModel.BlindStack.Type is BlindStackType.Waterfall)
-    {
-        <h3>Increments: @BlindModel.BlindStack.Offset</h3>
-    }
-    @if (BlindModel.BlindStack.Type is BlindStackType.Reveal)
-    {
-        <h3>Reveal: @BlindModel.BlindStack.Offset</h3>
-    }
-    <h3>Folds: @BlindModel.Folds</h3>
-</div>
-<div>
-    <h1>Drawing...</h1>
-    <Drawing BlindModel="@BlindModel" />
+<div class="aspect-w-3 aspect-h-4 ">
+    <div class="border w-full">
+        <div class="flex flex-col flex-nowrap">
+            <div class="flex-none">
+                <h3>Customer details</h3>
+                <PaperworkDetails BlindModel="@BlindModel"/>
+            </div>
+            <div class="flex-grow">
+                <h3>Blind Drawing</h3>
+                <Drawing BlindModel="@BlindModel"/>
+            </div>
+            <div class="flex-none">
+                <h3>Cut lengths</h3>
+            </div>
+            <div class="flex-none">
+                <h3>Disclaimer</h3>
+            </div>
+        </div>
+    </div>
 </div>
 
 @code {
@@ -51,15 +38,16 @@
 
     private BusinessClient _businessClient = new();
     private BlindRailing _blindRailing = new();
-    
+
     protected override async Task OnParametersSetAsync()
     {
+    /* Fetch required objects */
         try
         {
             _businessClient = await _httpClient.GetFromJsonAsync<BusinessClient>(
                 $"api/businessclient/{BlindModel.BusinessClientId}"
                 );
-            
+
             _blindRailing = await _httpClient.GetFromJsonAsync<BlindRailing>(
                 $"api/blindRailing/{BlindModel.BlindRailingId}"
                 );
@@ -68,6 +56,8 @@
         {
             exception.Redirect();
         }
+
+    /* Calculate everything */
     }
 
 }

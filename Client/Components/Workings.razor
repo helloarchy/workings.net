@@ -2,10 +2,10 @@
 @using System.Xml
 
 <div class="grid grid-cols-8 gap-4">
-    <div class="col-start-2 col-span-2">
+    <div class="xl:col-start-2 col-span-3 xl:col-span-2">
         <BlindForm BlindModel="@_blindModel" OnSubmit="@UpdateBlindModel"/>
     </div>
-    <div class="col-start-4 col-span-4">
+    <div class="col-start-4 col-span-5 xl:col-span-4 object-contain">
         <BlindPaperwork BlindModel="@_validBlindModel"/>
     </div>
 </div>

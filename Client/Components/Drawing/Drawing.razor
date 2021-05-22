@@ -1,4 +1,6 @@
-﻿<h3>Drawing</h3>
+﻿@using workings.Client.Components.Drawing
+
+<h3>Drawing</h3>
 <svg width="300" height="400">
     @for (var i = 0; i < BlindModel.Folds; i++)
     {
@@ -6,11 +8,7 @@
             <text x="0" y="@(15 * (i + 1))" fill="red">I am fold (@i)</text>
         </text>
         
-        /* d="M 50 50 Q 100 200 50 350 Q 250 400 50 450" */
-        <path 
-            d="@(GetPath(10, 10, 110, 25))"
-            stroke="black" stroke-width="@_pathStrokeWidth" stroke-linecap="round" fill="none"
-        />
+        <DrawingFold StrokeWidth="@_pathStrokeWidth" StartX="@(10)" StartY="@(10)" />
     }
 </svg>
 
@@ -20,14 +18,4 @@
     public BlindModel BlindModel { get; set; }
 
     private int _pathStrokeWidth = 2;
-
-    private string GetPath(int x, int startY, int endY, int controlPointOffset)
-    {
-        var start = $"{x} {startY}";
-        var controlPoint = $"{x + controlPointOffset} {(endY + startY) / 2}";
-        var end = $"{x} {endY}";
-
-        var path = $"M {start} Q {controlPoint} {end}";
-        return path;
-    }
 }
