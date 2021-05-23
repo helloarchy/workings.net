@@ -23,11 +23,10 @@
 
     private string _customerReference;
 
-    protected override void OnInitialized()
+    protected override void OnParametersSet()
     {
         _customerReference = GetCustomerReference();
-
-        base.OnInitialized();
+        base.OnParametersSet();
     }
 
     private string GetCustomerReference()

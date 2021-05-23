@@ -36,6 +36,7 @@ else
                     {
                         @foreach (var businessClient in _businessClients)
                         {
+                            /* Preselect the existing choice */
                             @if (businessClient.Id == BlindProfile.BusinessClientId)
                             {
                                 <option selected value="@businessClient.Id">@businessClient.Name</option>
@@ -49,13 +50,14 @@ else
                 </InputSelect>
             </FormField>
 
-            @* BlindRailing *@
+            @* Blind Railing *@
             <FormField Title="Railing Type">
                 <InputSelect class="@_cssSelect" @bind-Value="BlindProfile.BlindRailingId">
                     @if (_blindRailings != null)
                     {
                         foreach (var blindRailing in _blindRailings)
                         {
+                            /* Preselect the existing choice */
                             @if (blindRailing.Id == BlindProfile.BlindRailingId)
                             {
                                 <option selected value="@blindRailing.Id">@blindRailing.Name</option>
@@ -89,6 +91,27 @@ else
                 </InputSelect>
             </FormField>
 
+            @* Blind Rod Type *@
+            <FormField Title="Rod Type">
+                <InputSelect class="@_cssSelect" @bind-Value="BlindProfile.BlindRodId">
+                    @if (_blindRods != null)
+                    {
+                        foreach (var blindRod in _blindRods)
+                        {
+                            /* Preselect the existing choice */
+                            @if (blindRod.Id == BlindProfile.BlindRodId)
+                            {
+                                <option selected value="@blindRod.Id">@blindRod.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@blindRod.Id">@blindRod.Name</option>
+                            }
+                        }
+                    }
+                </InputSelect>
+            </FormField>
+
             @* Blind Bottom Bar *@
             <FormField Title="Bottom Bar Type">
                 <InputSelect class="@_cssSelect" @bind-Value="BlindProfile.BlindBottomBarId">
@@ -96,7 +119,8 @@ else
                     {
                         foreach (var blindBottomBar in _blindBottomBars)
                         {
-                            @if (blindBottomBar.Id == BlindProfile.BlindStackId)
+                            /* Preselect the existing choice */
+                            @if (blindBottomBar.Id == BlindProfile.BlindBottomBarId)
                             {
                                 <option selected value="@blindBottomBar.Id">@blindBottomBar.Name</option>
                             }
@@ -129,6 +153,7 @@ else
 
     private BusinessClient[] _businessClients;
     private BlindRailing[] _blindRailings;
+    private BlindRod[] _blindRods;
     private BlindStack[] _blindStacks;
     private BlindBottomBar[] _blindBottomBars;
 
@@ -139,9 +164,10 @@ else
     {
         try
         {
-            _businessClients = await _httpClient.GetFromJsonAsync<BusinessClient[]>("api/businessClient");
-            _blindRailings = await _httpClient.GetFromJsonAsync<BlindRailing[]>("api/blindRailing");
-            _blindStacks = await _httpClient.GetFromJsonAsync<BlindStack[]>("api/blindStack");
+            _businessClients = await _httpClient.GetFromJsonAsync<BusinessClient[]>("api/businessclient");
+            _blindRailings = await _httpClient.GetFromJsonAsync<BlindRailing[]>("api/blindrailing");
+            _blindRods = await _httpClient.GetFromJsonAsync<BlindRod[]>("api/blindrod");
+            _blindStacks = await _httpClient.GetFromJsonAsync<BlindStack[]>("api/blindstack");
             _blindBottomBars = await _httpClient.GetFromJsonAsync<BlindBottomBar[]>("api/blindbottombar");
         }
         catch (AccessTokenNotAvailableException exception)

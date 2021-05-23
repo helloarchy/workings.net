@@ -26,43 +26,47 @@ else if (BlindProfiles.Length == 0)
 }
 else
 {
-    <table class="table-auto">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Business Client</th>
-            <th>Railing Type</th>
-            <th>Railing Height</th>
-            <th>Stack Name</th>
-            <th>Stack Type</th>
-            <th>Stack Offset</th>
-            <th>Bottom Bar Type</th>
-            <th>Bottom Bar Height</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var blindProfile in BlindProfiles)
-        {
-            <tr>
-                <td>@blindProfile.Id</td>
-                <td>@blindProfile.Name</td>
-                <td>@blindProfile.BusinessClient.Name</td>
-                <td>@blindProfile.BlindRailing.Name</td>
-                <td>@blindProfile.BlindRailing.Height</td>
-                <td>@blindProfile.BlindStack.Name</td>
-                <td>@blindProfile.BlindStack.Type</td>
-                <td>@blindProfile.BlindStack.Offset</td>
-                <td>@blindProfile.BlindBottomBar.Name</td>
-                <td>@blindProfile.BlindBottomBar.Height</td>
-                <td>
-                    <a class="btn btn-success" href="blindProfile/edit/@blindProfile.Id">Edit</a>
-                    <button class="btn btn-danger" @onclick="@(() => Delete(blindProfile.Id))">Delete</button>
-                </td>
+    <div class="overflow-x-auto w-full">
+        <table class="mx-auto max-w-4xl w-full whitespace-nowrap rounded-lg 
+                        bg-white divide-y divide-gray-300 overflow-hidden">
+            <thead class="bg-gray-50">
+            <tr class="text-left">
+                <th class="font-semibold text-sm uppercase px-6 py-4">Id</th>
+                <th class="font-semibold text-sm uppercase px-6 py-4">Name</th>
+                <th class="font-semibold text-sm uppercase px-6 py-4">Business Client</th>
+                <th class="font-semibold text-sm uppercase px-6 py-4">Railing Type</th>
+                <th class="font-semibold text-sm uppercase px-6 py-4">Railing Height</th>
+                <th class="font-semibold text-sm uppercase px-6 py-4">Stack Name</th>
+                <th class="font-semibold text-sm uppercase px-6 py-4">Stack Type</th>
+                <th class="font-semibold text-sm uppercase px-6 py-4">Stack Offset</th>
+                <th class="font-semibold text-sm uppercase px-6 py-4">Bottom Bar Type</th>
+                <th class="font-semibold text-sm uppercase px-6 py-4">Bottom Bar Height</th>
+                <th>@* Edit / Delete *@</th>
             </tr>
-        }
-        </tbody>
-    </table>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+            @foreach (var blindProfile in BlindProfiles)
+            {
+                <tr>
+                    <td class="px-6 py-4">@blindProfile.Id</td>
+                    <td class="px-6 py-4">@blindProfile.Name</td>
+                    <td class="px-6 py-4">@blindProfile.BusinessClient.Name</td>
+                    <td class="px-6 py-4">@blindProfile.BlindRailing.Name</td>
+                    <td class="px-6 py-4">@blindProfile.BlindRailing.Height</td>
+                    <td class="px-6 py-4">@blindProfile.BlindStack.Name</td>
+                    <td class="px-6 py-4">@blindProfile.BlindStack.Type</td>
+                    <td class="px-6 py-4">@blindProfile.BlindStack.Offset</td>
+                    <td class="px-6 py-4">@blindProfile.BlindBottomBar.Name</td>
+                    <td class="px-6 py-4">@blindProfile.BlindBottomBar.Height</td>
+                    <td class="px-6 py-4">
+                        <a class="text-blue-800 hover:underline" href="blindProfile/edit/@blindProfile.Id">Edit</a>
+                        <button class="text-red-800 hover:underline ml-4" @onclick="@(() => Delete(blindProfile.Id))">Delete</button>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
 }
 
 @code {
@@ -71,8 +75,18 @@ else
     protected override async Task OnInitializedAsync()
     {
         BlindProfiles = await _httpClient.GetFromJsonAsync<BlindProfile[]>(
-            "api/blindProfile"
+            "api/blindprofile"
             );
+        
+        Console.WriteLine("DEBUG => Blind profiles...");
+        if (BlindProfiles != null)
+        {
+            Console.WriteLine(BlindProfiles.Length);
+        }
+        else
+        {
+            Console.WriteLine("DEBUG => No profiles...");
+        }
     }
 
     async Task Delete(int id)

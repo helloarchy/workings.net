@@ -16,10 +16,10 @@ namespace workings.Server.Data
                 return; // DB has been seeded
             }
 
-
             SeedUsers(context);
             SeedBusinessClients(context);
             SeedBlindRailings(context);
+            SeedBlindRods(context);
             SeedBlindStacks(context);
             SeedBlindBottomBars(context);
             SeedBlindProfiles(context);
@@ -88,6 +88,31 @@ namespace workings.Server.Data
             context.SaveChanges();
         }
 
+        private static void SeedBlindRods(ApplicationDbContext context)
+        {
+            var blindRods = new[]
+            {
+                new BlindRod
+                {
+                    Name = "Blind Rod 1",
+                    Height = 1
+                },
+                new BlindRod
+                {
+                    Name = "Blind Rod 2",
+                    Height = 2
+                },
+                new BlindRod
+                {
+                    Name = "Blind Rod 3",
+                    Height = 3
+                }
+            };
+
+            context.BlindRods.AddRange(blindRods);
+            context.SaveChanges();
+        }
+
         private static void SeedBlindStacks(ApplicationDbContext context)
         {
             var blindStacks = new[]
@@ -152,6 +177,8 @@ namespace workings.Server.Data
                         context.BusinessClients.FirstOrDefault(client => client.Name == "Business Client 1"),
                     BlindRailing =
                         context.BlindRailings.FirstOrDefault(railing => railing.Name == "Blind Railing 1"),
+                    BlindRod =
+                        context.BlindRods.FirstOrDefault(rod => rod.Name == "Blind Rod 1"),
                     BlindStack =
                         context.BlindStacks.FirstOrDefault(stack => stack.Name == "Blind Stack 1"),
                     BlindBottomBar =
@@ -164,6 +191,8 @@ namespace workings.Server.Data
                         context.BusinessClients.FirstOrDefault(client => client.Name == "Business Client 2"),
                     BlindRailing =
                         context.BlindRailings.FirstOrDefault(railing => railing.Name == "Blind Railing 2"),
+                    BlindRod =
+                        context.BlindRods.FirstOrDefault(rod => rod.Name == "Blind Rod 2"),
                     BlindStack =
                         context.BlindStacks.FirstOrDefault(stack => stack.Name == "Blind Stack 2"),
                     BlindBottomBar =
@@ -176,6 +205,8 @@ namespace workings.Server.Data
                         context.BusinessClients.FirstOrDefault(client => client.Name == "Business Client 3"),
                     BlindRailing =
                         context.BlindRailings.FirstOrDefault(railing => railing.Name == "Blind Railing 3"),
+                    BlindRod =
+                        context.BlindRods.FirstOrDefault(rod => rod.Name == "Blind Rod 3"),
                     BlindStack =
                         context.BlindStacks.FirstOrDefault(stack => stack.Name == "Blind Stack 3"),
                     BlindBottomBar =

@@ -100,6 +100,24 @@ else
                 </FormField>
             </FieldGroup>
 
+            @* Blind Rod *@
+            <FieldGroup Title="Blind Rod">
+                <FormField Title="Blind Rod Type">
+                    <InputSelect class="@_cssSelect" @bind-Value="BlindModel.BlindRodId">
+                        @if (_blindRods != null)
+                        {
+                            foreach (var blindRod in _blindRods)
+                            {
+                                <option value="@blindRod.Id">@blindRod.Name</option>
+                            }
+                        }
+                    </InputSelect>
+                </FormField>
+                <FormField Title="Height">
+                    <InputNumber class="@_cssNumber" @bind-Value="BlindModel.BlindRod.Height"/>
+                </FormField>
+            </FieldGroup>
+
             @* Stack *@
             <FieldGroup Title="Stack">
                 <FormField Title="Stack Type">
@@ -130,7 +148,7 @@ else
             </FieldGroup>
 
             <button type="submit">Submit</button>
-            <ValidationSummary />
+            <ValidationSummary/>
         </div>
     </EditForm>
 }
@@ -149,6 +167,7 @@ else
     private BlindProfile[] _blindProfiles;
     private BusinessClient[] _businessClients;
     private BlindRailing[] _blindRailings;
+    private BlindRod[] _blindRods;
     private BlindStack[] _blindStacks;
 
     private string _cssNumber = "form-input block mt-1 w-full";
@@ -162,10 +181,11 @@ else
 
         try
         {
-            _blindProfiles = await _httpClient.GetFromJsonAsync<BlindProfile[]>("api/blindProfile");
+            _blindProfiles = await _httpClient.GetFromJsonAsync<BlindProfile[]>("api/blindprofile");
             _businessClients = await _httpClient.GetFromJsonAsync<BusinessClient[]>("api/businessclient");
-            _blindRailings = await _httpClient.GetFromJsonAsync<BlindRailing[]>("api/blindRailing");
-            _blindStacks = await _httpClient.GetFromJsonAsync<BlindStack[]>("api/blindStack");
+            _blindRailings = await _httpClient.GetFromJsonAsync<BlindRailing[]>("api/blindrailing");
+            _blindRods = await _httpClient.GetFromJsonAsync<BlindRod[]>("api/blindrod");
+            _blindStacks = await _httpClient.GetFromJsonAsync<BlindStack[]>("api/blindstack");
 
             if (_blindProfiles != null) ApplyBlindProfile(_blindProfiles.First());
         }
@@ -179,19 +199,30 @@ else
 
     private void EditContext_OnFieldChanged(object sender, FieldChangedEventArgs e)
     {
-        /* Blind railing select change blind railing depth */
+    /* Blind railing select change blind railing height */
         if (e.FieldIdentifier.FieldName == "BlindRailingId")
         {
-            var blindRailing = _blindRailings?.FirstOrDefault(r => r.Id == BlindModel.BlindRailingId);
+            var blindRailing = _blindRailings?.FirstOrDefault(railing => railing.Id == BlindModel.BlindRailingId);
             if (blindRailing != null)
             {
                 BlindModel.BlindRailing = blindRailing;
             }
         }
-        /* Blind stack select change blind stack offset */
+
+    /* Blind rod select change blind rod height */
+        if (e.FieldIdentifier.FieldName == "BlindRodId")
+        {
+            var blindRod = _blindRods?.FirstOrDefault(rod => rod.Id == BlindModel.BlindRodId);
+            if (blindRod != null)
+            {
+                BlindModel.BlindRod = blindRod;
+            }
+        }
+
+    /* Blind stack select change blind stack offset */
         if (e.FieldIdentifier.FieldName == "BlindStackId")
         {
-            var blindStack = _blindStacks?.FirstOrDefault(s => s.Id == BlindModel.BlindStackId);
+            var blindStack = _blindStacks?.FirstOrDefault(stack => stack.Id == BlindModel.BlindStackId);
             if (blindStack != null)
             {
                 BlindModel.BlindStack = blindStack;
@@ -211,6 +242,9 @@ else
                 BlindRailing = _blindRailings.FirstOrDefault(
                     br => br.Id == blindProfile.BlindRailingId
                     ),
+                BlindRodId = blindProfile.BlindRodId,
+                BlindRod = _blindRods.FirstOrDefault(
+                    rod => rod.Id == blindProfile.BlindRodId),
                 BlindStackId = blindProfile.BlindStackId,
                 BlindStack = _blindStacks.FirstOrDefault(
                     bs => bs.Id == blindProfile.BlindStackId
@@ -220,13 +254,22 @@ else
         else
         {
             BlindModel.BusinessClientId = blindProfile.BusinessClientId;
+            BlindModel.BusinessClient = _businessClients.FirstOrDefault(
+                client => client.Id == blindProfile.BusinessClientId
+                );
+
             BlindModel.BlindRailingId = blindProfile.BlindRailingId;
             BlindModel.BlindRailing = _blindRailings.FirstOrDefault(
-                br => br.Id == blindProfile.BlindRailingId
+                railing => railing.Id == blindProfile.BlindRailingId
                 );
+
+            BlindModel.BlindRodId = blindProfile.BlindRodId;
+            BlindModel.BlindRod = _blindRods.FirstOrDefault(
+                rod => rod.Id == blindProfile.BlindRodId);
+
             BlindModel.BlindStackId = blindProfile.BlindStackId;
             BlindModel.BlindStack = _blindStacks.FirstOrDefault(
-                bs => bs.Id == blindProfile.BlindStackId
+                stack => stack.Id == blindProfile.BlindStackId
                 );
         }
     }
@@ -236,11 +279,11 @@ else
     {
         if (arg.Value != null)
         {
-            Console.WriteLine($"Arg is {arg.Value}");
+            Console.WriteLine($"DEBUG => Arg is {arg.Value}");
             var blindProfileId = int.Parse(arg.Value.ToString() ?? throw new InvalidOperationException());
-            Console.WriteLine($"Blind profile id is {blindProfileId}");
+            Console.WriteLine($"DEBUG => Blind profile id is {blindProfileId}");
 
-            Console.WriteLine($"Blind profile length is {_blindProfiles.Length}");
+            Console.WriteLine($"DEBUG => Blind profile length is {_blindProfiles.Length}");
             var blindProfile = _blindProfiles.FirstOrDefault(bp => bp.Id == blindProfileId);
             ApplyBlindProfile(blindProfile);
         }

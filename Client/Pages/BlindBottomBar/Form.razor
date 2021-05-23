@@ -1,0 +1,33 @@
+﻿<EditForm Model="@BlindBottomBar" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator/>
+    <div class="form-group">
+        <label>Name</label>
+        <div>
+            <InputText @bind-Value="@BlindBottomBar.Name"/>
+            <ValidationMessage For="@(() => BlindBottomBar.Name)"/>
+        </div>
+
+        <label>Height (cm)</label>
+        <div>
+            <InputNumber @bind-Value="@BlindBottomBar.Height"/>
+            <ValidationMessage For="@(() => BlindBottomBar.Height)"/>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        @ButtonText
+    </button>
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public BlindBottomBar BlindBottomBar { get; set; }
+
+    [Parameter]
+    public string ButtonText { get; set; } = "Save";
+
+    [Parameter]
+    public EventCallback OnValidSubmit { get; set; }
+
+}

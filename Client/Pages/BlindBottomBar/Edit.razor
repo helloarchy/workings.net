@@ -1,0 +1,36 @@
+﻿@page "/bottomBar/edit/{Id:int}"
+
+@inject HttpClient _httpClient
+@inject NavigationManager _uriHelper
+@inject IJSRuntime _js
+
+@using workings.Shared
+
+<h3>Edit</h3>
+
+<Form
+    ButtonText="Update"
+    BlindBottomBar="_blindBottomBar"
+    OnValidSubmit="@EditBlindBottomBar">
+</Form>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    BlindBottomBar _blindBottomBar = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _blindBottomBar = await _httpClient.GetFromJsonAsync<BlindBottomBar>(
+            $"api/blindBottomBar/{Id}"
+        );
+    }
+
+    async Task EditBlindBottomBar()
+    {
+        await _httpClient.PutAsJsonAsync("api/blindBottomBar", _blindBottomBar);
+        await _js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        _uriHelper.NavigateTo("bottomBar");
+    }
+}

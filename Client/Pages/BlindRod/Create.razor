@@ -1,0 +1,24 @@
+﻿@page "/rod/create"
+@inject HttpClient _httpClient
+@inject NavigationManager _uriHelper
+
+@using workings.Shared
+
+<h3>Create</h3>
+
+<Form
+    ButtonText="Create BlindRod"
+    BlindRod="@_blindBlindRod"
+    OnValidSubmit="@CreateBlindRod">
+</Form>
+
+@code {
+    BlindRod _blindBlindRod = new();
+
+    async Task CreateBlindRod()
+    {
+        await _httpClient.PostAsJsonAsync("api/blindRod", _blindBlindRod);
+        _uriHelper.NavigateTo("rod");
+    }
+
+}

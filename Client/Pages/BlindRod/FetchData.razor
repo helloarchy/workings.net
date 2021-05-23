@@ -1,0 +1,72 @@
+﻿@page "/rod"
+
+@inject HttpClient _httpClient
+@inject IJSRuntime _js
+
+<h3>Rods</h3>
+<small>Add as many rods as you wish.</small>
+<div class="form-group">
+    <a class="btn btn-success" href="rod/create"><i class="oi oi-plus"></i> Create New</a>
+</div>
+<br>
+
+@if (BlindRods == null)
+{
+    <text>Loading...</text>
+}
+else if (BlindRods.Length == 0)
+{
+    <text>Add rods to view them all here.</text>
+}
+else
+{
+    <table class="table-auto">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Height (cm)</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var rod in BlindRods)
+        {
+            <tr>
+                <td>@rod.Id</td>
+                <td>@rod.Name</td>
+                <td>@rod.Height</td>
+                <td>
+                    <a class="btn btn-success" href="rod/edit/@rod.Id">Edit</a>
+                    <button class="btn btn-danger" @onclick="@(() => Delete(rod.Id))">Delete</button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    BlindRod[] BlindRods { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        BlindRods = await _httpClient.GetFromJsonAsync<BlindRod[]>("api/blindRod");
+    }
+
+    async Task Delete(int Id)
+    {
+        var blindRod = BlindRods.First(x => x.Id == Id);
+        var confirmDelete = await _js.InvokeAsync<bool>(
+            "confirm",
+            $"Do you want to delete {blindRod.Name}'s ({blindRod.Id}) Record?"
+            );
+        
+        if (confirmDelete)
+        {
+            await _httpClient.DeleteAsync($"api/blindRod/{Id}");
+            await OnInitializedAsync();
+        }
+    }
+
+}

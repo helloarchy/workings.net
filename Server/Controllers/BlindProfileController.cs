@@ -27,6 +27,7 @@ namespace workings.Server.Controllers
             var blindProfiles = await _context.BlindProfiles
                 .Include(bp => bp.BlindBottomBar)
                 .Include(bp => bp.BlindRailing)
+                .Include(bp => bp.BlindRod)
                 .Include(bp => bp.BlindStack)
                 .Include(bp => bp.BusinessClient)
                 .ToListAsync();
@@ -42,6 +43,7 @@ namespace workings.Server.Controllers
             var blindProfile = await _context.BlindProfiles
                 .Include(bp => bp.BlindBottomBar)
                 .Include(bp => bp.BlindRailing)
+                .Include(bp => bp.BlindRod)
                 .Include(bp => bp.BlindStack)
                 .Include(bp => bp.BusinessClient)
                 .FirstOrDefaultAsync(bp => bp.Id == id);

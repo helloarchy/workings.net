@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using workings.Server.Data;
 
 namespace workings.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210522203154_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -344,9 +346,6 @@ namespace workings.Server.Migrations
                     b.Property<int>("BlindRailingId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("BlindRodId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("BlindStackId")
                         .HasColumnType("INTEGER");
 
@@ -382,8 +381,6 @@ namespace workings.Server.Migrations
 
                     b.HasIndex("BlindRailingId");
 
-                    b.HasIndex("BlindRodId");
-
                     b.HasIndex("BlindStackId");
 
                     b.HasIndex("BusinessClientId");
@@ -403,9 +400,6 @@ namespace workings.Server.Migrations
                     b.Property<int>("BlindRailingId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("BlindRodId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("BlindStackId")
                         .HasColumnType("INTEGER");
 
@@ -421,8 +415,6 @@ namespace workings.Server.Migrations
 
                     b.HasIndex("BlindRailingId");
 
-                    b.HasIndex("BlindRodId");
-
                     b.HasIndex("BlindStackId");
 
                     b.HasIndex("BusinessClientId");
@@ -436,7 +428,7 @@ namespace workings.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<double>("Height")
+                    b.Property<float>("Height")
                         .HasColumnType("REAL");
 
                     b.Property<string>("Name")
@@ -445,23 +437,6 @@ namespace workings.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BlindRailing");
-                });
-
-            modelBuilder.Entity("workings.Shared.BlindRod", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<double>("Height")
-                        .HasColumnType("REAL");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BlindRod");
                 });
 
             modelBuilder.Entity("workings.Shared.BlindStack", b =>
@@ -563,12 +538,6 @@ namespace workings.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("workings.Shared.BlindRod", "BlindRod")
-                        .WithMany()
-                        .HasForeignKey("BlindRodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("workings.Shared.BlindStack", "BlindStack")
                         .WithMany()
                         .HasForeignKey("BlindStackId")
@@ -584,8 +553,6 @@ namespace workings.Server.Migrations
                     b.Navigation("BlindBottomBar");
 
                     b.Navigation("BlindRailing");
-
-                    b.Navigation("BlindRod");
 
                     b.Navigation("BlindStack");
 
@@ -606,12 +573,6 @@ namespace workings.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("workings.Shared.BlindRod", "BlindRod")
-                        .WithMany()
-                        .HasForeignKey("BlindRodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("workings.Shared.BlindStack", "BlindStack")
                         .WithMany()
                         .HasForeignKey("BlindStackId")
@@ -627,8 +588,6 @@ namespace workings.Server.Migrations
                     b.Navigation("BlindBottomBar");
 
                     b.Navigation("BlindRailing");
-
-                    b.Navigation("BlindRod");
 
                     b.Navigation("BlindStack");
 

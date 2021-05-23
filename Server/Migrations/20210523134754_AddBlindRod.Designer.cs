@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using workings.Server.Data;
 
 namespace workings.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210523134754_AddBlindRod")]
+    partial class AddBlindRod
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -403,9 +405,6 @@ namespace workings.Server.Migrations
                     b.Property<int>("BlindRailingId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("BlindRodId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("BlindStackId")
                         .HasColumnType("INTEGER");
 
@@ -420,8 +419,6 @@ namespace workings.Server.Migrations
                     b.HasIndex("BlindBottomBarId");
 
                     b.HasIndex("BlindRailingId");
-
-                    b.HasIndex("BlindRodId");
 
                     b.HasIndex("BlindStackId");
 
@@ -606,12 +603,6 @@ namespace workings.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("workings.Shared.BlindRod", "BlindRod")
-                        .WithMany()
-                        .HasForeignKey("BlindRodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("workings.Shared.BlindStack", "BlindStack")
                         .WithMany()
                         .HasForeignKey("BlindStackId")
@@ -627,8 +618,6 @@ namespace workings.Server.Migrations
                     b.Navigation("BlindBottomBar");
 
                     b.Navigation("BlindRailing");
-
-                    b.Navigation("BlindRod");
 
                     b.Navigation("BlindStack");
 

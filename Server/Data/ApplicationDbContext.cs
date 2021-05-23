@@ -23,6 +23,7 @@ namespace workings.Server.Data
         public DbSet<BlindProfile> BlindProfiles { get; set; }
         public DbSet<BusinessClient> BusinessClients { get; set; }
         public DbSet<BlindRailing> BlindRailings { get; set; }
+        public DbSet<BlindRod> BlindRods { get; set; }
         public DbSet<BlindStack> BlindStacks { get; set; }
         
         public DbSet<BlindModel> BlindModels { get; set; }
@@ -35,6 +36,7 @@ namespace workings.Server.Data
             modelBuilder.Entity<BlindProfile>().ToTable("BlindProfile");
             modelBuilder.Entity<BusinessClient>().ToTable("BusinessClient");
             modelBuilder.Entity<BlindRailing>().ToTable("BlindRailing");
+            modelBuilder.Entity<BlindRod>().ToTable("BlindRod");
             modelBuilder.Entity<BlindStack>().ToTable("BlindStack");
             modelBuilder.Entity<BlindModel>().ToTable("BlindModel");
             modelBuilder.Entity<BlindBottomBar>().ToTable("BlindBottomBar");

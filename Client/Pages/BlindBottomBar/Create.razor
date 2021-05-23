@@ -1,0 +1,24 @@
+﻿@page "/bottomBar/create"
+@inject HttpClient _httpClient
+@inject NavigationManager _uriHelper
+
+@using workings.Shared
+
+<h3>Create</h3>
+
+<Form
+    ButtonText="Create BlindBottomBar"
+    BlindBottomBar="@_blindBlindBottomBar"
+    OnValidSubmit="@CreateBlindBottomBar">
+</Form>
+
+@code {
+    BlindBottomBar _blindBlindBottomBar = new();
+
+    async Task CreateBlindBottomBar()
+    {
+        await _httpClient.PostAsJsonAsync("api/blindBottomBar", _blindBlindBottomBar);
+        _uriHelper.NavigateTo("bottomBar");
+    }
+
+}

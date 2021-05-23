@@ -1,31 +1,61 @@
-﻿<div class="grid grid-cols-auto">
-    <div>
+﻿<div class="grid grid-cols-3 px-4 gap-4">
+    <div class="flex flex-col">
         @* Fabric *@
-        <table>
+        <p class="flex-none text-xl">Fabric</p>
+        <table class="flex-none m-2 p-2">
             <tr>
                 <td>Total drop</td>
-                <td>@BlindModel.Height</td>
+                <td class="text-right">@BlindModel.Height</td>
             </tr>
             <tr>
                 <td>Velcro turnings</td>
-                <td>+ @BlindModel.BlindRailing.Height</td>
+                <td class="text-right">+ @BlindModel.BlindRailing.Height</td>
             </tr>
             <tr>
                 <td>Bottom Bar</td>
-                <td>+ @(BlindModel.BlindBottomBar.Height * 2)</td>
+                <td class="text-right">+ @(BlindModel.BlindBottomBar.Height * 2)</td>
             </tr>
-            <tr>
+            <tr class="border-t">
                 <td></td>
-                <td>@_cutLengthFabric</td>
+                <td class="text-right">@_cutLengthFabric</td>
                 <td> cm</td>
             </tr>
         </table>
     </div>
-    <div>
+    <div class="flex flex-col">
         @* Inner linings *@
+        <p class="flex-none text-xl">Inner Linings</p>
+        <div class="flex-grow"></div>
+        <table class="flex-none m-2 p-2">
+            <tr>
+                <td>Total drop</td>
+                <td class="text-right">@BlindModel.Height</td>
+            </tr>
+            <tr class="border-t">
+                <td></td>
+                <td class="text-right">@_cutLengthInnerLinings</td>
+                <td> cm</td>
+            </tr>
+        </table>
     </div>
-    <div>
-        @* Outer linings *@
+    <div class="flex flex-col">
+        <p class="flex-none text-xl">Outer Linings</p>
+        <div class="flex-grow"></div>
+        <table class="flex-none m-2 p-2">
+            <tr>
+                <td>Fabric cut length</td>
+                <td class="text-right">@_cutLengthFabric</td>
+            </tr>
+            <tr>
+                <td>Pockets</td>
+                <td class="text-right">@_pocketAllowance</td>
+            </tr>
+            <tr class="border-t">
+                <td></td>
+                <td class="text-right">@_cutLengthOuterLinings</td>
+                <td> cm</td>
+            </tr>
+        </table>
     </div>
 </div>
 
@@ -35,13 +65,26 @@
     public BlindModel BlindModel { get; set; }
 
     private double _cutLengthFabric;
-
+    private double _cutLengthInnerLinings;
+    private double _cutLengthOuterLinings;
+    private double _pocketAllowance;
+    
     protected override void OnParametersSet()
     {
-
-        _cutLengthFabric = BlindModel.Height 
-                           + BlindModel.BlindRailing.Height 
+        _cutLengthFabric = BlindModel.Height
+                           + BlindModel.BlindRailing.Height
                            + BlindModel.BlindBottomBar.Height * 2;
+
+        _cutLengthInnerLinings = BlindModel.Height; // No reductions otherwise
+
+        _cutLengthOuterLinings = _cutLengthFabric
+                                 + BlindModel.BlindRod.Height * BlindModel.Folds;
+            
+        _pocketAllowance = BlindModel.Folds * (BlindModel.BlindRod.Height * 2);
+        
+        Console.WriteLine("DEBUG => Paperwork cut lengths");
+        Console.WriteLine($"DEBUG => Bottom bar... {BlindModel.BlindBottomBar.Name} (id: {BlindModel.BlindBottomBarId})");
+        
         base.OnParametersSet();
     }
 

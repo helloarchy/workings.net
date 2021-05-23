@@ -1,0 +1,36 @@
+﻿@page "/rod/edit/{Id:int}"
+
+@inject HttpClient _httpClient
+@inject NavigationManager _uriHelper
+@inject IJSRuntime _js
+
+@using workings.Shared
+
+<h3>Edit</h3>
+
+<Form
+    ButtonText="Update"
+    BlindRod="_blindRod"
+    OnValidSubmit="@EditBlindRod">
+</Form>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    BlindRod _blindRod = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _blindRod = await _httpClient.GetFromJsonAsync<BlindRod>(
+            $"api/blindRod/{Id}"
+        );
+    }
+
+    async Task EditBlindRod()
+    {
+        await _httpClient.PutAsJsonAsync("api/blindRod", _blindRod);
+        await _js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        _uriHelper.NavigateTo("rod");
+    }
+}

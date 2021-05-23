@@ -1,0 +1,33 @@
+﻿<EditForm Model="@BlindRod" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator/>
+    <div class="form-group">
+        <label>Name</label>
+        <div>
+            <InputText @bind-Value="@BlindRod.Name"/>
+            <ValidationMessage For="@(() => BlindRod.Name)"/>
+        </div>
+
+        <label>Height (cm)</label>
+        <div>
+            <InputNumber @bind-Value="@BlindRod.Height"/>
+            <ValidationMessage For="@(() => BlindRod.Height)"/>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        @ButtonText
+    </button>
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public BlindRod BlindRod { get; set; }
+
+    [Parameter]
+    public string ButtonText { get; set; } = "Save";
+
+    [Parameter]
+    public EventCallback OnValidSubmit { get; set; }
+
+}
