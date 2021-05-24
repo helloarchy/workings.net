@@ -1,15 +1,13 @@
-﻿<div class="grid grid-cols-3 grid-rows-2">
-    <div class="row-start-1 col-span-2">
-        <div class="col-start-1">
+﻿<div class="flex flex-row">
+    <div class="flex-grow">
+        <div class="">
             <p class="text-4xl">@BlindModel.BusinessClient.Name</p>
         </div>
-    </div>
-    <div class="row-start-2 col-span-2">
-        <div class="col-start-1">
+        <div class="">
             <p class="text-2xl italic">@(_customerReference)</p>
         </div>
     </div>
-    <div class="row-start-1 row-span-2 col-start-3">
+    <div class="flex-none">
         <PaperworkTopCalculations
             BlindRailing="@BlindModel.BlindRailing"
             BlindHeight="@BlindModel.Height"/>

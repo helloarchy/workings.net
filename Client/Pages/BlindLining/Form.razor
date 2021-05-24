@@ -1,0 +1,33 @@
+﻿<EditForm Model="@BlindLining" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator/>
+    <div class="form-group">
+        <label>Name</label>
+        <div>
+            <InputText @bind-Value="@BlindLining.Name"/>
+            <ValidationMessage For="@(() => BlindLining.Name)"/>
+        </div>
+
+        <label>Interlining</label>
+        <div>
+            <InputCheckbox @bind-Value="@BlindLining.IsInner"/>
+            <ValidationMessage For="@(() => BlindLining.IsInner)"/>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        @ButtonText
+    </button>
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public BlindLining BlindLining { get; set; }
+
+    [Parameter]
+    public string ButtonText { get; set; } = "Save";
+
+    [Parameter]
+    public EventCallback OnValidSubmit { get; set; }
+
+}

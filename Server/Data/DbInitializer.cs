@@ -22,6 +22,7 @@ namespace workings.Server.Data
             SeedBlindRods(context);
             SeedBlindStacks(context);
             SeedBlindBottomBars(context);
+            SeedBlindLinings(context);
             SeedBlindProfiles(context);
         }
 
@@ -163,6 +164,31 @@ namespace workings.Server.Data
             };
 
             context.BlindBottomBars.AddRange(blindBottomBars);
+            context.SaveChanges();
+        }
+
+        private static void SeedBlindLinings(ApplicationDbContext context)
+        {
+            var blindLinings = new[]
+            {
+                new BlindLining
+                {
+                    Name = "Blind Lining 1",
+                    IsInner = false
+                },
+                new BlindLining
+                {
+                    Name = "Blind Lining 2",
+                    IsInner = false
+                },
+                new BlindLining
+                {
+                    Name = "Blind Lining 3",
+                    IsInner = false
+                }
+            };
+
+            context.BlindLinings.AddRange(blindLinings);
             context.SaveChanges();
         }
 

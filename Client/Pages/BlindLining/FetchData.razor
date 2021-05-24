@@ -1,0 +1,72 @@
+﻿@page "/lining"
+
+@inject HttpClient _httpClient
+@inject IJSRuntime _js
+
+<h3>Linings</h3>
+<small>Add as many linings as you wish.</small>
+<div class="form-group">
+    <a class="btn btn-success" href="lining/create"><i class="oi oi-plus"></i> Create New</a>
+</div>
+<br>
+
+@if (BlindLinings == null)
+{
+    <text>Loading...</text>
+}
+else if (BlindLinings.Length == 0)
+{
+    <text>Add linings to view them all here.</text>
+}
+else
+{
+    <table class="table-auto">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Interlining</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var lining in BlindLinings)
+        {
+            <tr>
+                <td>@lining.Id</td>
+                <td>@lining.Name</td>
+                <td>@lining.IsInner</td>
+                <td>
+                    <a class="btn btn-success" href="lining/edit/@lining.Id">Edit</a>
+                    <button class="btn btn-danger" @onclick="@(() => Delete(lining.Id))">Delete</button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    BlindLining[] BlindLinings { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        BlindLinings = await _httpClient.GetFromJsonAsync<BlindLining[]>("api/blindLining");
+    }
+
+    async Task Delete(int id)
+    {
+        var blindLining = BlindLinings.First(x => x.Id == id);
+        var confirmDelete = await _js.InvokeAsync<bool>(
+            "confirm",
+            $"Do you want to delete {blindLining.Name}'s ({blindLining.Id}) Record?"
+            );
+        
+        if (confirmDelete)
+        {
+            await _httpClient.DeleteAsync($"api/blindLining/{id}");
+            await OnInitializedAsync();
+        }
+    }
+
+}

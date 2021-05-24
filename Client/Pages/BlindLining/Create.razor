@@ -1,0 +1,24 @@
+﻿@page "/lining/create"
+@inject HttpClient _httpClient
+@inject NavigationManager _uriHelper
+
+@using workings.Shared
+
+<h3>Create</h3>
+
+<Form
+    ButtonText="Create BlindLining"
+    BlindLining="@_blindBlindLining"
+    OnValidSubmit="@CreateBlindLining">
+</Form>
+
+@code {
+    BlindLining _blindBlindLining = new();
+
+    async Task CreateBlindLining()
+    {
+        await _httpClient.PostAsJsonAsync("api/blindLining", _blindBlindLining);
+        _uriHelper.NavigateTo("lining");
+    }
+
+}

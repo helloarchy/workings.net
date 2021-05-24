@@ -20,26 +20,27 @@ namespace workings.Server.Data
         {
         }
 
+        public DbSet<BlindBottomBar> BlindBottomBars { get; set; }
+        public DbSet<BlindLining> BlindLinings { get; set; }
+        public DbSet<BlindModel> BlindModels { get; set; }
         public DbSet<BlindProfile> BlindProfiles { get; set; }
-        public DbSet<BusinessClient> BusinessClients { get; set; }
         public DbSet<BlindRailing> BlindRailings { get; set; }
         public DbSet<BlindRod> BlindRods { get; set; }
         public DbSet<BlindStack> BlindStacks { get; set; }
-        
-        public DbSet<BlindModel> BlindModels { get; set; }
-        public DbSet<BlindBottomBar> BlindBottomBars { get; set; }
+        public DbSet<BusinessClient> BusinessClients { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             
+            modelBuilder.Entity<BlindBottomBar>().ToTable("BlindBottomBar");
+            modelBuilder.Entity<BlindLining>().ToTable("BlindLining");
+            modelBuilder.Entity<BlindModel>().ToTable("BlindModel");
             modelBuilder.Entity<BlindProfile>().ToTable("BlindProfile");
-            modelBuilder.Entity<BusinessClient>().ToTable("BusinessClient");
             modelBuilder.Entity<BlindRailing>().ToTable("BlindRailing");
             modelBuilder.Entity<BlindRod>().ToTable("BlindRod");
             modelBuilder.Entity<BlindStack>().ToTable("BlindStack");
-            modelBuilder.Entity<BlindModel>().ToTable("BlindModel");
-            modelBuilder.Entity<BlindBottomBar>().ToTable("BlindBottomBar");
+            modelBuilder.Entity<BusinessClient>().ToTable("BusinessClient");
         }
     }
 }

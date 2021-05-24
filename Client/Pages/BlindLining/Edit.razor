@@ -1,0 +1,36 @@
+﻿@page "/lining/edit/{Id:int}"
+
+@inject HttpClient _httpClient
+@inject NavigationManager _uriHelper
+@inject IJSRuntime _js
+
+@using workings.Shared
+
+<h3>Edit</h3>
+
+<Form
+    ButtonText="Update"
+    BlindLining="_blindLining"
+    OnValidSubmit="@EditBlindLining">
+</Form>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    BlindLining _blindLining = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _blindLining = await _httpClient.GetFromJsonAsync<BlindLining>(
+            $"api/blindLining/{Id}"
+        );
+    }
+
+    async Task EditBlindLining()
+    {
+        await _httpClient.PutAsJsonAsync("api/blindLining", _blindLining);
+        await _js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        _uriHelper.NavigateTo("lining");
+    }
+}
