@@ -147,6 +147,32 @@ else
                 </FormField>
             </FieldGroup>
 
+            @* Inner Lining *@
+            <FieldGroup Title="Linings">
+                <FormField Title="Interlining">
+                    <InputSelect class="@_cssSelect" @bind-Value="BlindModel.BlindInnerLiningId">
+                        @if (_blindInnerLinings != null)
+                        {
+                            foreach (var blindInnerLining in _blindInnerLinings)
+                            {
+                                <option value="@blindInnerLining.Id">@blindInnerLining.Name</option>
+                            }
+                        }
+                    </InputSelect>
+                </FormField>
+                <FormField Title="Lining">
+                    <InputSelect class="@_cssSelect" @bind-Value="BlindModel.BlindOuterLiningId">
+                        @if (_blindOuterLinings != null)
+                        {
+                            foreach (var blindOuterLining in _blindOuterLinings)
+                            {
+                                <option value="@blindOuterLining.Id">@blindOuterLining.Name</option>
+                            }
+                        }
+                    </InputSelect>
+                </FormField>
+            </FieldGroup>
+
             <button type="submit">Submit</button>
             <ValidationSummary/>
         </div>
@@ -169,6 +195,8 @@ else
     private BlindRailing[] _blindRailings;
     private BlindRod[] _blindRods;
     private BlindStack[] _blindStacks;
+    private BlindLining[] _blindInnerLinings;
+    private BlindLining[] _blindOuterLinings;
 
     private string _cssNumber = "form-input block mt-1 w-full";
     private string _cssSelect = "form-select block mt-1 w-full";
@@ -186,6 +214,8 @@ else
             _blindRailings = await _httpClient.GetFromJsonAsync<BlindRailing[]>("api/blindrailing");
             _blindRods = await _httpClient.GetFromJsonAsync<BlindRod[]>("api/blindrod");
             _blindStacks = await _httpClient.GetFromJsonAsync<BlindStack[]>("api/blindstack");
+            _blindInnerLinings = await _httpClient.GetFromJsonAsync<BlindLining[]>("api/blindlining/inner");
+            _blindOuterLinings = await _httpClient.GetFromJsonAsync<BlindLining[]>("api/blindlining/outer");
 
             if (_blindProfiles != null) ApplyBlindProfile(_blindProfiles.First());
         }
@@ -228,6 +258,42 @@ else
                 BlindModel.BlindStack = blindStack;
             }
         }
+
+    /* Blind inner lining select change blind inner lining */
+        if (e.FieldIdentifier.FieldName == "BlindInnerLiningId")
+        {
+            var blindInnerLining = _blindInnerLinings?.FirstOrDefault(
+                lining => lining.Id == BlindModel.BlindInnerLiningId
+                );
+            if (blindInnerLining != null)
+            {
+                BlindModel.BlindInnerLining = blindInnerLining;
+            }
+        }
+
+    /* Blind outer lining select change blind outer lining */
+        if (e.FieldIdentifier.FieldName == "BlindOuterLiningId")
+        {
+            var blindOuterLining = _blindOuterLinings?.FirstOrDefault(
+                lining => lining.Id == BlindModel.BlindOuterLiningId
+                );
+            if (blindOuterLining != null)
+            {
+                BlindModel.BlindOuterLining = blindOuterLining;
+            }
+        }
+
+    /* Business client select change business client */
+        if (e.FieldIdentifier.FieldName == "BusinessClientId")
+        {
+            var businessClient = _businessClients?.FirstOrDefault(
+                client => client.Id == BlindModel.BusinessClientId
+                );
+            if (businessClient != null)
+            {
+                BlindModel.BusinessClient = businessClient;
+            }
+        }
     }
 
 
@@ -238,6 +304,9 @@ else
             BlindModel = new BlindModel
             {
                 BusinessClientId = blindProfile.BusinessClientId,
+                BusinessClient = _businessClients.FirstOrDefault(
+                    client => client.Id == blindProfile.BusinessClientId
+                    ),
                 BlindRailingId = blindProfile.BlindRailingId,
                 BlindRailing = _blindRailings.FirstOrDefault(
                     br => br.Id == blindProfile.BlindRailingId

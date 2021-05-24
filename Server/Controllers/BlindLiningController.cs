@@ -30,6 +30,28 @@ namespace workings.Server.Controllers
         }
         
         /**
+         * Read all inner linings only
+         */
+        [HttpGet("inner")]
+        public async Task<IActionResult> GetInnerLinings()
+        {
+            var linings = await _context.BlindLinings.ToListAsync();
+            var innerLinings = linings.FindAll(lining => lining.IsInner);
+            return Ok(innerLinings);
+        }
+        
+        /**
+         * Read all outer linings only
+         */
+        [HttpGet("outer")]
+        public async Task<IActionResult> GetOuterLinings()
+        {
+            var linings = await _context.BlindLinings.ToListAsync();
+            var outerLinings = linings.FindAll(lining => !lining.IsInner);
+            return Ok(outerLinings);
+        }
+        
+        /**
          * Read a single blindLining by id
          */
         [HttpGet("{id:int}")]

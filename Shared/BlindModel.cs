@@ -23,19 +23,27 @@ namespace workings.Shared
         [Range(1, 12, ErrorMessage = "The {0} are out of range (min {1}, max {2})")]
         public int Folds { get; set; } = 1;
 
+        
+
         public int BlindBottomBarId { get; set; }
         public int BlindRailingId { get; set; }
         public int BlindRodId { get; set; }
         public int BusinessClientId { get; set; }
         public int BlindStackId { get; set; }
         
-
+        [ForeignKey("BlindLiningId")]
+        public int BlindInnerLiningId { get; set; }
+        
+        [ForeignKey("BlindLiningId")]
+        public int BlindOuterLiningId { get; set; }
+        
         public BlindBottomBar BlindBottomBar { get; set; } = new();
         public BlindRailing BlindRailing { get; set; } = new();
         public BlindRod BlindRod { get; set; } = new();
         public BlindStack BlindStack { get; set; } = new();
         public BusinessClient BusinessClient { get; set; } = new();
         
-
+        public BlindLining BlindInnerLining { get; set; } = new();
+        public BlindLining BlindOuterLining { get; set; } = new();
     }
 }
