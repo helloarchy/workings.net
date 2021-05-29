@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace workings.Server.Migrations
+namespace Workings.Server.Migrations
 {
     public partial class UpdateProfile : Migration
     {

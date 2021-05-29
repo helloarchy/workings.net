@@ -3,10 +3,10 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using workings.Server.Data;
-using workings.Shared;
+using Workings.Server.Data;
+using Workings.Shared;
 
-namespace workings.Server.Controllers
+namespace Workings.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

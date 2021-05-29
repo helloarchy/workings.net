@@ -8,10 +8,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
-using workings.Server.Data;
-using workings.Server.Models;
+using Workings.Server.Data;
+using Workings.Server.Models;
 
-namespace workings.Server
+namespace Workings.Server
 {
     public class Startup
     {

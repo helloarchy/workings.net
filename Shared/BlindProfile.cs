@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace workings.Shared
+namespace Workings.Shared
 {
     public class BlindProfile
     {

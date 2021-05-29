@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace workings.Server.Models
+namespace Workings.Server.Models
 {
     public class ApplicationUser : IdentityUser
     {

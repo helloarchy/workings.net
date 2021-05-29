@@ -7,9 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using workings.Server.Data;
+using Workings.Server.Data;
 
-namespace workings.Server
+namespace Workings.Server
 {
     public class Program
     {

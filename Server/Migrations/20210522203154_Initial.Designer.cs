@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using workings.Server.Data;
+using Workings.Server.Data;
 
-namespace workings.Server.Migrations
+namespace Workings.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20210522203154_Initial")]
@@ -253,7 +253,7 @@ namespace workings.Server.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("workings.Server.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Workings.Server.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -317,7 +317,7 @@ namespace workings.Server.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("workings.Shared.BlindBottomBar", b =>
+            modelBuilder.Entity("Workings.Shared.BlindBottomBar", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -334,7 +334,7 @@ namespace workings.Server.Migrations
                     b.ToTable("BlindBottomBar");
                 });
 
-            modelBuilder.Entity("workings.Shared.BlindModel", b =>
+            modelBuilder.Entity("Workings.Shared.BlindModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -388,7 +388,7 @@ namespace workings.Server.Migrations
                     b.ToTable("BlindModel");
                 });
 
-            modelBuilder.Entity("workings.Shared.BlindProfile", b =>
+            modelBuilder.Entity("Workings.Shared.BlindProfile", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -422,7 +422,7 @@ namespace workings.Server.Migrations
                     b.ToTable("BlindProfile");
                 });
 
-            modelBuilder.Entity("workings.Shared.BlindRailing", b =>
+            modelBuilder.Entity("Workings.Shared.BlindRailing", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -439,7 +439,7 @@ namespace workings.Server.Migrations
                     b.ToTable("BlindRailing");
                 });
 
-            modelBuilder.Entity("workings.Shared.BlindStack", b =>
+            modelBuilder.Entity("Workings.Shared.BlindStack", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -459,7 +459,7 @@ namespace workings.Server.Migrations
                     b.ToTable("BlindStack");
                 });
 
-            modelBuilder.Entity("workings.Shared.BusinessClient", b =>
+            modelBuilder.Entity("Workings.Shared.BusinessClient", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -484,7 +484,7 @@ namespace workings.Server.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("workings.Server.Models.ApplicationUser", null)
+                    b.HasOne("Workings.Server.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -493,7 +493,7 @@ namespace workings.Server.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("workings.Server.Models.ApplicationUser", null)
+                    b.HasOne("Workings.Server.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -508,7 +508,7 @@ namespace workings.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("workings.Server.Models.ApplicationUser", null)
+                    b.HasOne("Workings.Server.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -517,34 +517,34 @@ namespace workings.Server.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("workings.Server.Models.ApplicationUser", null)
+                    b.HasOne("Workings.Server.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("workings.Shared.BlindModel", b =>
+            modelBuilder.Entity("Workings.Shared.BlindModel", b =>
                 {
-                    b.HasOne("workings.Shared.BlindBottomBar", "BlindBottomBar")
+                    b.HasOne("Workings.Shared.BlindBottomBar", "BlindBottomBar")
                         .WithMany()
                         .HasForeignKey("BlindBottomBarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("workings.Shared.BlindRailing", "BlindRailing")
+                    b.HasOne("Workings.Shared.BlindRailing", "BlindRailing")
                         .WithMany()
                         .HasForeignKey("BlindRailingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("workings.Shared.BlindStack", "BlindStack")
+                    b.HasOne("Workings.Shared.BlindStack", "BlindStack")
                         .WithMany()
                         .HasForeignKey("BlindStackId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("workings.Shared.BusinessClient", "BusinessClient")
+                    b.HasOne("Workings.Shared.BusinessClient", "BusinessClient")
                         .WithMany()
                         .HasForeignKey("BusinessClientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -559,27 +559,27 @@ namespace workings.Server.Migrations
                     b.Navigation("BusinessClient");
                 });
 
-            modelBuilder.Entity("workings.Shared.BlindProfile", b =>
+            modelBuilder.Entity("Workings.Shared.BlindProfile", b =>
                 {
-                    b.HasOne("workings.Shared.BlindBottomBar", "BlindBottomBar")
+                    b.HasOne("Workings.Shared.BlindBottomBar", "BlindBottomBar")
                         .WithMany()
                         .HasForeignKey("BlindBottomBarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("workings.Shared.BlindRailing", "BlindRailing")
+                    b.HasOne("Workings.Shared.BlindRailing", "BlindRailing")
                         .WithMany()
                         .HasForeignKey("BlindRailingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("workings.Shared.BlindStack", "BlindStack")
+                    b.HasOne("Workings.Shared.BlindStack", "BlindStack")
                         .WithMany()
                         .HasForeignKey("BlindStackId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("workings.Shared.BusinessClient", "BusinessClient")
+                    b.HasOne("Workings.Shared.BusinessClient", "BusinessClient")
                         .WithMany()
                         .HasForeignKey("BusinessClientId")
                         .OnDelete(DeleteBehavior.Cascade)

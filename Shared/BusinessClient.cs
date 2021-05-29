@@ -1,4 +1,4 @@
-﻿namespace workings.Shared
+﻿namespace Workings.Shared
 {
     public class BusinessClient
     {

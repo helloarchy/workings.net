@@ -1,10 +1,10 @@
-﻿using workings.Shared;
+﻿using Workings.Shared;
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
-using workings.Server.Models;
+using Workings.Server.Models;
 
-namespace workings.Server.Data
+namespace Workings.Server.Data
 {
     public class DbInitializer
     {

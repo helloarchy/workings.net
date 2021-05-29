@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Net.Http;
 using System.Net.Http.Json;
 
-namespace workings.Shared
+namespace Workings.Shared
 {
     public class BlindModel
     {

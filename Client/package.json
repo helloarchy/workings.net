@@ -1,5 +1,5 @@
 {
-  "name": "workings",
+  "name": "Workings",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com/helloarchy/workings-.net.git"
+    "url": "git+ssh://git@gitlab.com/helloarchy/Workings-.net.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://gitlab.com/helloarchy/workings-.net/issues"
+    "url": "https://gitlab.com/helloarchy/Workings-.net/issues"
   },
-  "homepage": "https://gitlab.com/helloarchy/workings-.net#readme",
+  "homepage": "https://gitlab.com/helloarchy/Workings-.net#readme",
   "devDependencies": {
     "@tailwindcss/forms": "^0.3.2",
     "autoprefixer": "^10.2.5",

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>workings.Server-EDD5CDE3-A2FF-4B45-ABCC-D321F3CAFCD8</UserSecretsId>
+    <UserSecretsId>Workings.Server-EDD5CDE3-A2FF-4B45-ABCC-D321F3CAFCD8</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,8 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Client\workings.Client.csproj" />
-    <ProjectReference Include="..\Shared\workings.Shared.csproj" />
+    <ProjectReference Include="..\Client\Workings.Client.csproj" />
+    <ProjectReference Include="..\Shared\Workings.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
