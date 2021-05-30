@@ -1,47 +1,35 @@
+@using MudBlazor
 @inherits LayoutComponentBase
 
 <MudThemeProvider/>
 <MudDialogProvider/>
 <MudSnackbarProvider/>
 
-<div class="relative bg-white">
-    @* Header bar *@
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-        @* Desktop *@
-        <div class="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
+<MudLayout>
+    <MudAppBar Elevation="1">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())"/>
+        <MudText Typo="Typo.h5" Class="ml-3">Workings</MudText>
+        <MudAppBarSpacer/>
+        
+        @* Account handler *@
+        <LoginDisplay/>
+    </MudAppBar>
+    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+        @* NavMenu *@
+        <NavMenu/>
+    </MudDrawer>
+    <MudMainContent>
+        @* Body *@
+        @Body
+    </MudMainContent>
+</MudLayout>
 
-            @* Home *@
-            <div class="flex justify-start">
-                <NavLink Match="NavLinkMatch.All">
-                    <span class="text-2xl">Workings</span>
-                </NavLink>
-            </div>
+@code {
+    bool _drawerOpen = true;
 
-            @* Nav Desktop *@
-            <NavMenu/>
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
 
-            @* Account *@
-            <div class="hidden md:flex items-center justify-end">
-                <LoginDisplay/>
-            </div>
-        </div>
-    </div>
-
-    @* Mobile *@
-    <div class="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden">
-        <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
-            <div class="py-6 px-5 space-y-6">
-                <div class="grid grid-cols-2 gap-y-4 gap-x-8">
-                    <NavMenu/>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    @* Main body *@
-    <div class="main">
-        <div class="content px-4">
-            @Body
-        </div>
-    </div>
-</div>
+}

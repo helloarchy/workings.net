@@ -3,6 +3,8 @@
 @inject HttpClient _httpClient
 @inject IJSRuntime _js
 
+@using MudBlazor
+
 <h3>Business Clients</h3>
 <small>Add as many Business Clients as you wish.</small>
 <div class="form-group">
@@ -16,48 +18,41 @@
 {
     <text>Loading...</text>
 }
-else if (BusinessClients.Length == 0)
+else if (!BusinessClients.Any())
 {
     <text>Add business clients to view them all here.</text>
 }
 else
 {
-    <table class="table-auto">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var businessClient in BusinessClients)
-        {
-            <tr>
-                <td>@businessClient.Id</td>
-                <td>@businessClient.Name</td>
-                <td>
-                    <a class="btn btn-success" href="businessClient/edit/@businessClient.Id">
-                        Edit
-                    </a>
-                    <button class="btn btn-danger" @onclick="@(() => Delete(businessClient.Id))">
-                        Delete
-                    </button>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+    <MudThemeProvider />
+    
+    <MudTable Items="@BusinessClients" Dense="true" Hover="true" SortLabel="Sort By" FixedHeader="true" Bordered="true" Striped="true">
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortBy="new Func<BusinessClient, object>(x=>x.Id)">Id</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<BusinessClient, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
+            <MudTh></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Nr">@context.Id</MudTd>
+            <MudTd DataLabel="Name">@context.Name</MudTd>
+            <MudTd>
+                <MudIconButton Link="@($"businessClient/edit/{context.Id}")" Icon="@Icons.Rounded.Edit" />
+                <MudIconButton OnClick="@(() => Delete(context.Id))" Icon="@Icons.Rounded.Delete" />
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager PageSizeOptions="new[]{50, 100}" />
+        </PagerContent>
+    </MudTable>
 }
 
 @code {
-    BusinessClient[] BusinessClients { get; set; }
+    IEnumerable<BusinessClient> BusinessClients { get; set; } = new List<BusinessClient>();
 
     protected override async Task OnInitializedAsync()
     {
-        BusinessClients = await _httpClient.GetFromJsonAsync<BusinessClient[]>(
-            "api/businessClient"
-            );
+        BusinessClients = 
+            await _httpClient.GetFromJsonAsync<List<BusinessClient>>("api/businessClient");
     }
 
     async Task Delete(int Id)
