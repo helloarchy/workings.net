@@ -1,8 +1,4 @@
-﻿@using MudBlazor
-
-<MudThemeProvider/>
-
-<MudDrawerHeader>
+﻿<MudDrawerHeader>
     <MudText Typo="Typo.h6">Customisation</MudText>
 </MudDrawerHeader>
 <MudNavMenu>
@@ -17,13 +13,4 @@
 </MudNavMenu>
 
 @code {
-    bool _open;
-    Anchor _anchor;
-
-    void OpenDrawer(Anchor anchor)
-    {
-        _open = true;
-        _anchor = anchor;
-    }
-
 }

@@ -3,17 +3,6 @@
 @inject HttpClient _httpClient
 @inject IJSRuntime _js
 
-@using MudBlazor
-
-<h3>Business Clients</h3>
-<small>Add as many Business Clients as you wish.</small>
-<div class="form-group">
-    <a class="btn btn-success" href="businessClient/create">
-        <i class="oi oi-plus"></i> Create New
-    </a>
-</div>
-<br>
-
 @if (BusinessClients == null)
 {
     <text>Loading...</text>
@@ -24,13 +13,11 @@ else if (!BusinessClients.Any())
 }
 else
 {
-    <MudThemeProvider/>
-
     <MudTable Items="@BusinessClients" Dense="true" Hover="true" SortLabel="Sort By" FixedHeader="true" Bordered="true" Striped="true">
         <ToolBarContent>
             <MudText Typo="Typo.h6">Business Clients</MudText>
             <MudToolBarSpacer/>
-            <MudChip Icon="@Icons.Material.Filled.Person" Color="Color.Primary" Link="businessClient/create">Create New</MudChip>
+            <MudChip Icon="@Icons.Material.Rounded.Add" Color="Color.Primary" Link="businessClient/create">Create New</MudChip>
         </ToolBarContent>
         <HeaderContent>
             <MudTh>

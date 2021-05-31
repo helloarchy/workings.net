@@ -1263,6 +1263,10 @@ video {
   margin-top: 2rem;
 }
 
+.ml-auto {
+  margin-left: auto;
+}
+
 .max-h-screen {
   max-height: 100vh;
 }
