@@ -24,24 +24,33 @@ else if (!BusinessClients.Any())
 }
 else
 {
-    <MudThemeProvider />
-    
+    <MudThemeProvider/>
+
     <MudTable Items="@BusinessClients" Dense="true" Hover="true" SortLabel="Sort By" FixedHeader="true" Bordered="true" Striped="true">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Business Clients</MudText>
+            <MudToolBarSpacer/>
+            <MudChip Icon="@Icons.Material.Filled.Person" Color="Color.Primary" Link="businessClient/create">Create New</MudChip>
+        </ToolBarContent>
         <HeaderContent>
-            <MudTh><MudTableSortLabel SortBy="new Func<BusinessClient, object>(x=>x.Id)">Id</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortBy="new Func<BusinessClient, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
+            <MudTh>
+                <MudTableSortLabel SortBy="new Func<BusinessClient, object>(x => x.Id)">Id</MudTableSortLabel>
+            </MudTh>
+            <MudTh>
+                <MudTableSortLabel SortBy="new Func<BusinessClient, object>(x => x.Name)">Name</MudTableSortLabel>
+            </MudTh>
             <MudTh></MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd DataLabel="Nr">@context.Id</MudTd>
             <MudTd DataLabel="Name">@context.Name</MudTd>
             <MudTd>
-                <MudIconButton Link="@($"businessClient/edit/{context.Id}")" Icon="@Icons.Rounded.Edit" />
-                <MudIconButton OnClick="@(() => Delete(context.Id))" Icon="@Icons.Rounded.Delete" />
+                <MudIconButton Link="@($"businessClient/edit/{context.Id}")" Icon="@Icons.Rounded.Edit"/>
+                <MudIconButton OnClick="@(() => Delete(context.Id))" Icon="@Icons.Rounded.Delete"/>
             </MudTd>
         </RowTemplate>
         <PagerContent>
-            <MudTablePager PageSizeOptions="new[]{50, 100}" />
+            <MudTablePager PageSizeOptions="new[] {50, 100}"/>
         </PagerContent>
     </MudTable>
 }
@@ -51,7 +60,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        BusinessClients = 
+        BusinessClients =
             await _httpClient.GetFromJsonAsync<List<BusinessClient>>("api/businessClient");
     }
 
