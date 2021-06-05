@@ -1,17 +1,25 @@
-﻿<EditForm Model="@BusinessClient" OnValidSubmit="@OnValidSubmit">
-    <DataAnnotationsValidator/>
-    <div class="form-group">
-        <label>Name</label>
-        <div>
-            <InputText @bind-Value="@BusinessClient.Name"/>
-            <ValidationMessage For="@(() => BusinessClient.Name)"/>
-        </div>
-    </div>
-
-    <button type="submit" class="btn btn-success">
-        @ButtonText
-    </button>
-</EditForm>
+﻿<MudContainer MaxWidth="MaxWidth.Small">
+    <EditForm Model="@BusinessClient" OnValidSubmit="@OnValidSubmit">
+        <DataAnnotationsValidator/>
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">Business Client</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudTextField Label="Name" HelperText="Required" Variant="Variant.Outlined"
+                              @bind-Value="@BusinessClient.Name" For="@(() => BusinessClient.Name)" />
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled"
+                           Color="Color.Primary" Class="ml-auto">
+                    @ButtonText
+                </MudButton>
+            </MudCardActions>
+        </MudCard>
+    </EditForm>
+</MudContainer>
 
 @code {
 
@@ -23,5 +31,10 @@
 
     [Parameter]
     public EventCallback OnValidSubmit { get; set; }
+
+    protected override void OnInitialized()
+    {
+        BusinessClient.Name = "";
+    }
 
 }

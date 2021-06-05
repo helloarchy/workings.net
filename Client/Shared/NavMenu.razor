@@ -1,62 +1,16 @@
-﻿<div class="-mr-2 -my-2 md:hidden">
-    <button
-        type="button"
-        class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-        aria-expanded="false"
-        @onclick="ToggleNavMenu">
-        <span class="sr-only">Open menu</span>
-        <!-- Heroicon name: outline/menu -->
-        <svg
-            class="h-6 w-6"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            aria-hidden="true">
-            <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-    </button>
-</div>
-
-@* Nav here ... *@
-<nav class="hidden md:flex space-x-10">
-    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-        <span class="oi oi-home" aria-hidden="true"></span> Home
-    </NavLink>
-    <NavLink class="nav-link" href="blindProfile">
-        <span class="oi oi-people" aria-hidden="true"></span> Default Profiles
-    </NavLink>
-    <NavLink class="nav-link" href="businessClient">
-        <span class="oi oi-people" aria-hidden="true"></span> Business Clients
-    </NavLink>
-    <NavLink class="nav-link" href="railing">
-        <span class="oi oi-people" aria-hidden="true"></span> Railing Types
-    </NavLink>
-    <NavLink class="nav-link" href="bottomBar">
-        <span class="oi oi-people" aria-hidden="true"></span> Bottom Bar Types
-    </NavLink>
-    <NavLink class="nav-link" href="rod">
-        <span class="oi oi-people" aria-hidden="true"></span> Rod Types
-    </NavLink>
-    <NavLink class="nav-link" href="stack">
-        <span class="oi oi-people" aria-hidden="true"></span> Stack Types
-    </NavLink>
-    <NavLink class="nav-link" href="lining">
-        <span class="oi oi-people" aria-hidden="true"></span> Lining Types
-    </NavLink>
-</nav>
+﻿<MudDrawerHeader>
+    <MudText Typo="Typo.h6">Customisation</MudText>
+</MudDrawerHeader>
+<MudNavMenu>
+    <MudNavLink Match="NavLinkMatch.All" Href="">Home</MudNavLink>
+    <MudNavLink Href="blindProfile">Default Profiles</MudNavLink>
+    <MudNavLink Href="BusinessClient">Business Clients</MudNavLink>
+    <MudNavLink Href="railing">Railing Types</MudNavLink>
+    <MudNavLink Href="bottomBar">Bottom Bar Types</MudNavLink>
+    <MudNavLink Href="rod">Rod Types</MudNavLink>
+    <MudNavLink Href="stack">Stack Types</MudNavLink>
+    <MudNavLink Href="lining">Lining Types</MudNavLink>
+</MudNavMenu>
 
 @code {
-    private bool _collapseNavMenu = true;
-
-    private string NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        _collapseNavMenu = !_collapseNavMenu;
-    }
-
 }

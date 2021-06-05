@@ -11,172 +11,173 @@
 
 @inject HttpClient _httpClient
 
-<h3>BlindForm</h3>
 @if (_blindProfiles == null)
 {
     <text>Loading...</text>
 }
 else
 {
-    <EditForm
-        EditContext="@_editContext"
-        OnValidSubmit="@(() => OnSubmit.InvokeAsync(BlindModel))">
-        <div class="grid grid-cols-1 gap-6">
-            <DataAnnotationsValidator/>
-            <ValidationSummary/>
+    <div class="m-8">
+        <EditForm
+            EditContext="@_editContext"
+            OnValidSubmit="@(() => OnSubmit.InvokeAsync(BlindModel))">
+            <div class="grid grid-cols-1 gap-6">
+                <DataAnnotationsValidator/>
+                <ValidationSummary/>
 
-            @* Blind Profile *@
-            <FieldGroup Title="Default Profile">
-                <FormField Title="Profile">
-                    <select class="@_cssSelect" @onchange="@UpdateBlindProfile">
-                        @if (_blindProfiles != null)
-                        {
-                            foreach (var blindProfile in _blindProfiles)
+                @* Blind Profile *@
+                <FieldGroup Title="Default Profile">
+                    <FormField Title="Profile">
+                        <select class="@_cssSelect" @onchange="@UpdateBlindProfile">
+                            @if (_blindProfiles != null)
                             {
-                                <option value="@blindProfile.Id">@blindProfile.Name</option>
+                                foreach (var blindProfile in _blindProfiles)
+                                {
+                                    <option value="@blindProfile.Id">@blindProfile.Name</option>
+                                }
                             }
-                        }
-                    </select>
-                </FormField>
-            </FieldGroup>
-
-            @* Details *@
-            <FieldGroup Title="Details">
-                <FormField Title="Business Client">
-                    <InputSelect class="@_cssSelect" @bind-Value="BlindModel.BusinessClientId">
-                        @if (_businessClients != null)
-                        {
-                            foreach (var businessClient in _businessClients)
-                            {
-                                <option value="@businessClient.Id">@businessClient.Name</option>
-                            }
-                        }
-                    </InputSelect>
-                </FormField>
-
-                <FormField Title="Customer">
-                    <InputText class="@_cssText" @bind-Value="BlindModel.Customer"/>
-                </FormField>
-
-                <FormField Title="Reference">
-                    <InputText class="@_cssText" @bind-Value="BlindModel.Reference"/>
-                </FormField>
-
-                <FormField Title="No. Blinds">
-                    <InputNumber class="@_cssNumber" @bind-Value="BlindModel.CountBlinds"/>
-                </FormField>
-            </FieldGroup>
-
-            @* Dimensions *@
-            <FieldGroup Title="Dimensions">
-                <FormField Title="Width">
-                    <InputNumber class="@_cssNumber" @bind-Value="BlindModel.Width"/>
-                </FormField>
-
-                <FormField Title="Height">
-                    <InputNumber class="@_cssNumber" @bind-Value="BlindModel.Height"/>
-                </FormField>
-
-                <FormField Title="No. Widths">
-                    <InputNumber class="@_cssNumber" @bind-Value="BlindModel.CountWidths"/>
-                </FormField>
-            </FieldGroup>
-
-            @* BlindRailing *@
-            <FieldGroup Title="BlindRailing">
-                <FormField Title="BlindRailing Type">
-                    <InputSelect class="@_cssSelect" @bind-Value="BlindModel.BlindRailingId">
-                        @if (_blindRailings != null)
-                        {
-                            foreach (var blindRailing in _blindRailings)
-                            {
-                                <option value="@blindRailing.Id">@blindRailing.Name</option>
-                            }
-                        }
-                    </InputSelect>
-                </FormField>
-                <FormField Title="Height">
-                    <InputNumber class="@_cssNumber" @bind-Value="BlindModel.BlindRailing.Height"/>
-                </FormField>
-            </FieldGroup>
-
-            @* Blind Rod *@
-            <FieldGroup Title="Blind Rod">
-                <FormField Title="Blind Rod Type">
-                    <InputSelect class="@_cssSelect" @bind-Value="BlindModel.BlindRodId">
-                        @if (_blindRods != null)
-                        {
-                            foreach (var blindRod in _blindRods)
-                            {
-                                <option value="@blindRod.Id">@blindRod.Name</option>
-                            }
-                        }
-                    </InputSelect>
-                </FormField>
-                <FormField Title="Height">
-                    <InputNumber class="@_cssNumber" @bind-Value="BlindModel.BlindRod.Height"/>
-                </FormField>
-            </FieldGroup>
-
-            @* Stack *@
-            <FieldGroup Title="Stack">
-                <FormField Title="Stack Type">
-                    <InputSelect class="@_cssSelect" @bind-Value="BlindModel.BlindStack.Type">
-                        @foreach (var blindStackType in Enum.GetValues<BlindStackType>())
-                        {
-                            <option value="@blindStackType">@blindStackType</option>
-                        }
-                    </InputSelect>
-                </FormField>
-                @if (BlindModel.BlindStack.Type is BlindStackType.Waterfall)
-                {
-                    <FormField Title="Waterfall Increment">
-                        <InputNumber class="@_cssNumber" @bind-Value="BlindModel.BlindStack.Offset"/>
-                        <ValidationMessage For="@(() => BlindModel.BlindStack.Offset)"/>
+                        </select>
                     </FormField>
-                }
-                @if (BlindModel.BlindStack.Type is BlindStackType.Reveal)
-                {
-                    <FormField Title="Reveal">
-                        <InputNumber class="@_cssNumber" @bind-Value="BlindModel.BlindStack.Offset"/>
+                </FieldGroup>
+
+                @* Details *@
+                <FieldGroup Title="Details">
+                    <FormField Title="Business Client">
+                        <InputSelect class="@_cssSelect" @bind-Value="BlindModel.BusinessClientId">
+                            @if (_businessClients != null)
+                            {
+                                foreach (var businessClient in _businessClients)
+                                {
+                                    <option value="@businessClient.Id">@businessClient.Name</option>
+                                }
+                            }
+                        </InputSelect>
                     </FormField>
-                }
-                <FormField Title="Folds">
-                    <InputNumber class="@_cssNumber" @bind-Value="BlindModel.Folds"/>
-                    <ValidationMessage For="@(() => BlindModel.Folds)"/>
-                </FormField>
-            </FieldGroup>
 
-            @* Inner Lining *@
-            <FieldGroup Title="Linings">
-                <FormField Title="Interlining">
-                    <InputSelect class="@_cssSelect" @bind-Value="BlindModel.BlindInnerLiningId">
-                        @if (_blindInnerLinings != null)
-                        {
-                            foreach (var blindInnerLining in _blindInnerLinings)
-                            {
-                                <option value="@blindInnerLining.Id">@blindInnerLining.Name</option>
-                            }
-                        }
-                    </InputSelect>
-                </FormField>
-                <FormField Title="Lining">
-                    <InputSelect class="@_cssSelect" @bind-Value="BlindModel.BlindOuterLiningId">
-                        @if (_blindOuterLinings != null)
-                        {
-                            foreach (var blindOuterLining in _blindOuterLinings)
-                            {
-                                <option value="@blindOuterLining.Id">@blindOuterLining.Name</option>
-                            }
-                        }
-                    </InputSelect>
-                </FormField>
-            </FieldGroup>
+                    <FormField Title="Customer">
+                        <InputText class="@_cssText" @bind-Value="BlindModel.Customer"/>
+                    </FormField>
 
-            <button type="submit">Submit</button>
-            <ValidationSummary/>
-        </div>
-    </EditForm>
+                    <FormField Title="Reference">
+                        <InputText class="@_cssText" @bind-Value="BlindModel.Reference"/>
+                    </FormField>
+
+                    <FormField Title="No. Blinds">
+                        <InputNumber class="@_cssNumber" @bind-Value="BlindModel.CountBlinds"/>
+                    </FormField>
+                </FieldGroup>
+
+                @* Dimensions *@
+                <FieldGroup Title="Dimensions">
+                    <FormField Title="Width">
+                        <InputNumber class="@_cssNumber" @bind-Value="BlindModel.Width"/>
+                    </FormField>
+
+                    <FormField Title="Height">
+                        <InputNumber class="@_cssNumber" @bind-Value="BlindModel.Height"/>
+                    </FormField>
+
+                    <FormField Title="No. Widths">
+                        <InputNumber class="@_cssNumber" @bind-Value="BlindModel.CountWidths"/>
+                    </FormField>
+                </FieldGroup>
+
+                @* BlindRailing *@
+                <FieldGroup Title="BlindRailing">
+                    <FormField Title="BlindRailing Type">
+                        <InputSelect class="@_cssSelect" @bind-Value="BlindModel.BlindRailingId">
+                            @if (_blindRailings != null)
+                            {
+                                foreach (var blindRailing in _blindRailings)
+                                {
+                                    <option value="@blindRailing.Id">@blindRailing.Name</option>
+                                }
+                            }
+                        </InputSelect>
+                    </FormField>
+                    <FormField Title="Height">
+                        <InputNumber class="@_cssNumber" @bind-Value="BlindModel.BlindRailing.Height"/>
+                    </FormField>
+                </FieldGroup>
+
+                @* Blind Rod *@
+                <FieldGroup Title="Blind Rod">
+                    <FormField Title="Blind Rod Type">
+                        <InputSelect class="@_cssSelect" @bind-Value="BlindModel.BlindRodId">
+                            @if (_blindRods != null)
+                            {
+                                foreach (var blindRod in _blindRods)
+                                {
+                                    <option value="@blindRod.Id">@blindRod.Name</option>
+                                }
+                            }
+                        </InputSelect>
+                    </FormField>
+                    <FormField Title="Height">
+                        <InputNumber class="@_cssNumber" @bind-Value="BlindModel.BlindRod.Height"/>
+                    </FormField>
+                </FieldGroup>
+
+                @* Stack *@
+                <FieldGroup Title="Stack">
+                    <FormField Title="Stack Type">
+                        <InputSelect class="@_cssSelect" @bind-Value="BlindModel.BlindStack.Type">
+                            @foreach (var blindStackType in Enum.GetValues<BlindStackType>())
+                            {
+                                <option value="@blindStackType">@blindStackType</option>
+                            }
+                        </InputSelect>
+                    </FormField>
+                    @if (BlindModel.BlindStack.Type is BlindStackType.Waterfall)
+                    {
+                        <FormField Title="Waterfall Increment">
+                            <InputNumber class="@_cssNumber" @bind-Value="BlindModel.BlindStack.Offset"/>
+                            <ValidationMessage For="@(() => BlindModel.BlindStack.Offset)"/>
+                        </FormField>
+                    }
+                    @if (BlindModel.BlindStack.Type is BlindStackType.Reveal)
+                    {
+                        <FormField Title="Reveal">
+                            <InputNumber class="@_cssNumber" @bind-Value="BlindModel.BlindStack.Offset"/>
+                        </FormField>
+                    }
+                    <FormField Title="Folds">
+                        <InputNumber class="@_cssNumber" @bind-Value="BlindModel.Folds"/>
+                        <ValidationMessage For="@(() => BlindModel.Folds)"/>
+                    </FormField>
+                </FieldGroup>
+
+                @* Inner Lining *@
+                <FieldGroup Title="Linings">
+                    <FormField Title="Interlining">
+                        <InputSelect class="@_cssSelect" @bind-Value="BlindModel.BlindInnerLiningId">
+                            @if (_blindInnerLinings != null)
+                            {
+                                foreach (var blindInnerLining in _blindInnerLinings)
+                                {
+                                    <option value="@blindInnerLining.Id">@blindInnerLining.Name</option>
+                                }
+                            }
+                        </InputSelect>
+                    </FormField>
+                    <FormField Title="Lining">
+                        <InputSelect class="@_cssSelect" @bind-Value="BlindModel.BlindOuterLiningId">
+                            @if (_blindOuterLinings != null)
+                            {
+                                foreach (var blindOuterLining in _blindOuterLinings)
+                                {
+                                    <option value="@blindOuterLining.Id">@blindOuterLining.Name</option>
+                                }
+                            }
+                        </InputSelect>
+                    </FormField>
+                </FieldGroup>
+
+                <button type="submit">Submit</button>
+                <ValidationSummary/>
+            </div>
+        </EditForm>
+    </div>
 }
 
 

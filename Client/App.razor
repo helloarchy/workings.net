@@ -1,11 +1,15 @@
-﻿<CascadingAuthenticationState>
+﻿<MudThemeProvider Theme="_myCustomTheme"/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
+
+<CascadingAuthenticationState>
     <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
                 <NotAuthorized>
                     @if (!context.User.Identity.IsAuthenticated)
                     {
-                        <RedirectToLogin />
+                        <RedirectToLogin/>
                     }
                     else
                     {
@@ -21,3 +25,22 @@
         </NotFound>
     </Router>
 </CascadingAuthenticationState>
+
+@code {
+
+    readonly MudTheme _myCustomTheme = new()
+    {
+        Palette = new Palette
+        {
+            Primary = Colors.Purple.Lighten3,
+            Secondary = Colors.Green.Accent4,
+            AppbarBackground = Colors.Red.Default
+        },
+        LayoutProperties = new LayoutProperties
+        {
+            DrawerWidthLeft = "260px",
+            DrawerWidthRight = "300px"
+        }
+    };
+
+}
