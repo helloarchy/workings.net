@@ -8,8 +8,10 @@
                 </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
-                <MudTextField Label="Name" HelperText="Required" Variant="Variant.Outlined"
-                              @bind-Value="@BusinessClient.Name" For="@(() => BusinessClient.Name)" />
+                <MudItem>
+                    <MudTextField Label="Name" HelperText="Required" Variant="Variant.Outlined"
+                                  @bind-Value="@BusinessClient.Name" For="@(() => BusinessClient.Name)"/>
+                </MudItem>
             </MudCardContent>
             <MudCardActions>
                 <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled"

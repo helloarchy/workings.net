@@ -28,7 +28,7 @@ else
                     <MudItem>
                         <MudSelect T="int" ValueChanged="UpdateBlindProfile"
                                    Label="Default Profile" Strict="true"
-                                   Variant="Variant.Outlined" Format="F2">
+                                   Variant="Variant.Text" Format="F2">
                             @if (_blindProfiles != null)
                             {
                                 foreach (var bp in _blindProfiles)
@@ -47,7 +47,7 @@ else
                                    For="() => BlindModel.BusinessClient"
                                    ToStringFunc="@(bc => bc.Name)"
                                    Label="Business Client" Strict="true"
-                                   Variant="Variant.Outlined" Format="F2">
+                                   Variant="Variant.Text" Format="F2">
                             @foreach (var bc in _businessClients)
                             {
                                 <MudSelectItem Value="@bc"/>
@@ -57,17 +57,17 @@ else
 
                     <MudItem>
                         <MudTextField @bind-Value="BlindModel.Customer" Label="Customer"
-                                      Variant="Variant.Outlined" For="() => BlindModel.Customer"/>
+                                      Variant="Variant.Text" For="() => BlindModel.Customer"/>
                     </MudItem>
 
                     <MudItem>
                         <MudTextField @bind-Value="BlindModel.Reference" Label="Reference"
-                                      Variant="Variant.Outlined" For="() => BlindModel.Reference"/>
+                                      Variant="Variant.Text" For="() => BlindModel.Reference"/>
                     </MudItem>
 
                     <MudItem>
                         <MudNumericField @bind-Value="BlindModel.CountBlinds" Label="No. Blinds"
-                                         Variant="Variant.Outlined" Min="1" For="() => BlindModel.CountBlinds"/>
+                                         Variant="Variant.Text" Min="1" For="() => BlindModel.CountBlinds"/>
                     </MudItem>
                 </FieldGroup>
 
@@ -75,17 +75,17 @@ else
                 <FieldGroup Title="Dimensions">
                     <MudItem>
                         <MudNumericField @bind-Value="BlindModel.Width" Label="Width"
-                                         Variant="Variant.Outlined" For="() => BlindModel.Width"/>
+                                         Variant="Variant.Text" For="() => BlindModel.Width"/>
                     </MudItem>
 
                     <MudItem>
                         <MudNumericField @bind-Value="BlindModel.Height" Label="Height"
-                                         Variant="Variant.Outlined" For="() => BlindModel.Height"/>
+                                         Variant="Variant.Text" For="() => BlindModel.Height"/>
                     </MudItem>
 
                     <MudItem>
                         <MudNumericField @bind-Value="BlindModel.CountWidths" Label="No. Widths"
-                                         Variant="Variant.Outlined" Min="1" For="() => BlindModel.CountBlinds"/>
+                                         Variant="Variant.Text" Min="1" For="() => BlindModel.CountBlinds"/>
                     </MudItem>
                 </FieldGroup>
 
@@ -96,7 +96,7 @@ else
                                    For="() => BlindModel.BlindRailing"
                                    ToStringFunc="br => br.Name"
                                    Label="Blind Railing" Strict="true"
-                                   Variant="Variant.Outlined" Format="F2">
+                                   Variant="Variant.Text" Format="F2">
                             @foreach (var br in _blindRailings)
                             {
                                 <MudSelectItem Value="@br"/>
@@ -105,7 +105,7 @@ else
                     </MudItem>
                     <MudItem>
                         <MudNumericField @bind-Value="BlindModel.BlindRailing.Height"
-                                         Label="Height" Variant="Variant.Outlined"
+                                         Label="Height" Variant="Variant.Text"
                                          For="() => BlindModel.BlindRailing.Height"/>
                     </MudItem>
                 </FieldGroup>
@@ -117,7 +117,7 @@ else
                                    For="() => BlindModel.BlindRod"
                                    ToStringFunc="br => br.Name"
                                    Label="Blind Rod Type" Strict="true"
-                                   Variant="Variant.Outlined" Format="F2">
+                                   Variant="Variant.Text" Format="F2">
                             @foreach (var br in _blindRods)
                             {
                                 <MudSelectItem Value="@br"/>
@@ -126,7 +126,7 @@ else
                     </MudItem>
                     <MudItem>
                         <MudNumericField @bind-Value="BlindModel.BlindRod.Height"
-                                         Label="Height" Variant="Variant.Outlined"
+                                         Label="Height" Variant="Variant.Text"
                                          For="() => BlindModel.BlindRod.Height"/>
                     </MudItem>
                 </FieldGroup>
@@ -137,7 +137,7 @@ else
                         <MudSelect T="BlindStackType" @bind-Value="BlindModel.BlindStack.Type"
                                    For="() => BlindModel.BlindStack.Type"
                                    Label="Stack Type" Strict="true"
-                                   Variant="Variant.Outlined" Format="F2">
+                                   Variant="Variant.Text" Format="F2">
                             @foreach (var stackType in Enum.GetValues<BlindStackType>())
                             {
                                 <MudSelectItem Value="@stackType"/>
@@ -148,21 +148,21 @@ else
                     {
                         <MudItem>
                             <MudNumericField @bind-Value="BlindModel.BlindStack.Offset"
-                                             Label="Waterfall Increment" Variant="Variant.Outlined"
+                                             Label="Waterfall Increment" Variant="Variant.Text"
                                              For="() => BlindModel.BlindStack.Offset"/>
                         </MudItem>
                     }
-                    else if (BlindModel.BlindStack.Type is BlindStackType.Reveal)
+                    @if (BlindModel.BlindStack.Type is BlindStackType.Reveal)
                     {
                         <MudItem>
                             <MudNumericField @bind-Value="BlindModel.BlindStack.Offset"
-                                             Label="Reveal" Variant="Variant.Outlined"
+                                             Label="Reveal" Variant="Variant.Text"
                                              For="() => BlindModel.BlindStack.Offset"/>
                         </MudItem>
                     }
                     <MudItem>
                         <MudNumericField @bind-Value="BlindModel.Folds"
-                                         Label="Folds" Variant="Variant.Outlined"
+                                         Label="Folds" Variant="Variant.Text"
                                          For="() => BlindModel.Folds"/>
                     </MudItem>
                 </FieldGroup>
@@ -174,7 +174,7 @@ else
                                    For="() => BlindModel.BlindInnerLining"
                                    ToStringFunc="bl => bl.Name"
                                    Label="Interlining" Strict="true"
-                                   Variant="Variant.Outlined" Format="F2">
+                                   Variant="Variant.Text" Format="F2">
                             @foreach (var bl in _blindInnerLinings)
                             {
                                 <MudSelectItem Value="@bl"/>
@@ -186,7 +186,7 @@ else
                                    For="() => BlindModel.BlindOuterLining"
                                    ToStringFunc="bl => bl.Name"
                                    Label="Lining" Strict="true"
-                                   Variant="Variant.Outlined" Format="F2">
+                                   Variant="Variant.Text" Format="F2">
                             @foreach (var bl in _blindOuterLinings)
                             {
                                 <MudSelectItem Value="@bl"/>
@@ -223,8 +223,6 @@ else
     private BlindStack[] _blindStacks;
     private BlindLining[] _blindInnerLinings;
     private BlindLining[] _blindOuterLinings;
-
-    private string _cssNumber = "form-input block mt-1 w-full";
 
     protected override async Task OnInitializedAsync()
     {

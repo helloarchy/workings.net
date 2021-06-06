@@ -54,9 +54,9 @@ else
         BlindBottomBars = await _httpClient.GetFromJsonAsync<BlindBottomBar[]>("api/blindBottomBar");
     }
 
-    async Task Delete(int Id)
+    async Task Delete(int id)
     {
-        var blindBottomBar = BlindBottomBars.First(x => x.Id == Id);
+        var blindBottomBar = BlindBottomBars.First(x => x.Id == id);
         var confirmDelete = await _js.InvokeAsync<bool>(
             "confirm",
             $"Do you want to delete {blindBottomBar.Name}'s ({blindBottomBar.Id}) Record?"
@@ -64,7 +64,7 @@ else
         
         if (confirmDelete)
         {
-            await _httpClient.DeleteAsync($"api/blindBottomBar/{Id}");
+            await _httpClient.DeleteAsync($"api/blindBottomBar/{id}");
             await OnInitializedAsync();
         }
     }

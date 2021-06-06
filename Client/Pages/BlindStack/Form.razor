@@ -1,31 +1,44 @@
-﻿<EditForm Model="@BlindStack" OnValidSubmit="@OnValidSubmit">
-    <DataAnnotationsValidator/>
-    <div class="form-group">
-        <label>Name</label>
-        <div>
-            <InputText @bind-Value="@BlindStack.Name"/>
-            <ValidationMessage For="@(() => BlindStack.Name)"/>
-        </div>
-
-        <label>Type</label>
-        <InputSelect class="" @bind-Value="BlindStack.Type">
-            @foreach (var blindStackType in Enum.GetValues<BlindStackType>())
-            {
-                <option value="@blindStackType">@blindStackType</option>
-            }
-        </InputSelect>
-
-        <label>Height (cm)</label>
-        <div>
-            <InputNumber @bind-Value="@BlindStack.Offset"/>
-            <ValidationMessage For="@(() => BlindStack.Offset)"/>
-        </div>
-    </div>
-
-    <button type="submit" class="btn btn-success">
-        @ButtonText
-    </button>
-</EditForm>
+﻿<MudContainer MaxWidth="MaxWidth.Small">
+    <EditForm Model="@BlindStack" OnValidSubmit="@OnValidSubmit">
+        <DataAnnotationsValidator/>
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">Blind Stack</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudItem>
+                    <MudTextField Label="Name" HelperText="Required" Variant="Variant.Outlined"
+                                  @bind-Value="@BlindStack.Name" For="@(() => BlindStack.Name)"/>
+                </MudItem>
+                <MudItem>
+                    <MudSelect T="BlindStackType" @bind-Value="BlindStack.Type"
+                               For="() => BlindStack.Type"
+                               Label="Type" Strict="true"
+                               Variant="Variant.Outlined" Format="F2">
+                        @foreach (var bs in Enum.GetValues<BlindStackType>())
+                        {
+                            <MudSelectItem Value="@bs"/>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem>
+                    <MudNumericField @bind-Value="BlindStack.Offset" Label="Height"
+                                     Variant="Variant.Outlined" For="() => BlindStack.Offset"
+                                     Adornment="Adornment.End" AdornmentText="cm"
+                                     AdornmentColor="Color.Info"/>
+                </MudItem>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" 
+                           Color="Color.Primary" Class="ml-auto">
+                    @ButtonText
+                </MudButton>
+            </MudCardActions>
+        </MudCard>
+    </EditForm>
+</MudContainer>
 
 @code {
 
