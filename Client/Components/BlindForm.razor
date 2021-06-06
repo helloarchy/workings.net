@@ -55,32 +55,38 @@ else
                         </MudSelect>
                     </MudItem>
 
-                    <FormField Title="Customer">
-                        <InputText class="@_cssText" @bind-Value="BlindModel.Customer"/>
-                    </FormField>
+                    <MudItem>
+                        <MudTextField @bind-Value="BlindModel.Customer" Label="Customer"
+                                      Variant="Variant.Outlined" For="() => BlindModel.Customer"/>
+                    </MudItem>
 
-                    <FormField Title="Reference">
-                        <InputText class="@_cssText" @bind-Value="BlindModel.Reference"/>
-                    </FormField>
+                    <MudItem>
+                        <MudTextField @bind-Value="BlindModel.Reference" Label="Reference"
+                                      Variant="Variant.Outlined" For="() => BlindModel.Reference"/>
+                    </MudItem>
 
-                    <FormField Title="No. Blinds">
-                        <InputNumber class="@_cssNumber" @bind-Value="BlindModel.CountBlinds"/>
-                    </FormField>
+                    <MudItem>
+                        <MudNumericField @bind-Value="BlindModel.CountBlinds" Label="No. Blinds"
+                                         Variant="Variant.Outlined" Min="1" For="() => BlindModel.CountBlinds"/>
+                    </MudItem>
                 </FieldGroup>
 
                 @* Dimensions *@
                 <FieldGroup Title="Dimensions">
-                    <FormField Title="Width">
-                        <InputNumber class="@_cssNumber" @bind-Value="BlindModel.Width"/>
-                    </FormField>
+                    <MudItem>
+                        <MudNumericField @bind-Value="BlindModel.Width" Label="Width"
+                                         Variant="Variant.Outlined" For="() => BlindModel.Width"/>
+                    </MudItem>
 
-                    <FormField Title="Height">
-                        <InputNumber class="@_cssNumber" @bind-Value="BlindModel.Height"/>
-                    </FormField>
+                    <MudItem>
+                        <MudNumericField @bind-Value="BlindModel.Height" Label="Height"
+                                         Variant="Variant.Outlined" For="() => BlindModel.Height"/>
+                    </MudItem>
 
-                    <FormField Title="No. Widths">
-                        <InputNumber class="@_cssNumber" @bind-Value="BlindModel.CountWidths"/>
-                    </FormField>
+                    <MudItem>
+                        <MudNumericField @bind-Value="BlindModel.CountWidths" Label="No. Widths"
+                                         Variant="Variant.Outlined" Min="1" For="() => BlindModel.CountBlinds"/>
+                    </MudItem>
                 </FieldGroup>
 
                 @* BlindRailing *@
@@ -97,9 +103,11 @@ else
                             }
                         </MudSelect>
                     </MudItem>
-                    <FormField Title="Height">
-                        <InputNumber class="@_cssNumber" @bind-Value="BlindModel.BlindRailing.Height"/>
-                    </FormField>
+                    <MudItem>
+                        <MudNumericField @bind-Value="BlindModel.BlindRailing.Height"
+                                         Label="Height" Variant="Variant.Outlined"
+                                         For="() => BlindModel.BlindRailing.Height"/>
+                    </MudItem>
                 </FieldGroup>
 
                 @* Blind Rod *@
@@ -116,9 +124,11 @@ else
                             }
                         </MudSelect>
                     </MudItem>
-                    <FormField Title="Height">
-                        <InputNumber class="@_cssNumber" @bind-Value="BlindModel.BlindRod.Height"/>
-                    </FormField>
+                    <MudItem>
+                        <MudNumericField @bind-Value="BlindModel.BlindRod.Height"
+                                         Label="Height" Variant="Variant.Outlined"
+                                         For="() => BlindModel.BlindRod.Height"/>
+                    </MudItem>
                 </FieldGroup>
 
                 @* Stack *@
@@ -136,21 +146,25 @@ else
                     </MudItem>
                     @if (BlindModel.BlindStack.Type is BlindStackType.Waterfall)
                     {
-                        <FormField Title="Waterfall Increment">
-                            <InputNumber class="@_cssNumber" @bind-Value="BlindModel.BlindStack.Offset"/>
-                            <ValidationMessage For="@(() => BlindModel.BlindStack.Offset)"/>
-                        </FormField>
+                        <MudItem>
+                            <MudNumericField @bind-Value="BlindModel.BlindStack.Offset"
+                                             Label="Waterfall Increment" Variant="Variant.Outlined"
+                                             For="() => BlindModel.BlindStack.Offset"/>
+                        </MudItem>
                     }
-                    @if (BlindModel.BlindStack.Type is BlindStackType.Reveal)
+                    else if (BlindModel.BlindStack.Type is BlindStackType.Reveal)
                     {
-                        <FormField Title="Reveal">
-                            <InputNumber class="@_cssNumber" @bind-Value="BlindModel.BlindStack.Offset"/>
-                        </FormField>
+                        <MudItem>
+                            <MudNumericField @bind-Value="BlindModel.BlindStack.Offset"
+                                             Label="Reveal" Variant="Variant.Outlined"
+                                             For="() => BlindModel.BlindStack.Offset"/>
+                        </MudItem>
                     }
-                    <FormField Title="Folds">
-                        <InputNumber class="@_cssNumber" @bind-Value="BlindModel.Folds"/>
-                        <ValidationMessage For="@(() => BlindModel.Folds)"/>
-                    </FormField>
+                    <MudItem>
+                        <MudNumericField @bind-Value="BlindModel.Folds"
+                                         Label="Folds" Variant="Variant.Outlined"
+                                         For="() => BlindModel.Folds"/>
+                    </MudItem>
                 </FieldGroup>
 
                 @* Inner Lining *@
@@ -211,7 +225,6 @@ else
     private BlindLining[] _blindOuterLinings;
 
     private string _cssNumber = "form-input block mt-1 w-full";
-    private string _cssText = "form-input block mt-1 w-full";
 
     protected override async Task OnInitializedAsync()
     {
