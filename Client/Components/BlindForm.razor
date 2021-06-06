@@ -17,42 +17,43 @@
 }
 else
 {
-    <div class="m-8">
-        <EditForm
-            EditContext="@_editContext"
-            OnValidSubmit="@(() => OnSubmit.InvokeAsync(BlindModel))">
-            <div class="grid grid-cols-1 gap-6">
-                <DataAnnotationsValidator/>
-                <ValidationSummary/>
+    <EditForm Model="BlindModel" OnValidSubmit="@(() => OnSubmit.InvokeAsync(BlindModel))">
+        <MudCard>
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
 
+            <MudCardContent>
                 @* Blind Profile *@
-                <FieldGroup Title="Default Profile">
-                    <FormField Title="Profile">
-                        <select class="@_cssSelect" @onchange="@UpdateBlindProfile">
+                <FieldGroup Title="Preset">
+                    <MudItem>
+                        <MudSelect T="int" ValueChanged="UpdateBlindProfile"
+                                   Label="Default Profile" Strict="true"
+                                   Variant="Variant.Outlined" Format="F2">
                             @if (_blindProfiles != null)
                             {
-                                foreach (var blindProfile in _blindProfiles)
+                                foreach (var bp in _blindProfiles)
                                 {
-                                    <option value="@blindProfile.Id">@blindProfile.Name</option>
+                                    <MudSelectItem Value="@bp.Id">@bp.Name</MudSelectItem>
                                 }
                             }
-                        </select>
-                    </FormField>
+                        </MudSelect>
+                    </MudItem>
                 </FieldGroup>
 
                 @* Details *@
                 <FieldGroup Title="Details">
-                    <FormField Title="Business Client">
-                        <InputSelect class="@_cssSelect" @bind-Value="BlindModel.BusinessClientId">
-                            @if (_businessClients != null)
+                    <MudItem>
+                        <MudSelect T="BusinessClient" @bind-Value="BlindModel.BusinessClient"
+                                   For="() => BlindModel.BusinessClient"
+                                   ToStringFunc="@(bc => bc.Name)"
+                                   Label="Business Client" Strict="true"
+                                   Variant="Variant.Outlined" Format="F2">
+                            @foreach (var bc in _businessClients)
                             {
-                                foreach (var businessClient in _businessClients)
-                                {
-                                    <option value="@businessClient.Id">@businessClient.Name</option>
-                                }
+                                <MudSelectItem Value="@bc"/>
                             }
-                        </InputSelect>
-                    </FormField>
+                        </MudSelect>
+                    </MudItem>
 
                     <FormField Title="Customer">
                         <InputText class="@_cssText" @bind-Value="BlindModel.Customer"/>
@@ -84,17 +85,18 @@ else
 
                 @* BlindRailing *@
                 <FieldGroup Title="BlindRailing">
-                    <FormField Title="BlindRailing Type">
-                        <InputSelect class="@_cssSelect" @bind-Value="BlindModel.BlindRailingId">
-                            @if (_blindRailings != null)
+                    <MudItem>
+                        <MudSelect T="BlindRailing" @bind-Value="BlindModel.BlindRailing"
+                                   For="() => BlindModel.BlindRailing"
+                                   ToStringFunc="br => br.Name"
+                                   Label="Blind Railing" Strict="true"
+                                   Variant="Variant.Outlined" Format="F2">
+                            @foreach (var br in _blindRailings)
                             {
-                                foreach (var blindRailing in _blindRailings)
-                                {
-                                    <option value="@blindRailing.Id">@blindRailing.Name</option>
-                                }
+                                <MudSelectItem Value="@br"/>
                             }
-                        </InputSelect>
-                    </FormField>
+                        </MudSelect>
+                    </MudItem>
                     <FormField Title="Height">
                         <InputNumber class="@_cssNumber" @bind-Value="BlindModel.BlindRailing.Height"/>
                     </FormField>
@@ -102,17 +104,18 @@ else
 
                 @* Blind Rod *@
                 <FieldGroup Title="Blind Rod">
-                    <FormField Title="Blind Rod Type">
-                        <InputSelect class="@_cssSelect" @bind-Value="BlindModel.BlindRodId">
-                            @if (_blindRods != null)
+                    <MudItem>
+                        <MudSelect T="BlindRod" @bind-Value="BlindModel.BlindRod"
+                                   For="() => BlindModel.BlindRod"
+                                   ToStringFunc="br => br.Name"
+                                   Label="Blind Rod Type" Strict="true"
+                                   Variant="Variant.Outlined" Format="F2">
+                            @foreach (var br in _blindRods)
                             {
-                                foreach (var blindRod in _blindRods)
-                                {
-                                    <option value="@blindRod.Id">@blindRod.Name</option>
-                                }
+                                <MudSelectItem Value="@br"/>
                             }
-                        </InputSelect>
-                    </FormField>
+                        </MudSelect>
+                    </MudItem>
                     <FormField Title="Height">
                         <InputNumber class="@_cssNumber" @bind-Value="BlindModel.BlindRod.Height"/>
                     </FormField>
@@ -120,14 +123,17 @@ else
 
                 @* Stack *@
                 <FieldGroup Title="Stack">
-                    <FormField Title="Stack Type">
-                        <InputSelect class="@_cssSelect" @bind-Value="BlindModel.BlindStack.Type">
-                            @foreach (var blindStackType in Enum.GetValues<BlindStackType>())
+                    <MudItem>
+                        <MudSelect T="BlindStackType" @bind-Value="BlindModel.BlindStack.Type"
+                                   For="() => BlindModel.BlindStack.Type"
+                                   Label="Stack Type" Strict="true"
+                                   Variant="Variant.Outlined" Format="F2">
+                            @foreach (var stackType in Enum.GetValues<BlindStackType>())
                             {
-                                <option value="@blindStackType">@blindStackType</option>
+                                <MudSelectItem Value="@stackType"/>
                             }
-                        </InputSelect>
-                    </FormField>
+                        </MudSelect>
+                    </MudItem>
                     @if (BlindModel.BlindStack.Type is BlindStackType.Waterfall)
                     {
                         <FormField Title="Waterfall Increment">
@@ -149,35 +155,40 @@ else
 
                 @* Inner Lining *@
                 <FieldGroup Title="Linings">
-                    <FormField Title="Interlining">
-                        <InputSelect class="@_cssSelect" @bind-Value="BlindModel.BlindInnerLiningId">
-                            @if (_blindInnerLinings != null)
+                    <MudItem>
+                        <MudSelect T="BlindLining" @bind-Value="BlindModel.BlindInnerLining"
+                                   For="() => BlindModel.BlindInnerLining"
+                                   ToStringFunc="bl => bl.Name"
+                                   Label="Interlining" Strict="true"
+                                   Variant="Variant.Outlined" Format="F2">
+                            @foreach (var bl in _blindInnerLinings)
                             {
-                                foreach (var blindInnerLining in _blindInnerLinings)
-                                {
-                                    <option value="@blindInnerLining.Id">@blindInnerLining.Name</option>
-                                }
+                                <MudSelectItem Value="@bl"/>
                             }
-                        </InputSelect>
-                    </FormField>
-                    <FormField Title="Lining">
-                        <InputSelect class="@_cssSelect" @bind-Value="BlindModel.BlindOuterLiningId">
-                            @if (_blindOuterLinings != null)
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem>
+                        <MudSelect T="BlindLining" @bind-Value="BlindModel.BlindOuterLining"
+                                   For="() => BlindModel.BlindOuterLining"
+                                   ToStringFunc="bl => bl.Name"
+                                   Label="Lining" Strict="true"
+                                   Variant="Variant.Outlined" Format="F2">
+                            @foreach (var bl in _blindOuterLinings)
                             {
-                                foreach (var blindOuterLining in _blindOuterLinings)
-                                {
-                                    <option value="@blindOuterLining.Id">@blindOuterLining.Name</option>
-                                }
+                                <MudSelectItem Value="@bl"/>
                             }
-                        </InputSelect>
-                    </FormField>
+                        </MudSelect>
+                    </MudItem>
                 </FieldGroup>
+            </MudCardContent>
 
-                <button type="submit">Submit</button>
-                <ValidationSummary/>
-            </div>
-        </EditForm>
-    </div>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">
+                    Generate
+                </MudButton>
+            </MudCardActions>
+        </MudCard>
+    </EditForm>
 }
 
 
@@ -200,7 +211,6 @@ else
     private BlindLining[] _blindOuterLinings;
 
     private string _cssNumber = "form-input block mt-1 w-full";
-    private string _cssSelect = "form-select block mt-1 w-full";
     private string _cssText = "form-input block mt-1 w-full";
 
     protected override async Task OnInitializedAsync()
@@ -345,20 +355,15 @@ else
     }
 
 
-    private Task UpdateBlindProfile(ChangeEventArgs arg)
+    private void UpdateBlindProfile(int value)
     {
-        if (arg.Value != null)
-        {
-            Console.WriteLine($"DEBUG => Arg is {arg.Value}");
-            var blindProfileId = int.Parse(arg.Value.ToString() ?? throw new InvalidOperationException());
-            Console.WriteLine($"DEBUG => Blind profile id is {blindProfileId}");
+        Console.WriteLine($"DEBUG => Arg is {value}");
 
-            Console.WriteLine($"DEBUG => Blind profile length is {_blindProfiles.Length}");
-            var blindProfile = _blindProfiles.FirstOrDefault(bp => bp.Id == blindProfileId);
-            ApplyBlindProfile(blindProfile);
-        }
+        Console.WriteLine($"DEBUG => Blind profile length is {_blindProfiles.Length}");
+        var blindProfile = _blindProfiles.FirstOrDefault(bp => bp.Id == value);
 
-        return Task.CompletedTask;
+        if (blindProfile != null && blindProfile.Id != value) throw new Exception($"No profile found for id {value}!");
+        ApplyBlindProfile(blindProfile);
     }
 
 }
