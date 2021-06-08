@@ -1,0 +1,54 @@
+﻿<path d="@_path" stroke="black" stroke-width="@StrokeWidth"
+      stroke-linecap="round" fill="none"/>
+
+<line x1="@StartX" y1="@_endY" x2="@XLineLength" y2="@_endY"
+      stroke="black" stroke-width="@StrokeWidth"/>
+
+<line x1="@StartX" y1="@_endY" x2="@StartX" y2="@_endYHem"
+      stroke="black" stroke-width="@StrokeWidth"/>
+
+<line x1="@StartX" y1="@_endYHem" x2="@XLineLength" y2="@_endYHem"
+      stroke="black" stroke-width="@StrokeWidth"/>
+
+@code {
+
+    [Parameter]
+    public int StrokeWidth { get; set; }
+
+    [Parameter]
+    public int StartX { get; set; }
+
+    [Parameter]
+    public int StartY { get; set; }
+
+    [Parameter]
+    public int PleatHeight { get; set; }
+    
+    [Parameter]
+    public int XLineLength { get; set; }
+
+    private string _path;
+    private int _controlPointOffset = 25;
+    private int _endY;
+    private int _hemHeight = 25;
+    private int _endYHem;
+
+    protected override void OnParametersSet()
+    {
+        _endY = StartY + PleatHeight;
+        _endYHem = _endY + _hemHeight;
+        _path = GetPath(StartX, StartY, _endY, _controlPointOffset);
+
+        Console.WriteLine($"DEBUG => DrawingFoldSectionFinal: StartY = {StartY}");
+    }
+
+    private string GetPath(int startX, int startY, int endY, int controlPointOffset)
+    {
+        var start = $"{startX} {startY}";
+        var controlPoint = $"{startX + controlPointOffset} {(endY + startY) / 2}";
+        var end = $"{startX} {endY}";
+
+        return $"M {start} Q {controlPoint} {end}";
+    }
+
+}

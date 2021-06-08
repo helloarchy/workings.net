@@ -1,0 +1,54 @@
+﻿<path d="@_pathFoldFirst" stroke="black" stroke-width="@StrokeWidth" 
+      stroke-linecap="round" fill="none"/>
+
+<line x1="@StartX" y1="@_endYFirst" x2="@XLineLength" y2="@_endYFirst" 
+      stroke="black" stroke-dasharray="15,15" stroke-width="@StrokeWidth" />
+
+<path d="@_pathFoldSecond" stroke="black" stroke-width="@StrokeWidth" 
+      stroke-linecap="round" fill="none"/>
+
+<line x1="@StartX" y1="@_endYSecond" x2="@XLineLength" y2="@_endYSecond" 
+      stroke="black" stroke-width="@StrokeWidth"/>
+
+@code {
+
+    [Parameter]
+    public int StrokeWidth { get; set; }
+
+    [Parameter]
+    public int StartX { get; set; }
+
+    [Parameter]
+    public int StartY { get; set; }
+
+    [Parameter]
+    public int PleatHeight { get; set; }
+    
+    [Parameter]
+    public int XLineLength { get; set; }
+
+    private string _pathFoldFirst;
+    private string _pathFoldSecond;
+    private int _controlPointOffset = 25;
+    private int _endYFirst;
+    private int _endYSecond;
+
+    protected override void OnParametersSet()
+    {
+        _endYFirst = StartY + PleatHeight;
+        _endYSecond = _endYFirst + PleatHeight;
+
+        _pathFoldFirst = GetPath(StartX, StartY, _endYFirst, _controlPointOffset);
+        _pathFoldSecond = GetPath(StartX, _endYFirst, _endYSecond, _controlPointOffset);
+    }
+
+    private string GetPath(int startX, int startY, int endY, int controlPointOffset)
+    {
+        var start = $"{startX} {startY}";
+        var controlPoint = $"{startX + controlPointOffset} {(endY + startY) / 2}";
+        var end = $"{startX} {endY}";
+
+        return $"M {start} Q {controlPoint} {end}";
+    }
+
+}

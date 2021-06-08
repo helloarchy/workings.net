@@ -10,20 +10,19 @@
         </div>
     </div>
     <div class="col-start-4 col-span-5 xl:col-span-4 object-contain">
-        <BlindPaperwork BlindModel="@_validBlindModel"/>
+        <BlindPaperwork BlindModel="@_blindModel"/>
     </div>
 </div>
 
 
 @code {
     private BlindModel _blindModel = new();
-    private BlindModel _validBlindModel = new();
 
     void UpdateBlindModel(BlindModel updatedBlindModel)
     {
         Console.WriteLine("DEBUG => Updated blind model");
         Console.WriteLine(JsonConvert.SerializeObject(updatedBlindModel, Formatting.Indented));
-        _validBlindModel = updatedBlindModel;
+        _blindModel = updatedBlindModel;
         
         StateHasChanged();
     }
