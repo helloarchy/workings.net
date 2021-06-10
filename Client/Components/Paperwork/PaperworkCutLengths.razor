@@ -1,18 +1,18 @@
-﻿<div class="grid grid-cols-3 px-4 gap-4">
+﻿<div class="grid grid-cols-3 gap-8">
     <div class="flex flex-col">
         @* Fabric *@
-        <p class="flex-none text-xl">Fabric</p>
-        <table class="flex-none m-2 p-2">
+        <p class="flex-none text-l">Fabric</p>
+        <table class="flex-none">
             <tr>
-                <td>Total drop</td>
+                <td class="text-xs">Total drop</td>
                 <td class="text-right">@BlindModel.Height</td>
             </tr>
             <tr>
-                <td>Velcro turnings</td>
+                <td class="text-xs">Velcro turnings</td>
                 <td class="text-right">+ @BlindModel.BlindRailing.Height</td>
             </tr>
             <tr>
-                <td>Bottom Bar</td>
+                <td class="text-xs">Bottom Bar</td>
                 <td class="text-right">+ @(BlindModel.BlindBottomBar.Height * 2)</td>
             </tr>
             <tr class="border-t">
@@ -24,34 +24,34 @@
     </div>
     <div class="flex flex-col">
         @* Inner linings *@
-        <p class="flex-none text-xl">Inner Linings</p>
+        <p class="flex-none text-l">Inner Linings</p>
         <div class="flex-grow"></div>
-        <table class="flex-none m-2 p-2">
+        <table class="flex-none">
             <tr>
-                <td>Total drop</td>
+                <td class="text-xs">Total drop</td>
                 <td class="text-right">@BlindModel.Height</td>
             </tr>
             <tr class="border-t">
-                <td>@BlindModel.BlindInnerLining.Name</td>
+                <td class="text-xs">@BlindModel.BlindInnerLining.Name</td>
                 <td class="text-right">@_cutLengthInnerLinings</td>
                 <td> cm</td>
             </tr>
         </table>
     </div>
     <div class="flex flex-col">
-        <p class="flex-none text-xl">Outer Linings</p>
+        <p class="flex-none text-l">Outer Linings</p>
         <div class="flex-grow"></div>
-        <table class="flex-none m-2 p-2">
+        <table class="flex-none">
             <tr>
                 <td class="text-xs">Fabric cut length</td>
                 <td class="text-right">@_cutLengthFabric</td>
             </tr>
             <tr>
-                <td>@BlindModel.BlindRod.Name</td>
+                <td class="text-xs">@BlindModel.BlindRod.Name</td>
                 <td class="text-right">@_pocketAllowance</td>
             </tr>
             <tr class="border-t">
-                <td>@BlindModel.BlindOuterLining.Name</td>
+                <td class="text-xs">@BlindModel.BlindOuterLining.Name</td>
                 <td class="text-right">@_cutLengthOuterLinings</td>
                 <td> cm</td>
             </tr>
