@@ -28,14 +28,14 @@
     private int _pleatHeight;
     private int _xEdgeOffset = 10;
     private int _finalFoldStartY;
-    private int _xLineLength = 300;
+    private int _xLineLength = 200;
 
         private const int MaxWidth = 300;
         private const int MaxHeight = 400;
 
     protected override void OnParametersSet()
     {
-        _pleatHeight = (int) ((MaxHeight - 100) / ((BlindModel.Folds * 2) + 1));
+        _pleatHeight = (int) ((MaxHeight * 0.9) / ((BlindModel.Folds * 2) + 1));
         _finalFoldStartY = BlindModel.Folds * _pleatHeight * 2;
         Console.WriteLine($"DEBUG => Drawing: Final fold start = {_finalFoldStartY}");
         Console.WriteLine($"DEBUG => Drawing: Pleat height = {_pleatHeight}");
