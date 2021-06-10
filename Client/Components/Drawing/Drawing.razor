@@ -1,6 +1,6 @@
 ﻿@using Workings.Client.Components.Drawing
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 @MaxWidth @MaxHeight" width="@MaxWidth" 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 @MaxWidth @MaxHeight" width="@MaxWidth"
      style="height: 100%; width: auto;">
     <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5"
             markerWidth="6" markerHeight="6"
@@ -24,7 +24,7 @@
     [Parameter]
     public BlindModel BlindModel { get; set; }
 
-    private int _pathStrokeWidth = 2;
+    private int _pathStrokeWidth = 1;
     private int _pleatHeight;
     private int _xEdgeOffset = 10;
     private int _finalFoldStartY;
